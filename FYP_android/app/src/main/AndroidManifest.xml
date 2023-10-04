@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyLoginApp">
         <activity
+            android:name=".UI.Menu"
+            android:exported="false" />
+        <activity
             android:name=".UI.Login"
             android:exported="false" />
         <activity android:name=".MainActivity">
