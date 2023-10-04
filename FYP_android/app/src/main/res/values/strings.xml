@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">MyLoginApp</string>
+    <string name="app_name">FYP</string>
+    <string name="attraction">Attractions</string>
+    <string name="attractionEtHint">Type the attraction name here...</string>
 </resources>
