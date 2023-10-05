@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         drawerLayout = findViewById(R.id.drawer_layout);
+        //HI
     }
 
     //call menu page
