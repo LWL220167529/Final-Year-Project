@@ -129,7 +129,7 @@ def resetPassword():
         return jsonify({'message': 'Internal server error'}), 500
 
 # Get attractions
-@app.route('/getAttaction', methods=['GET'])
+@app.route('/getAttaction')
 def getAttractions():
     try:
         with databaseConnect() as db:
