@@ -2,6 +2,7 @@ import mysql.connector
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
 from flask_bcrypt import generate_password_hash, check_password_hash
+import bcrypt
 
 app = Flask(__name__)
 CORS(app)
@@ -20,6 +21,7 @@ def closeDatabaseConnect(cursor,db):
 
 #account api
 #login
+@app.route('/login', methods=['POST'])
 def login():
     with databaseConnect() as db:
         cursor = db.cursor()
