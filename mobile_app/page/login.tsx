@@ -7,6 +7,10 @@ export default class App extends Component {
     password: ''
   };
 
+  action = async () => {
+    return 2;
+  };
+
   handleLoginPress = async () => {
     const { userName, password } = this.state;
     const data = { userName, password };
