@@ -14,12 +14,13 @@
         </style>
         <script>
             // Fetch data from API endpoint
-            fetch('http://127.0.0.1:5000/getAttaction')
+            fetch('http://127.0.0.1:5000/getAttraction')
                 .then(response => response.json())
                 .then(data => {
                     // Create HTML elements to display data
                     const attractionsDiv = document.getElementById('attractions');
                     data.forEach(attraction => {
+                        console.log(attraction);
                         const attractionDiv = document.createElement('div');
                         attractionDiv.setAttribute('id', 'attraction');
                         attractionDiv.setAttribute('class', 'attraction');

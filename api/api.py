@@ -1,8 +1,6 @@
-import mysql.connector
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
 from flask_bcrypt import generate_password_hash, check_password_hash
-#from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -41,26 +39,25 @@ class User(Base):
         #return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
 class Attraction(Base):
-    class Attraction(Base):
-        __tablename__ = 'attraction'
-        attractionID = Column(String(255), primary_key=True)
-        attractionName = Column(String(255), nullable=False)
-        location = Column(String(255), nullable=False)
-        country = Column(String(255), nullable=False)
-        region = Column(String(255), nullable=False)
-        description = Column(String(255), nullable=False)
-        image = Column(String(255), nullable=False)
-        createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
-        editTime = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
-        
-        def __init__(self, attractionID, attractionName, location, country, region, description, image):
-            self.attractionID = attractionID
-            self.attractionName = attractionName
-            self.location = location
-            self.country = country
-            self.region = region
-            self.description = description
-            self.image = image
+    __tablename__ = 'attraction'
+    attractionID = Column(String(255), primary_key=True)
+    attractionName = Column(String(255), nullable=False)
+    location = Column(String(255), nullable=False)
+    country = Column(String(255), nullable=False)
+    region = Column(String(255), nullable=False)
+    description = Column(String(255), nullable=False)
+    image = Column(String(255), nullable=False)
+    createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
+    editTime = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    Base.metadata.create_all(engine)
+    def __init__(self, attractionID, attractionName, location, country, region, description, image):
+        self.attractionID = attractionID
+        self.attractionName = attractionName
+        self.location = location
+        self.country = country
+        self.region = region
+        self.description = description
+        self.image = image
 
 #account api
 #login
@@ -72,9 +69,7 @@ def login():
         emailOrId = data.get('userName')
         password = data.get('password')
         userEmail = session.query(User).filter(User.email == emailOrId).first()
-        userId = session.query(User).filter(User.userID == emailOrId).first()   
-        print(session.query(User).filter(User.userID == emailOrId).all())
-        print(userId.checkPassword(password))
+        userId = session.query(User).filter(User.userID == emailOrId).first()
         if userEmail and userEmail.checkPassword(password) or userId and userId.checkPassword(password):
             return jsonify({'message': 'Login successfully', 'login': True})
         return jsonify({'message': 'Invalid username or password.', 'login': False})
@@ -149,16 +144,17 @@ def resetPassword():
 def getAttractions():
     try:
         attractions = session.query(Attraction).all()
+        print(attractions[0].attractionID)
         results = []
         for attraction in attractions:
             result = {
-                'id': attraction.id,
-                'name': attraction.name,
+                'id': attraction.attractionID,
+                'name': attraction.attractionName,
                 'location': attraction.location,
                 'description': attraction.description,
                 'image': attraction.image,
-                'created_at': attraction.created_at,
-                'updated_at': attraction.updated_at
+                'created_at': attraction.createTime,
+                'updated_at': attraction.editTime
             }
             results.append(result)
         return jsonify(results), 200
@@ -167,6 +163,7 @@ def getAttractions():
         return jsonify({'message': 'Internal server error'}), 500
 
 session.close()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
