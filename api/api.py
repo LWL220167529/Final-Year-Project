@@ -35,8 +35,7 @@ class User(Base):
         self.phoneNumber = phoneNumber
 
     def checkPassword(self, password):
-        return self.password.encode('utf-8') == password.encode('utf-8')
-        #return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
 class Attraction(Base):
     __tablename__ = 'attraction'
@@ -61,16 +60,19 @@ class Attraction(Base):
 
 #account api
 #login
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=["GET", "POST"])
 def login():
     try:
-        data = request.get_json()
-        print(data)
-        emailOrId = data.get('userName')
-        password = data.get('password')
-        userEmail = session.query(User).filter(User.email == emailOrId).first()
-        userId = session.query(User).filter(User.userID == emailOrId).first()
-        if userEmail and userEmail.checkPassword(password) or userId and userId.checkPassword(password):
+        if request.method == "GET":
+            userName = request.args.get('userName')
+            password = request.args.get('password')
+        else:
+            data = request.get_json()
+            userName = data.get('userName')
+            password = data.get('password')
+        userEmail = session.query(User).filter(User.email==userName).first()
+        userId = session.query(User).filter(User.userID==userName).first()
+        if userId and userId.checkPassword(password) or userEmail and userEmail.checkPassword(password):
             return jsonify({'message': 'Login successfully', 'login': True})
         return jsonify({'message': 'Invalid username or password.', 'login': False})
     except Exception as e:
@@ -79,14 +81,21 @@ def login():
 
 #sign up user
 
-@app.route('/signUp', methods=['POST'])
+@app.route('/signUp', methods=["GET", "POST"])
 def signUpUser():
-    data = request.get_json()
-    userID = data.get('userID')
-    userName = data.get('userName')
-    password = data.get('password')
-    email = data.get('email')
-    phone = data.get('phone')
+    if request.method == "GET":
+        userID = request.args.get('userID')
+        userName = request.args.get('userName')
+        password = request.args.get('password')
+        email = request.args.get('email')
+        phone = request.args.get('phone')
+    else:
+        data = request.get_json()
+        userID = data.get('userID')
+        userName = data.get('userName')
+        password = data.get('password')
+        email = data.get('email')
+        phone = data.get('phone')
     if session.query(User).filter(User.userID == userID).first() is None:
         new_user = User(userID=userID, userName=userName, email=email, password=password, phoneNumber=phone)
         session.add(new_user)
@@ -99,14 +108,20 @@ def signUpUser():
         return jsonify({'message': 'User already exists.'}), 409
 
 #update user
-@app.route('/updateUser', methods=['POST'])
+@app.route('/updateUser', methods=["GET", "POST"])
 def updateUser():
     try:
-        data = request.get_json()
-        userID = data.get('userID')
-        userName = data.get('userName')
-        email = data.get('email')
-        phoneNumber = data.get('phoneNumber')
+        if request.method == "GET":
+            userID = request.args.get('userID')
+            userName = request.args.get('userName')
+            email = request.args.get('email')
+            phoneNumber = request.args.get('phoneNumber')
+        else:
+            data = request.get_json()
+            userID = data.get('userID')
+            userName = data.get('userName')
+            email = data.get('email')
+            phoneNumber = data.get('phoneNumber')
         user = session.query(User).filter(User.userID == userID).first()
         if not user:
             return jsonify({'message': 'User not found'}), 404
@@ -120,12 +135,17 @@ def updateUser():
         abort(500)
 
 #forgot password
-@app.route('/forgotPassword', methods=['POST'])
+@app.route('/forgotPassword', methods=["GET", "POST"])
 def resetPassword():
     try:
-        data = request.get_json()
-        userID = data.get('userID')
-        password = data.get('password')
+        if request.method == "GET":
+            userID = request.args.get('userID')
+            userID = request.args.get('userID')
+            password = request.args.get('password')
+        else:
+            data = request.get_json()
+            userID = data.get('userID')
+            password = data.get('password')
         user = session.query(User).filter(User.userID == userID).first()
         if not user:
             return jsonify({'message': 'User not found'})
