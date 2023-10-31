@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Login from './page/logintest'
+import Login from './page/login'
 
 
 
