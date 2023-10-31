@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Login from './page/login'
+import Login from './page/logintest'
 
 
 
@@ -13,9 +13,6 @@ export default class App extends Component {
     return (
       <Login />
     )
-    }else if (page = 2){
-      return (
-      )
     }
   } 
 }

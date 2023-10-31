@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import {Icon} from 'native-base'
-import { Text, View, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import {Icon, ScrollView} from 'native-base'
+import { Text, View, TextInput, TouchableOpacity, StyleSheet, Alert, ImageBackground } from 'react-native'
 
 export default class App extends Component {
   state = {
@@ -36,23 +36,10 @@ export default class App extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          onChangeText={(text) => this.setState({ userName: text })}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          onChangeText={(text) => this.setState({ password: text })}
-          secureTextEntry
-        />
-        <TouchableOpacity style={styles.button} onPress={this.handleLoginPress}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </View>
+      <ScrollView style={{ flex: 1, backgroundColor: '#ffffff'}}
+      showsVerticalScrollIndicator={false}>
+        <ImageBackground source={require('.image/View.jpg')}></ImageBackground>
+      </ScrollView>
     )
   }
 }
