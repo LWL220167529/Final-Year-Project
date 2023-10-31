@@ -10,14 +10,24 @@ import bcrypt
 app = Flask(__name__)
 CORS(app)
 #database connection
-engine = create_engine('mysql+mysqlconnector://root:root@localhost:3306/fyp')
+
+# Remote database configuration
+db_port = 3306
+db_host = 'localhost'
+db_username = 'fyp'
+db_password = '2_Fypdroplets'
+db_name = 'FYP'
+# Create SQLAlchemy engine
+engine = create_engine(
+    f'mysql+mysqlconnector://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}'
+)
 #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Base = declarative_base()
 
 Session = sessionmaker(bind=engine)
 session = Session()
 
-
+#user class
 class User(Base):
     __tablename__ = 'user'
     userID = Column(String(255), primary_key=True)
@@ -26,7 +36,7 @@ class User(Base):
     password = Column(String(252), nullable=False)
     phoneNumber = Column(String(20), nullable=False)
     createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
-    Base.metadata.create_all(engine)
+    #Base.metadata.create_all(engine)
     def __init__(self, userID, userName, email, password, phoneNumber):
         self.userID = userID
         self.userName = userName
@@ -35,9 +45,9 @@ class User(Base):
         self.phoneNumber = phoneNumber
 
     def checkPassword(self, password):
-        return self.password.encode('utf-8') == password.encode('utf-8')
-        #return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
+#attraction class
 class Attraction(Base):
     __tablename__ = 'attraction'
     attractionID = Column(String(255), primary_key=True)
@@ -49,7 +59,7 @@ class Attraction(Base):
     image = Column(String(255), nullable=False)
     createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
     editTime = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
-    Base.metadata.create_all(engine)
+    #Base.metadata.create_all(engine)
     def __init__(self, attractionID, attractionName, location, country, region, description, image):
         self.attractionID = attractionID
         self.attractionName = attractionName
@@ -61,16 +71,21 @@ class Attraction(Base):
 
 #account api
 #login
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=["GET", "POST"])
 def login():
     try:
-        data = request.get_json()
-        print(data)
-        emailOrId = data.get('userName')
-        password = data.get('password')
-        userEmail = session.query(User).filter(User.email == emailOrId).first()
-        userId = session.query(User).filter(User.userID == emailOrId).first()
-        if userEmail and userEmail.checkPassword(password) or userId and userId.checkPassword(password):
+        if request.method == "GET":#get request from url
+            userName = request.args.get('userName')
+            password = request.args.get('password')
+        else:#post request from body
+            data = request.get_json()
+            userName = data.get('userName')
+            password = data.get('password')
+        #find user by userID or email
+        userEmail = session.query(User).filter(User.email==userName).first()
+        userId = session.query(User).filter(User.userID==userName).first()
+        #check password
+        if userId and userId.checkPassword(password) or userEmail and userEmail.checkPassword(password):
             return jsonify({'message': 'Login successfully', 'login': True})
         return jsonify({'message': 'Invalid username or password.', 'login': False})
     except Exception as e:
@@ -79,15 +94,24 @@ def login():
 
 #sign up user
 
-@app.route('/signUp', methods=['POST'])
+@app.route('/signUp', methods=["GET", "POST"])
 def signUpUser():
-    data = request.get_json()
-    userID = data.get('userID')
-    userName = data.get('userName')
-    password = data.get('password')
-    email = data.get('email')
-    phone = data.get('phone')
+    if request.method == "GET":#get request from url
+        userID = request.args.get('userID')
+        userName = request.args.get('userName')
+        password = request.args.get('password')
+        email = request.args.get('email')
+        phone = request.args.get('phone')
+    else:#post request from body
+        data = request.get_json()
+        userID = data.get('userID')
+        userName = data.get('userName')
+        password = data.get('password')
+        email = data.get('email')
+        phone = data.get('phone')
+    #check if user exists
     if session.query(User).filter(User.userID == userID).first() is None:
+        #create new user
         new_user = User(userID=userID, userName=userName, email=email, password=password, phoneNumber=phone)
         session.add(new_user)
         session.commit()
@@ -99,14 +123,21 @@ def signUpUser():
         return jsonify({'message': 'User already exists.'}), 409
 
 #update user
-@app.route('/updateUser', methods=['POST'])
+@app.route('/updateUser', methods=["GET", "POST"])
 def updateUser():
     try:
-        data = request.get_json()
-        userID = data.get('userID')
-        userName = data.get('userName')
-        email = data.get('email')
-        phoneNumber = data.get('phoneNumber')
+        if request.method == "GET":#get request from url
+            userID = request.args.get('userID')
+            userName = request.args.get('userName')
+            email = request.args.get('email')
+            phoneNumber = request.args.get('phoneNumber')
+        else:#post request from body
+            data = request.get_json()
+            userID = data.get('userID')
+            userName = data.get('userName')
+            email = data.get('email')
+            phoneNumber = data.get('phoneNumber')
+        #find user by userID
         user = session.query(User).filter(User.userID == userID).first()
         if not user:
             return jsonify({'message': 'User not found'}), 404
@@ -120,13 +151,19 @@ def updateUser():
         abort(500)
 
 #forgot password
-@app.route('/forgotPassword', methods=['POST'])
+@app.route('/forgotPassword', methods=["GET", "POST"])
 def resetPassword():
     try:
-        data = request.get_json()
-        userID = data.get('userID')
-        password = data.get('password')
-        user = session.query(User).filter(User.userID == userID).first()
+        if request.method == "GET":#get request from url
+            userID = request.args.get('userID')
+            password = request.args.get('password')
+        else:#post request from body
+            data = request.get_json()
+            userID = data.get('userID')
+            password = data.get('password')
+        user = session.query(User).filter(User.email==userID).first()
+        if not user:
+            user = session.query(User).filter(User.userID==userID).first()
         if not user:
             return jsonify({'message': 'User not found'})
         user.password = password
@@ -164,8 +201,7 @@ def getAttractions():
 
 session.close()
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 
