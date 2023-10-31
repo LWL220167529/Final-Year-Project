@@ -4,44 +4,23 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from paramiko import SSHClient, AutoAddPolicy
-from sshtunnel import SSHTunnelForwarder
 from datetime import datetime
 import bcrypt
 
 app = Flask(__name__)
 CORS(app)
 #database connection
-# SSH tunnel configuration
-ssh_host = 'your_ssh_host'
-ssh_port = 22
-ssh_username = 'your_ssh_username'
-ssh_key_path = 'path_to_your_ssh_key'  # Path to your private SSH key file
 
-# Database configuration
-db_host = '167.71.222.130'
+# Remote database configuration
 db_port = 3306
-db_username = 'yinrz'
-db_password = 'your_db_password'
+db_host = 'localhost'
+db_username = 'fyp'
+db_password = '2_Fypdroplets'
 db_name = 'FYP'
-
-# Create an SSH tunnel
-ssh_client = SSHClient()
-ssh_client.load_system_host_keys()
-ssh_client.set_missing_host_key_policy(AutoAddPolicy())
-ssh_client.connect(ssh_host, ssh_port, ssh_username, key_filename=ssh_key_path)
-
-# Configure the SSH tunnel
-with SSHTunnelForwarder(
-    (ssh_host, ssh_port),
-    ssh_username=ssh_username,
-    ssh_pkey=ssh_key_path,
-    remote_bind_address=(db_host, db_port)
-) as tunnel:
-    # Create the SQLAlchemy engine using the SSH tunnel
-    engine = create_engine(
-        f'mysql+pymysql://{db_username}:{db_password}@localhost:{tunnel.local_bind_port}/{db_name}'
-    )
+# Create SQLAlchemy engine
+engine = create_engine(
+    f'mysql+mysqlconnector://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}'
+)
 #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Base = declarative_base()
 
@@ -57,7 +36,7 @@ class User(Base):
     password = Column(String(252), nullable=False)
     phoneNumber = Column(String(20), nullable=False)
     createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
-    Base.metadata.create_all(engine)
+    #Base.metadata.create_all(engine)
     def __init__(self, userID, userName, email, password, phoneNumber):
         self.userID = userID
         self.userName = userName
@@ -80,7 +59,7 @@ class Attraction(Base):
     image = Column(String(255), nullable=False)
     createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
     editTime = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
-    Base.metadata.create_all(engine)
+    #Base.metadata.create_all(engine)
     def __init__(self, attractionID, attractionName, location, country, region, description, image):
         self.attractionID = attractionID
         self.attractionName = attractionName
@@ -221,10 +200,8 @@ def getAttractions():
         return jsonify({'message': 'Internal server error'}), 500
 
 session.close()
-ssh_client.close()
-
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 
