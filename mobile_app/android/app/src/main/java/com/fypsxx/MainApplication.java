@@ -1,4 +1,4 @@
-package com.fyp_android;
+package com.fypsxx;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
