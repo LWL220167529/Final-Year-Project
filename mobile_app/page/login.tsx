@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {Icon} from 'native-base'
 import { Text, View, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 
 export default class App extends Component {
@@ -17,18 +16,14 @@ export default class App extends Component {
     const data = { userName, password };
 
     try {
-      const response = await fetch('http://10.0.2.2:5000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),//upload data to api
-      });//address host 因人而異-->(:5000)
-      //我估唔洗全部解釋 如果要chat room ask me
+      const url = `http://157.230.39.43:5000/`;
+      const response = await fetch(url, {
+        method: 'GET',
+      });
 
-      const json = await response.json();//get json from api
-      console.log(json);//output json to console
-      Alert.alert(json.message);//output message at alert
+      const json = await response.json();
+      console.log(json);
+      Alert.alert(json.message);
     } catch (error) {
       console.error(error);
     }
