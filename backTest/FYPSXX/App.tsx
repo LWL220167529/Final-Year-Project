@@ -4,7 +4,7 @@
  *
  * @format
  */
-import React from 'react';
+import React, {useState} from 'react';
 import FontAwesomeIcon from 'react-native-vector-icons/Entypo';
 
 import type { PropsWithChildren } from 'react';
@@ -15,7 +15,7 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
-  View, Dimensions, ImageBackground, TextInput, FlatList,
+  View, Dimensions, ImageBackground, TextInput, FlatList,Alert
 } from 'react-native';
 
 import {
@@ -32,7 +32,42 @@ type SectionProps = PropsWithChildren<{
 }>;
 
 
+
+
+
 function App(): JSX.Element {
+
+  
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLoginPress = async () => {
+    const data = { userName, password };
+
+    try {
+      const response = await fetch('http://10.0.2.2:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const json = await response.json();
+
+      if (response.ok) {
+        // Login successful
+        console.log(json);
+        Alert.alert(json.message);
+      } else {
+        // Login failed
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('An error occurred while logging in.');
+    }
+  };
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -91,7 +126,7 @@ function App(): JSX.Element {
             <View style={{
               height:100, justifyContent : 'center', alignItems:'center',
             }}>
-  <Button style={[styles.loginBtn, styles.shadowBtn, {shadowColor:'#00acee'}]}>
+  <Button style={[styles.loginBtn, styles.shadowBtn, {shadowColor:'#00acee'}]} onPress={this.handleLoginPress}>
     <Text style={{color: '#ffffff'}}>Login</Text>
   </Button>
   </View>
