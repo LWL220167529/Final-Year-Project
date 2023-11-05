@@ -2,6 +2,9 @@ import React from 'react';
 import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, Image, StyleSheet,TextInput } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FontAwesomeIcons } from 'react-native-vector-icons/Entypo';
+import Categories from '../components/Categories';
+import SortCategories from '../components/SortCategories';
+import Destinations from '../components/destination';
 
 
 export default function HomeScreen() {
@@ -14,10 +17,11 @@ export default function HomeScreen() {
             <Image source={require('../image/avatar.png')} style={styles.avatar} />
           </TouchableOpacity>
         </View>
-      
+
+        
         <View style={styles.searchContainer}>
         <View style={styles.searchInput}>
-        <Text>abc</Text>
+        <Image source={require('../image/searchGlass.png')} style={styles.searchGlass} />
 
             <TextInput
               placeholder='Search destination'
@@ -25,6 +29,18 @@ export default function HomeScreen() {
               style={styles.searchTextInput}
             />
           </View>
+        </View>
+
+        <View style={{ marginBottom: 4 }}>
+          <Categories />
+        </View>
+
+        <View style={{ marginBottom: 4 }}>
+          <SortCategories />
+        </View>
+
+        <View>
+          <Destinations />
         </View>
         </ScrollView>
     </SafeAreaView>
@@ -54,6 +70,11 @@ const styles = StyleSheet.create({
   avatar: {
     height: wp(12),
     width: wp(12),
+  },
+  searchGlass: {
+    height: wp(6),
+    width: wp(6),
+    marginRight: 4,
   },
   searchContainer: {
     marginHorizontal: 5,

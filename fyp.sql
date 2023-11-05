@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `attraction`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `attraction` (
   `attractionID` varchar(255) NOT NULL,
   `attractionName` varchar(255) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `attraction` (
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `editTime` date DEFAULT NULL,
   PRIMARY KEY (`attactionID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,7 +52,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `schedule_directory`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `schedule_directory` (
   `scheduleDirectoryID` int NOT NULL AUTO_INCREMENT,
   `userID` varchar(255) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE `schedule_directory` (
   PRIMARY KEY (`scheduleDirectoryID`),
   KEY `userIDHolder_FK_idx` (`userID`),
   CONSTRAINT `Holder_FK` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +82,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `userID` varchar(255) NOT NULL,
   `userName` varchar(255) NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE `user` (
   `phoneNumber` int DEFAULT NULL,
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +110,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_favorites`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `user_favorites` (
   `userFavoritesID` int NOT NULL AUTO_INCREMENT,
   `userID` varchar(255) NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE `user_favorites` (
   KEY `attactionID_FK_idx` (`attactionID`),
   CONSTRAINT `attactionFavorites_FK` FOREIGN KEY (`attactionID`) REFERENCES `attraction` (`attactionID`),
   CONSTRAINT `userFavorites_FK` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +138,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `user_schedule` (
   `userScheduleID` int NOT NULL AUTO_INCREMENT,
   `scheduleDirectoryID` int NOT NULL,
@@ -153,7 +153,7 @@ CREATE TABLE `user_schedule` (
   KEY `scheduleDirectoryID_FK_idx` (`scheduleDirectoryID`),
   CONSTRAINT `attactionSchedule_FK` FOREIGN KEY (`attactionID`) REFERENCES `attraction` (`attactionID`),
   CONSTRAINT `scheduleDirectory_FK` FOREIGN KEY (`scheduleDirectoryID`) REFERENCES `schedule_directory` (`scheduleDirectoryID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
