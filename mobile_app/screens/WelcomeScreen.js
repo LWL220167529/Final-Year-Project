@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, Image, StyleSheet,TextInput } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { FontAwesomeIcons } from 'react-native-vector-icons/Entypo';
+import FontAwesomeIcons  from 'react-native-vector-icons/Entypo';
 import Categories from '../components/Categories';
 import SortCategories from '../components/SortCategories';
 import Destinations from '../components/destination';
@@ -14,6 +14,7 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <Text style={styles.title}>Let's Discover</Text>
           <TouchableOpacity>
+            
             <Image source={require('../image/avatar.png')} style={styles.avatar} />
           </TouchableOpacity>
         </View>
@@ -21,7 +22,7 @@ export default function HomeScreen() {
         
         <View style={styles.searchContainer}>
         <View style={styles.searchInput}>
-        <Image source={require('../image/searchGlass.png')} style={styles.searchGlass} />
+        <FontAwesomeIcons name="magnifying-glass" size={wp(5)}/>
 
             <TextInput
               placeholder='Search destination'
