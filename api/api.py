@@ -199,6 +199,10 @@ def getAttractions():
         print(e)
         return jsonify({'message': 'Internal server error'}), 500
 
+@app.route('/test')
+def test():
+    return "test 1.0"
+
 session.close()
 
 if __name__ == '__main__':
