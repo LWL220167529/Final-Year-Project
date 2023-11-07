@@ -14,8 +14,8 @@ CORS(app)
 # Remote database configuration
 db_port = 3306
 db_host = 'localhost'
-db_username = 'fyp'
-db_password = '2_Fypdroplets'
+db_username = 'root'
+db_password = 'fypproject'
 db_name = 'FYP'
 # Create SQLAlchemy engine
 engine = create_engine(
