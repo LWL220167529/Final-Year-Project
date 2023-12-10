@@ -1,0 +1,492 @@
+﻿{
+    "Honshu": {
+        "Tohoku": [
+            {
+                "prefecture": "Akita (秋田縣)",
+                "prefecture_href_EN": "/wiki/Akita_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E7%A7%8B%E7%94%B0%E7%B8%A3",
+                "capital": "Akita (秋田市)",
+                "region": "Tōhoku (東北)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "6",
+                "numberOfMunicipalities": "25"
+            },
+            {
+                "prefecture": "Aomori (青森縣)",
+                "prefecture_href_EN": "/wiki/Aomori_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E9%9D%92%E6%A3%AE%E7%B8%A3",
+                "capital": "Aomori (青森市)",
+                "region": "Tōhoku (東北)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "8",
+                "numberOfMunicipalities": "40"
+            },
+            {
+                "prefecture": "Fukushima (福島縣)",
+                "prefecture_href_EN": "/wiki/Fukushima_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E7%A6%8F%E5%B3%B6%E7%B8%A3",
+                "capital": "Fukushima (福島市)",
+                "region": "Tōhoku (東北)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "13",
+                "numberOfMunicipalities": "59"
+            },
+            {
+                "prefecture": "Iwate (岩手縣)",
+                "prefecture_href_EN": "/wiki/Iwate_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%B2%A9%E6%89%8B%E7%B8%A3",
+                "capital": "Morioka (盛冈市)",
+                "region": "Tōhoku (東北)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "10",
+                "numberOfMunicipalities": "33"
+            },
+            {
+                "prefecture": "Miyagi (宮城縣)",
+                "prefecture_href_EN": "/wiki/Miyagi_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%AE%AE%E5%9F%8E%E7%B8%A3",
+                "capital": "Sendai (仙台市)",
+                "region": "Tōhoku (東北)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "10",
+                "numberOfMunicipalities": "35"
+            },
+            {
+                "prefecture": "Yamagata (山形縣)",
+                "prefecture_href_EN": "/wiki/Yamagata_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%B1%B1%E5%BD%A2%E7%B8%A3",
+                "capital": "Yamagata (山形市)",
+                "region": "Tōhoku (東北)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "8",
+                "numberOfMunicipalities": "35"
+            }
+        ],
+        "Kanto": [
+            {
+                "prefecture": "Chiba (千葉縣)",
+                "prefecture_href_EN": "/wiki/Chiba_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%8D%83%E8%91%89%E7%B8%A3",
+                "capital": "Chiba (千葉市)",
+                "region": "Kantō (关東)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "6",
+                "numberOfMunicipalities": "54"
+            },
+            {
+                "prefecture": "Gunma (群馬縣)",
+                "prefecture_href_EN": "/wiki/Gunma_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E7%BE%A4%E9%A6%AC%E7%B8%A3",
+                "capital": "Maebashi (前橋市)",
+                "region": "Kantō (关東)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "7",
+                "numberOfMunicipalities": "35"
+            },
+            {
+                "prefecture": "Ibaraki (茨城縣)",
+                "prefecture_href_EN": "/wiki/Ibaraki_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E8%8C%A8%E5%9F%8E%E7%B8%A3",
+                "capital": "Mito (水戶市)",
+                "region": "Kantō (关東)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "7",
+                "numberOfMunicipalities": "44"
+            },
+            {
+                "prefecture": "Kanagawa (神奈川县)",
+                "prefecture_href_EN": "/wiki/Kanagawa_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E7%A5%9E%E5%A5%88%E5%B7%9D%E5%8E%BF",
+                "capital": "Yokohama (橫濱市)",
+                "region": "Kantō (关東)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "6",
+                "numberOfMunicipalities": "33"
+            },
+            {
+                "prefecture": "Saitama (埼玉縣)",
+                "prefecture_href_EN": "/wiki/Saitama_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%9F%BC%E7%8E%89%E7%B8%A3",
+                "capital": "Saitama (埼玉市)",
+                "region": "Kantō (关東)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "8",
+                "numberOfMunicipalities": "63"
+            },
+            {
+                "prefecture": "Tochigi (栃木縣)",
+                "prefecture_href_EN": "/wiki/Tochigi_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E6%A0%83%E6%9C%A8%E7%B8%A3",
+                "capital": "Utsunomiya (宇都宮市)",
+                "region": "Kantō (关東)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "5",
+                "numberOfMunicipalities": "26"
+            },
+            {
+                "prefecture": "Tōkyō (東京都)",
+                "prefecture_href_EN": "/wiki/Tokyo",
+                "prefecture_href_ZH": "/wiki/%E6%9D%B1%E4%BA%AC%E9%83%BD",
+                "capital": "Tōkyō (新宿區)",
+                "region": "Kantō (关東)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "1",
+                "numberOfMunicipalities": "39"
+            }
+        ],
+        "Chubu": [
+            {
+                "prefecture": "Aichi (愛知縣)",
+                "prefecture_href_EN": "/wiki/Aichi_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E6%84%9B%E7%9F%A5%E7%B8%A3",
+                "capital": "Nagoya (名古屋市)",
+                "region": "Chūbu (中部)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "7",
+                "numberOfMunicipalities": "54"
+            },
+            {
+                "prefecture": "Fukui (福井縣)",
+                "prefecture_href_EN": "/wiki/Fukui_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E7%A6%8F%E4%BA%95%E7%B8%A3",
+                "capital": "Fukui (福井市)",
+                "region": "Chūbu (中部)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "7",
+                "numberOfMunicipalities": "17"
+            },
+            {
+                "prefecture": "Gifu (岐阜縣)",
+                "prefecture_href_EN": "/wiki/Gifu_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%B2%90%E9%98%9C%E7%B8%A3",
+                "capital": "Gifu (岐阜市)",
+                "region": "Chūbu (中部)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "9",
+                "numberOfMunicipalities": "42"
+            },
+            {
+                "prefecture": "Ishikawa (石川縣)",
+                "prefecture_href_EN": "/wiki/Ishikawa_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E7%9F%B3%E5%B7%9D%E7%B8%A3",
+                "capital": "Kanazawa (金澤市)",
+                "region": "Chūbu (中部)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "5",
+                "numberOfMunicipalities": "19"
+            },
+            {
+                "prefecture": "Nagano (長野縣)",
+                "prefecture_href_EN": "/wiki/Nagano_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E9%95%B7%E9%87%8E%E7%B8%A3",
+                "capital": "Nagano (長野市)",
+                "region": "Chūbu (中部)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "14",
+                "numberOfMunicipalities": "77"
+            },
+            {
+                "prefecture": "Niigata (新潟縣)",
+                "prefecture_href_EN": "/wiki/Niigata_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E6%96%B0%E6%BD%9F%E7%B8%A3",
+                "capital": "Niigata (新潟市)",
+                "region": "Chūbu (中部)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "9",
+                "numberOfMunicipalities": "30"
+            },
+            {
+                "prefecture": "Shizuoka (靜岡縣)",
+                "prefecture_href_EN": "/wiki/Shizuoka_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E9%9D%9C%E5%B2%A1%E7%B8%A3",
+                "capital": "Shizuoka (靜岡市)",
+                "region": "Chūbu (中部)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "5",
+                "numberOfMunicipalities": "35"
+            },
+            {
+                "prefecture": "Toyama (富山縣)",
+                "prefecture_href_EN": "/wiki/Toyama_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%AF%8C%E5%B1%B1%E7%B8%A3",
+                "capital": "Toyama (富山市)",
+                "region": "Chūbu (中部)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "2",
+                "numberOfMunicipalities": "15"
+            },
+            {
+                "prefecture": "Yamanashi (山梨縣)",
+                "prefecture_href_EN": "/wiki/Yamanashi_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%B1%B1%E6%A2%A8%E7%B8%A3",
+                "capital": "Kōfu (甲府市)",
+                "region": "Chūbu (中部)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "5",
+                "numberOfMunicipalities": "27"
+            }
+        ],
+        "Kansai": [
+            {
+                "prefecture": "Hyōgo (兵庫縣)",
+                "prefecture_href_EN": "/wiki/Hy%C5%8Dgo_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%85%B5%E5%BA%AB%E7%B8%A3",
+                "capital": "Kōbe (神戶市)",
+                "region": "Kansai (近畿)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "8",
+                "numberOfMunicipalities": "41"
+            },
+            {
+                "prefecture": "Kyōto (京都府)",
+                "prefecture_href_EN": "/wiki/Kyoto_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E4%BA%AC%E9%83%BD%E5%BA%9C",
+                "capital": "Kyōto (京都市)",
+                "region": "Kansai (近畿)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "6",
+                "numberOfMunicipalities": "26"
+            },
+            {
+                "prefecture": "Mie (三重縣)",
+                "prefecture_href_EN": "/wiki/Mie_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E4%B8%89%E9%87%8D%E7%B8%A3",
+                "capital": "Tsu (津市)",
+                "region": "Kansai (近畿)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "7",
+                "numberOfMunicipalities": "29"
+            },
+            {
+                "prefecture": "Nara (奈良縣)",
+                "prefecture_href_EN": "/wiki/Nara_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%A5%88%E8%89%AF%E7%B8%A3",
+                "capital": "Nara (奈良市)",
+                "region": "Kansai (近畿)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "7",
+                "numberOfMunicipalities": "39"
+            },
+            {
+                "prefecture": "Ōsaka (大阪府)",
+                "prefecture_href_EN": "/wiki/Osaka_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%A4%A7%E9%98%AA%E5%BA%9C",
+                "capital": "Ōsaka (大阪市)",
+                "region": "Kansai (近畿)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "5",
+                "numberOfMunicipalities": "43"
+            },
+            {
+                "prefecture": "Shiga (滋賀縣)",
+                "prefecture_href_EN": "/wiki/Shiga_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E6%BB%8B%E8%B3%80%E7%B8%A3",
+                "capital": "Ōtsu (大津市)",
+                "region": "Kansai (近畿)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "3",
+                "numberOfMunicipalities": "19"
+            },
+            {
+                "prefecture": "Wakayama (和歌山縣)",
+                "prefecture_href_EN": "/wiki/Wakayama_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%92%8C%E6%AD%8C%E5%B1%B1%E7%B8%A3",
+                "capital": "Wakayama (和歌山市)",
+                "region": "Kansai (近畿)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "6",
+                "numberOfMunicipalities": "30"
+            }
+        ],
+        "Chugoku": [
+            {
+                "prefecture": "Hiroshima (廣島縣)",
+                "prefecture_href_EN": "/wiki/Hiroshima_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%BB%A3%E5%B3%B6%E7%B8%A3",
+                "capital": "Hiroshima (廣島市)",
+                "region": "Chūgoku (中国)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "5",
+                "numberOfMunicipalities": "23"
+            },
+            {
+                "prefecture": "Okayama (岡山縣)",
+                "prefecture_href_EN": "/wiki/Okayama_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%B2%A1%E5%B1%B1%E7%B8%A3",
+                "capital": "Okayama (岡山市)",
+                "region": "Chūgoku (中国)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "10",
+                "numberOfMunicipalities": "27"
+            },
+            {
+                "prefecture": "Shimane (島根縣)",
+                "prefecture_href_EN": "/wiki/Shimane_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%B3%B6%E6%A0%B9%E7%B8%A3",
+                "capital": "Matsue (松江市)",
+                "region": "Chūgoku (中国)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "5",
+                "numberOfMunicipalities": "19"
+            },
+            {
+                "prefecture": "Tottori (鳥取縣)",
+                "prefecture_href_EN": "/wiki/Tottori_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E9%B3%A5%E5%8F%96%E7%B8%A3",
+                "capital": "Tottori (鳥取市)",
+                "region": "Chūgoku (中国)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "5",
+                "numberOfMunicipalities": "19"
+            },
+            {
+                "prefecture": "Yamaguchi (山口縣)",
+                "prefecture_href_EN": "/wiki/Yamaguchi_Prefecture",
+                "prefecture_href_ZH": "/wiki/%E5%B1%B1%E5%8F%A3%E7%B8%A3",
+                "capital": "Yamaguchi (山口市)",
+                "region": "Chūgoku (中国)",
+                "majorIsland": "Honshū (本州)",
+                "numberOfDistricts": "4",
+                "numberOfMunicipalities": "19"
+            }
+        ]
+    },
+    "Shikoku": [
+        {
+            "prefecture": "Ehime (愛媛縣)",
+            "prefecture_href_EN": "/wiki/Ehime_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E6%84%9B%E5%AA%9B%E7%B8%A3",
+            "capital": "Matsuyama (松山市)",
+            "region": "Shikoku (四国)",
+            "majorIsland": "Shikoku (四国)",
+            "numberOfDistricts": "7",
+            "numberOfMunicipalities": "20"
+        },
+        {
+            "prefecture": "Kagawa (香川縣)",
+            "prefecture_href_EN": "/wiki/Kagawa_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E9%A6%99%E5%B7%9D%E7%B8%A3",
+            "capital": "Takamatsu (高松市)",
+            "region": "Shikoku (四国)",
+            "majorIsland": "Shikoku (四国)",
+            "numberOfDistricts": "5",
+            "numberOfMunicipalities": "17"
+        },
+        {
+            "prefecture": "Kōchi (高知縣)",
+            "prefecture_href_EN": "/wiki/K%C5%8Dchi_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E9%AB%98%E7%9F%A5%E7%B8%A3",
+            "capital": "Kōchi (高知市)",
+            "region": "Shikoku (四国)",
+            "majorIsland": "Shikoku (四国)",
+            "numberOfDistricts": "6",
+            "numberOfMunicipalities": "34"
+        },
+        {
+            "prefecture": "Tokushima (德島縣)",
+            "prefecture_href_EN": "/wiki/Tokushima_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E5%BE%B7%E5%B3%B6%E7%B8%A3",
+            "capital": "Tokushima (德島市)",
+            "region": "Shikoku (四国)",
+            "majorIsland": "Shikoku (四国)",
+            "numberOfDistricts": "8",
+            "numberOfMunicipalities": "24"
+        }
+    ],
+    "Kyushu": [
+        {
+            "prefecture": "Fukuoka (福岡縣)",
+            "prefecture_href_EN": "/wiki/Fukuoka_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E7%A6%8F%E5%B2%A1%E7%B8%A3",
+            "capital": "Fukuoka (福岡市)",
+            "region": "Kyūshū (九州)",
+            "majorIsland": "Kyūshū (九州)",
+            "numberOfDistricts": "12",
+            "numberOfMunicipalities": "60"
+        },
+        {
+            "prefecture": "Kagoshima (鹿兒島縣)",
+            "prefecture_href_EN": "/wiki/Kagoshima_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E9%B9%BF%E5%85%92%E5%B3%B6%E7%B8%A3",
+            "capital": "Kagoshima (鹿兒島市)",
+            "region": "Kyūshū (九州)",
+            "majorIsland": "Kyūshū (九州)",
+            "numberOfDistricts": "8",
+            "numberOfMunicipalities": "43"
+        },
+        {
+            "prefecture": "Kumamoto (熊本縣)",
+            "prefecture_href_EN": "/wiki/Kumamoto_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E7%86%8A%E6%9C%AC%E7%B8%A3",
+            "capital": "Kumamoto (熊本市)",
+            "region": "Kyūshū (九州)",
+            "majorIsland": "Kyūshū (九州)",
+            "numberOfDistricts": "9",
+            "numberOfMunicipalities": "45"
+        },
+        {
+            "prefecture": "Miyazaki (宮崎縣)",
+            "prefecture_href_EN": "/wiki/Miyazaki_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E5%AE%AE%E5%B4%8E%E7%B8%A3",
+            "capital": "Miyazaki (宫崎市)",
+            "region": "Kyūshū (九州)",
+            "majorIsland": "Kyūshū (九州)",
+            "numberOfDistricts": "6",
+            "numberOfMunicipalities": "26"
+        },
+        {
+            "prefecture": "Nagasaki (長崎縣)",
+            "prefecture_href_EN": "/wiki/Nagasaki_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E9%95%B7%E5%B4%8E%E7%B8%A3",
+            "capital": "Nagasaki (長崎市)",
+            "region": "Kyūshū (九州)",
+            "majorIsland": "Kyūshū (九州)",
+            "numberOfDistricts": "4",
+            "numberOfMunicipalities": "21"
+        },
+        {
+            "prefecture": "Ōita (大分縣)",
+            "prefecture_href_EN": "/wiki/%C5%8Cita_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E5%A4%A7%E5%88%86%E7%B8%A3",
+            "capital": "Ōita (大分市)",
+            "region": "Kyūshū (九州)",
+            "majorIsland": "Kyūshū (九州)",
+            "numberOfDistricts": "3",
+            "numberOfMunicipalities": "18"
+        },
+        {
+            "prefecture": "Saga (佐賀縣)",
+            "prefecture_href_EN": "/wiki/Saga_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E4%BD%90%E8%B3%80%E7%B8%A3",
+            "capital": "Saga (佐賀市)",
+            "region": "Kyūshū (九州)",
+            "majorIsland": "Kyūshū (九州)",
+            "numberOfDistricts": "6",
+            "numberOfMunicipalities": "20"
+        }
+    ],
+    "Hokkaido": [
+        {
+            "prefecture": "Hokkaido (北海道)",
+            "prefecture_href_EN": "/wiki/Hokkaido",
+            "prefecture_href_ZH": "/wiki/%E5%8C%97%E6%B5%B7%E9%81%93",
+            "capital": "Sapporo (札幌市)",
+            "region": "Hokkaidō (北海道)",
+            "majorIsland": "Hokkaidō (北海道)",
+            "numberOfDistricts": "66",
+            "numberOfMunicipalities": "180"
+        }
+    ],
+    "Ryukyu Islands": [
+        {
+            "prefecture": "Okinawa (沖繩縣)",
+            "prefecture_href_EN": "/wiki/Okinawa_Prefecture",
+            "prefecture_href_ZH": "/wiki/%E6%B2%96%E7%B9%A9%E7%B8%A3",
+            "capital": "Naha (那霸市)",
+            "region": "Kyūshū (冲绳)",
+            "majorIsland": "Ryūkyū Islands (冲绳)",
+            "numberOfDistricts": "5",
+            "numberOfMunicipalities": "41"
+        }
+    ]
+}
