@@ -24,8 +24,8 @@ def login():
 
 #sign up user
 
-@app.route('/signUp', methods=["GET", "POST"])
-def signUpUser():
+@app.route('/register', methods=["GET", "POST"])
+def register():
     if request.method == "GET":#get request from url
         userID = request.args.get('userID')
         userName = request.args.get('userName')
@@ -40,7 +40,7 @@ def signUpUser():
         email = data.get('email')
         phone = data.get('phone')
     #check if user exists
-    return user.User.sign_up_user(userID, userName, password, email, phone)
+    return user.User.register(userID, userName, password, email, phone)
 
 #update user
 @app.route('/updateUser', methods=["GET", "POST"])

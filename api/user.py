@@ -55,7 +55,7 @@ class User(Base):
             print(e)
             return jsonify({'message': e, 'login': False})
         
-    def sign_up_user(userID, userName, password, email, phone):
+    def register(userID, userName, password, email, phone):
         if session.query(User).filter(User.userID == userID).first() is None:
             #create new user
             try:
