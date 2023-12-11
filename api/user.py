@@ -42,7 +42,7 @@ class User(Base):
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
     
-    def checkLogin(userID, password):
+    def check_login(userID, password):
         try:
             # find user by userID or email
             userEmail = session.query(User).filter(User.email == userID).first()
@@ -55,7 +55,7 @@ class User(Base):
             print(e)
             return jsonify({'message': e, 'login': False})
         
-    def signUpUser(userID, userName, password, email, phone):
+    def sign_up_user(userID, userName, password, email, phone):
         if session.query(User).filter(User.userID == userID).first() is None:
             #create new user
             try:
@@ -69,7 +69,7 @@ class User(Base):
         else:
             return jsonify({'message': 'User already exists.'}), 409
         
-    def updateUser(userID, userName, email, phoneNumber):
+    def update_user(userID, userName, email, phoneNumber):
         try:
             #find user by userID
             user = session.query(User).filter(User.userID == userID).first()
@@ -84,7 +84,7 @@ class User(Base):
             print(e)
             return jsonify({'message': e, 'updateUser': False})
 
-    def forgotPassword(userID, password):
+    def forgot_password(userID, password):
         try:
             #find user by userID or email
             userEmail = session.query(User).filter(User.email==userID).first()

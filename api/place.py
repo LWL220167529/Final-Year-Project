@@ -1,5 +1,5 @@
 from flask import jsonify
-from sqlalchemy import create_engine, Column, Integer, String, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, or_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -43,16 +43,39 @@ class Place(Base):
         self.district = district
         
     def get_all_place():
-        places = session.query(Place).all()
-        # Convert the attractions data to a list of dictionaries
-        places_data = [place.__dict__ for place in places]
-        # Remove the unnecessary attributes from each dictionary
-        for attraction_data in places_data:
-            del attraction_data['_sa_instance_state']
-        return places_data, 200
+        try:
+            places = session.query(Place).all()
+            # Convert the attractions data to a list of dictionaries
+            places_data = [place.__dict__ for place in places]
+            # Remove the unnecessary attributes from each dictionary
+            for attraction_data in places_data:
+                del attraction_data['_sa_instance_state']
+            return places_data, 200
+        except Exception as e:
+            print(e)
+            return jsonify({'message': e}), 500
 
     @staticmethod
-    def get_by_id(place_id):
-        return session.query(Place).filter(Place.placeID == place_id).first()
+    def get_by_input(input):
+        try:
+            places = session.query(Place).filter(
+                or_(
+                    Place.placeID.like("%" + input + "%"),
+                    Place.prefecture.like("%" + input + "%"),
+                    Place.municipalityName.like("%" + input + "%"),
+                    Place.municipalities.like("%" + input + "%"),
+                    Place.region.like("%" + input + "%"),
+                    Place.majorIsland.like("%" + input + "%"),
+                    Place.district.like("%" + input + "%")
+                )
+            ).all()
+            
+            places_data = [place.__dict__ for place in places]
+            for place_data in places_data:
+                del place_data['_sa_instance_state']
+            
+            return places_data, 200
+        except Exception as e:
+            return jsonify({'message': str(e)}), 500
 
 session.close()

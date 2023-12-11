@@ -5,9 +5,6 @@ import user, place #connect database
 
 app = Flask(__name__)
 CORS(app)
-
-
-
 #account api
 #login
 @app.route('/login', methods=["GET", "POST"])
@@ -20,7 +17,7 @@ def login():
             data = request.get_json()
             userName = data.get('userName')
             password = data.get('password')
-        return user.User.checkLogin(userName, password)
+        return user.User.check_login(userName, password)
     except Exception as e:
         print(e)
         abort(500)
@@ -43,7 +40,7 @@ def signUpUser():
         email = data.get('email')
         phone = data.get('phone')
     #check if user exists
-    return user.User.signUpUser(userID, userName, password, email, phone)
+    return user.User.sign_up_user(userID, userName, password, email, phone)
 
 #update user
 @app.route('/updateUser', methods=["GET", "POST"])
@@ -60,7 +57,7 @@ def updateUser():
             userName = data.get('userName')
             email = data.get('email')
             phoneNumber = data.get('phoneNumber')
-        return user.User.updateUser(userID, userName, email, phoneNumber)
+        return user.User.update_user(userID, userName, email, phoneNumber)
     except Exception as e:
         print(e)
         abort(500)
@@ -76,7 +73,7 @@ def resetPassword():
             data = request.get_json()
             userID = data.get('userID')
             password = data.get('password')
-        return user.User.forgotPassword(userID, password)
+        return user.User.forgot_password(userID, password)
     except Exception as e:
         print(e)
         return jsonify({'message': 'Internal server error'}), 500
@@ -87,11 +84,24 @@ def resetPassword():
 # Flask routes
 @app.route('/getAllPlace')
 def getAllPlace():
-        try:
-            return place.Place.get_all_place()
-        except Exception as e:
-            print(e)
-            return jsonify({'message': 'Internal server error'}), 500
+    try:
+        return place.Place.get_all_place()
+    except Exception as e:
+        print(e)
+        return jsonify({'message': e}), 500
+        
+@app.route('/getPlaceByID', methods=["GET", "POST"])
+def getPlaceByID():
+    try:
+        if request.method == "GET":#get request from url
+            getPlace = request.args.get('getPlace')
+        else:#post request from body
+            data = request.get_json()
+            getPlace = data.get('getPlace')
+        return place.Place.get_by_input(getPlace)
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Internal server error'}), 500
 
 
 if __name__ == '__main__':
