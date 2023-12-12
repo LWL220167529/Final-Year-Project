@@ -71,7 +71,6 @@ class Place(Base):
             
             places_data = [place.__dict__ for place in places]
             for place_data in places_data:
-                print(place_data[0])
                 del place_data['_sa_instance_state']
             
             return places_data, 200
