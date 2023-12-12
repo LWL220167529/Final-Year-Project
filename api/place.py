@@ -45,15 +45,14 @@ class Place(Base):
     def get_all_place():
         try:
             places = session.query(Place).all()
-            # Convert the attractions data to a list of dictionaries
+            # Convert the places data to a list of dictionaries
             places_data = [place.__dict__ for place in places]
             # Remove the unnecessary attributes from each dictionary
-            for attraction_data in places_data:
-                del attraction_data['_sa_instance_state']
+            for place_data in places_data:
+                del place_data['_sa_instance_state']
             return places_data, 200
         except Exception as e:
-            print(e)
-            return jsonify({'message': e}), 500
+            return jsonify({'message': str(e)}), 500
 
     @staticmethod
     def get_by_input(input):
@@ -72,6 +71,7 @@ class Place(Base):
             
             places_data = [place.__dict__ for place in places]
             for place_data in places_data:
+                print(place_data[0])
                 del place_data['_sa_instance_state']
             
             return places_data, 200
