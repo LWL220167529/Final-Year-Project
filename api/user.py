@@ -102,3 +102,21 @@ class User(Base):
         except Exception as e:
             print(e)
             return jsonify({'message': e, 'resetPassword': False})
+
+    def get_all_users():
+        try:
+            users = session.query(User).all()
+            user_list = []
+            for user in users:
+                user_data = {
+                    'userID': user.userID,
+                    'userName': user.userName,
+                    'email': user.email,
+                    'phoneNumber': user.phoneNumber,
+                    'createTime': user.createTime
+                }
+                user_list.append(user_data)
+            return jsonify({'users': user_list}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({'message': 'Error occurred while retrieving users.', 'error': str(e)}), 500
