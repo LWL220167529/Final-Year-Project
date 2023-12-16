@@ -85,7 +85,7 @@ def resetPassword():
 @app.route('/getAllPlace')
 def getAllPlace():
     try:
-        return place.Place.get_all_place()
+        return place.CitiesPlace.get_all_cities_place()
     except Exception as e:
         print(e)
         return jsonify({'message': e}), 500
@@ -98,7 +98,7 @@ def getPlaceByID():
         else:#post request from body
             data = request.get_json()
             getPlace = data.get('getPlace')
-        return place.Place.get_by_input(getPlace)
+        return place.CitiesPlace.get_by_input(getPlace)
     except Exception as e:
         print(e)
         return jsonify({'message': 'Internal server error'}), 500
