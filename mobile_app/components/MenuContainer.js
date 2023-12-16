@@ -3,10 +3,13 @@ import React from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const MenuContainer = ({ title, imageSrc, type, setType }) => {
+    const handleType = () => {
+        setType(title.toLowerCase());
+    }
     return (
-        <TouchableOpacity  >
+        <TouchableOpacity  onPress={handleType}>
             <View style={styles.outcontainer}>
-            <View style={styles.imageContainer} >
+            <View style={type === title.toLowerCase()? styles.imageContainer : null}>
                 <Image source={imageSrc} style={styles.catItem} />
                 <Text style={styles.catTitle}>{title}</Text>
             </View>
@@ -17,6 +20,10 @@ const MenuContainer = ({ title, imageSrc, type, setType }) => {
 
 
 const styles = StyleSheet.create({
+    imageContainer:{
+        borderRadius: 10,
+        backgroundColor: 'grey',
+    },
     outcontainer: {
         padding: 10,
     },
@@ -43,10 +50,9 @@ const styles = StyleSheet.create({
         height: wp(19),
         borderRadius: 20,
         margin: 10,
-        marginTop: 30,
         borderWidth: 1,
         borderColor: 'white',
-        padding: 5,
+        padding: 15,
     },
     selectedCatItem: {
         backgroundColor: 'grey', // Set the selected category background color

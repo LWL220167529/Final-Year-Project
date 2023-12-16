@@ -35,17 +35,21 @@ handleLoginPress = async () => {
 export default function HomeScreen() {
   const [type, setType] = useState('restaurants');
   const [isLoading, setIsLoading] = useState(false);
+  const [bl_lat, setbl_lat] = useState(null);
+  const [bl_lng, setbl_lng] = useState(null);
+  const [tr_lat, settr_lat] = useState(null);
+  const [tr_lng, settr_lng] = useState(null);
   const [mainData, setMainData] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
-    getPlacesData().then((data) => {
+    getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng, type).then((data) => {
       setMainData(data);
       setInterval(() => {
         setIsLoading(false);
       }, 2000);
     });
-  }, [])
+  }, [bl_lat, bl_lng, tr_lat, tr_lng, type]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,11 +65,15 @@ export default function HomeScreen() {
         <GooglePlacesAutocomplete
           GooglePlacesDetailsQuery={{ fields: "geometry" }}
           placeholder='Search destination'
-          placeholderTextColor='gray'
+          placeholderTextColor='grey'
           fetchDetails={true}
           onPress={(data, details = null) => {
             // 'details' is provided when fetchDetails = true
             console.log(details?.geometry?.viewport);
+            setbl_lat(details?.geometry?.viewport?.southwest?.lat)
+            setbl_lng(details?.geometry?.viewport?.southwest?.lng)
+            settr_lat(details?.geometry?.viewport?.northeast?.lat)
+            settr_lng(details?.geometry?.viewport?.northeast?.lng)
           }}
           query={{
             key: 'AIzaSyDb4iE2zwfaw7lxIavF6cTt4sjoiM4cDGc',
@@ -120,7 +128,9 @@ export default function HomeScreen() {
               data?.photo?.images?.medium?.url : 'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png'
             }
             title={data?.name}
-            location={data?.location_string} />
+            location={data?.location_string}
+            data={data}
+            />
           )
           )
           }

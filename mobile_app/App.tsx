@@ -6,11 +6,18 @@ import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import { View, Text } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
+import ItemScreen from './screens/itemScreen';
+import InterestScreen from './screens/InterestScreen';
 import DestinationScreen from './screens/DestinationScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import SplashScreen from "./screens/SplashScreen";
+import PlanGeneration from './screens/PlanGeneration';
+import InterestCon2 from "./screens/InterestCon2";
+import InterestCon3 from "./screens/InterestCon3";
+import InterestCon4 from "./screens/InterestCon4";
+import InterestScreenCon from "./screens/InterestScreenCon";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import  Profile from "./screens/Profile";
+import Profile from "./screens/Profile";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon2 from 'react-native-vector-icons/FontAwesome';
 import DrawerMenu from "./components/DrawerMenu";
@@ -18,23 +25,20 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 
-
-
-
 function TabGroup() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeScreen}
-      options={{ tabBarIcon: () => <MaterialIcons name="travel-explore" size={25} />}}
-
-/>
-      <Tab.Screen name="Welcome" component={WelcomeScreen} 
-            options={{ tabBarIcon: () => <FontAwesomeIcon name="home" size={25} />}}
+        options={{ tabBarIcon: () => <MaterialIcons name="travel-explore" size={25} /> }}
 
       />
-      <Tab.Screen name="Profile" component={Profile} 
-                  options={{ tabBarIcon: () => <FontAwesomeIcon2 name="user" size={25} />}}
-                  />
+      <Tab.Screen name="Welcome" component={WelcomeScreen}
+        options={{ tabBarIcon: () => <FontAwesomeIcon name="home" size={25} /> }}
+
+      />
+      <Tab.Screen name="Profile" component={Profile}
+        options={{ tabBarIcon: () => <FontAwesomeIcon2 name="user" size={25} /> }}
+      />
 
     </Tab.Navigator>
   );
@@ -55,8 +59,22 @@ export default function App() {
     <NavigationContainer >
       {hideSplashScreen ? (
         <Stack.Navigator>
+          <Stack.Screen name="PlanGeneration" component={PlanGeneration} options={{ headerShown: false }}
+          />
+          <Stack.Screen name="InterestCon4" component={InterestCon4} options={{ headerShown: false }} />
+
+          <Stack.Screen name="Interest" component={InterestScreen} options={{ headerShown: false }}
+          />
+
           <Stack.Screen name="Home" component={TabGroup} options={{ headerShown: false }}
           />
+          <Stack.Screen name="InterestCon" component={InterestScreenCon} options={{ headerShown: false }} />
+
+          <Stack.Screen name="InterestCon2" component={InterestCon2} options={{ headerShown: false }} />
+          <Stack.Screen name="InterestCon3" component={InterestCon3} options={{ headerShown: false }} />
+
+
+
           <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -66,7 +84,8 @@ export default function App() {
           />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="Destination" component={DestinationScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="DestinationScreen" component={DestinationScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="ItemScreen" component={ItemScreen} />
 
         </Stack.Navigator>
       ) : (

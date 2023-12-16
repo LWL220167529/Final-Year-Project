@@ -3,8 +3,11 @@ export {default as Restaurants} from '../image/camp.png';
 export {default as Attractions} from '../image/forest.png';
 
 
-
-
+export const featured ={
+    id: 1,
+    title: 'Osaka Castle',
+    description : 'Osaka Castle is a Japanese castle in Chūō-ku, Osaka, Japan. The castle is one of Japan\'s most famous landmarks and it played a major role in the unification of Japan during the sixteenth century of the Azuchi-Momoyama period.',
+}
 
 export const sortCategoryData = ['All', 'Popular', 'Recommended', 'More'];
 
@@ -41,7 +44,9 @@ export const categoriesData = [
 ]
 export const destinationData = [
     {
+        id: 1,
         title: 'Osaka Castle',
+        rating: 4.5,
         duration: '12 Days',
         distance: '400 KM',
         weather: '20 C',
@@ -51,7 +56,10 @@ export const destinationData = [
         image: require('../image/hotel.png')
     },
     {
+        id: 2,
         title: 'Island Itsukushima Shrine',
+        rating: 5,
+
         duration: '7 Days',
         distance: '450 KM',
         weather: '30 C',
@@ -62,6 +70,9 @@ export const destinationData = [
     },
     
     {
+        id: 3,
+        rating: 3,
+
         title: 'Babusar Top',
         duration: '5 Days',
         distance: '299 KM',
@@ -72,6 +83,8 @@ export const destinationData = [
         image: require('../image/camp.png')
     },
     {
+        id: 4,
+        rating: 4.5,
         title: 'Todaiji Temple',
         duration: '20 Days',
         distance: '604 KM',

@@ -1,10 +1,14 @@
 import { View, TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-const ItemCardContainer = ({ imageSrc, title, location }) => {
+
+
+const ItemCardContainer = ({ imageSrc, title, location, data}) => {
+ const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity onPress={()=> navigation.navigate("ItemScreen", { param:data })} style={styles.card}>
       <Image source={{ uri: imageSrc }} style={styles.image} />
       <Text style={styles.title}>
         {title?.length > 14 ? `${title.slice(0, 14)}...` : title}
