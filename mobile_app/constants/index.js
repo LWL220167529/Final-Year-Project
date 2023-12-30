@@ -2,6 +2,50 @@ export {default as Hotels} from '../image/hotel.png';
 export {default as Restaurants} from '../image/camp.png';
 export {default as Attractions} from '../image/forest.png';
 
+export const DayTime = [ 'Day1', 'Day2', 'Day3', 'Day4'];
+
+export const EstimatedBudgetData = [
+    {
+      type: "Transportation",
+      icon: 'directions-car-filled',
+      color: '#0B646B',
+      data: [
+        { category: "Taxi", budget: 150 },
+        { category: "Rental Car", budget: 230 },
+        { category: "Public Bus", budget: 140 },
+      ],
+    },
+    {
+      type: "Accommodation",
+      icon: 'house',
+      color : '#9BB8CD',
+      data: [
+        { category: "Hotel", budget: 120 },
+        { category: "Airbnb", budget: 110 },
+        { category: "Vacation Rental", budget: 110 },
+      ],
+    },
+    {
+      type: "Food",
+      icon: 'local-restaurant',
+      color : '#FFC47E',
+      data: [
+        { category: "Budget", budget: "5-10" },
+        { category: "Street Food", budget: "5-10" },
+        { category: "Local Restaurant", budget: "10-20" },
+      ],
+    },
+    {
+      type: "Activities",
+      icon: 'hiking',
+      color : '#31304D',
+      data: [
+        { category: "Entrance Fee for Museum", budget: "10-20" },
+        { category: "Boat Tour", budget: 150 },
+        { category: "Night Club", budget: 30 },
+      ],
+    },
+  ];
 
 export const featured ={
     id: 1,

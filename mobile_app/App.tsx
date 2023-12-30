@@ -15,6 +15,7 @@ import PlanGeneration from './screens/PlanGeneration';
 import InterestCon2 from "./screens/InterestCon2";
 import InterestCon3 from "./screens/InterestCon3";
 import InterestCon4 from "./screens/InterestCon4";
+import PlanList from "./screens/PlanList";
 import InterestScreenCon from "./screens/InterestScreenCon";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Profile from "./screens/Profile";
@@ -59,15 +60,25 @@ export default function App() {
     <NavigationContainer >
       {hideSplashScreen ? (
         <Stack.Navigator>
-          <Stack.Screen name="PlanGeneration" component={PlanGeneration} options={{ headerShown: false }}
-          />
-          <Stack.Screen name="InterestCon4" component={InterestCon4} options={{ headerShown: false }} />
+                              <Stack.Screen name="PlanList" component={PlanList} />
 
+                    <Stack.Screen name="SignUp" component={SignUpScreen} />
+
+                              <Stack.Screen name="PlanGeneration" component={PlanGeneration} options={{ headerShown: false }}
+          />
           <Stack.Screen name="Interest" component={InterestScreen} options={{ headerShown: false }}
           />
+                    <Stack.Screen name="Login" component={LoginScreen} />
 
-          <Stack.Screen name="Home" component={TabGroup} options={{ headerShown: false }}
+
+                    <Stack.Screen name="Home" component={TabGroup} options={{ headerShown: false }}
           />
+
+          <Stack.Screen name="InterestCon4" component={InterestCon4} options={{ headerShown: false }} />
+
+
+
+
           <Stack.Screen name="InterestCon" component={InterestScreenCon} options={{ headerShown: false }} />
 
           <Stack.Screen name="InterestCon2" component={InterestCon2} options={{ headerShown: false }} />
@@ -82,8 +93,6 @@ export default function App() {
             component={SplashScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="DestinationScreen" component={DestinationScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ItemScreen" component={ItemScreen} />
 

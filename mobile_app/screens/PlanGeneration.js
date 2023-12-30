@@ -1,11 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, SectionList, TouchableOpacity, SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FeaturedRow from '../components/featuredrow';
 import { destinationData } from '../constants';
+import { EstimatedBudgetData } from '../constants';
+import Categories from '../components/Categories';
+import DaySelection from '../components/DaySelection';
+import EveryDayContent from '../components/EveryDayContent';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const PlanGeneration = () => {
+
+
+
+
     return (
       <View style={{backgroundColor:'lightgrey'}}>
 <ScrollView>
@@ -67,9 +76,51 @@ const PlanGeneration = () => {
 
 <View style={styles.ScheduleBox}> 
 <Text style={{fontSize: 30, fontWeight: 'bold',}}>Schedule</Text>
+<DaySelection/>
+{destinationData.map((item, index) => {
+      return (
+        <EveryDayContent
+          key={index}
+          index={index}
+          title={item.title}
+          description={item.description}
+          rating={item.rating}
+        />)
+})
+}
+
+</View>
+<View style={styles.ScheduleBox}> 
+<Text style={{fontSize: 30, fontWeight: 'bold',}}>Estimate Budget</Text>
+<View style={{borderBottomWidth:3, borderBottomColor: 'lightgrey'}}>
+<SectionList
+  sections={EstimatedBudgetData}
+  renderItem={({item}) => (
+    <View style= {{borderBottomColor:'lightgrey', borderBottomWidth:1,margin:5}}>
+      <Text style={{fontSize: 15, }}>{item.category}</Text>
+      <Text style={{fontSize: 13}}>{item.budget}</Text>
+
+    </View>
+  )}
+  renderSectionHeader={({section}) => (
+    <View style={{flexDirection: 'row', gap: 5,paddingTop:12}}>
+      <MaterialIcons name={section.icon} size={20} color={section.color} />
+    <Text style={{fontSize: 20, fontWeight: 'bold'}}>{section.type}</Text>
+    </View>
+  )}
+/>
+
+</View>
 
 </View>
 </ScrollView>
+<View style={{flex:1, position: 'absolute', flex:1, justifyContent: 'flex-end', bottom: 0, width: '100%', backgroundColor: 'white', paddingHorizontal: 10, paddingBottom: 10}}>
+  <TouchableOpacity 
+
+  style={{backgroundColor:'#EE7214', padding:10, borderRadius:10, marginTop:10}}>
+    <Text style={{fontSize: 20, fontWeight: 'bold', textAlign:'center'}}>Save Plan</Text>
+  </TouchableOpacity>
+  </View>
 
 </View>
     );
@@ -103,12 +154,11 @@ const styles = StyleSheet.create({
       backgroundColor:'white', 
       marginTop:20, 
       padding:10, 
-      height: 230,
       elevation: 3, // Add elevation for box shadow (Android)
     shadowColor: '#000', // Add shadow styles for iOS
     shadowOpacity: 0.2,
     shadowRadius:15,
-    
+    paddingBottom: 20,
     },
 
 });

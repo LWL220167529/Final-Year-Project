@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Text, TouchableWithoutFeedback, StyleSheet, Image } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-export default function FeaturedRow({ title, rating, description }) {
+export default function EveryDayContent({ title, rating, description, index }) {
   return (
-      <View style={styles.container}>
+      <View>
+
         <View style={styles.boxContainer}>
-          <Image
-            style={styles.image}
-            source={require('../image/hotel.png')}
-          />
+        <View style={{borderRadius:30, width:20, aspectRatio:1, backgroundColor:'black', position:'absolute', top:-6}}>
+                <Text style={{color:'white', alignSelf:'center'}}>{index+1}</Text>
+            </View>
           <View style={styles.textContainer}>
             <Text style={styles.titleText} numberOfLines={1} ellipsizeMode="tail">{title}</Text>
             <View style={{flexDirection:'row'}}>
@@ -20,8 +20,13 @@ export default function FeaturedRow({ title, rating, description }) {
             <View style={{flexDirection:'row'}}>
             <FontAwesome5 name="map-marker-alt" size={15} color="#lightgrey" />
     <Text style={{maxWidth: 150,}}  numberOfLines={1} ellipsizeMode="tail"> Tokyo, Tokyo Streey, Tokoe</Text>
+
             </View>
           </View>
+          <Image
+            style={styles.image}
+            source={require('../image/hotel.png')}
+          />
         </View>
       </View>
   );
@@ -30,9 +35,12 @@ export default function FeaturedRow({ title, rating, description }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 10    
+    paddingBottom: 15   
   },
   boxContainer: {
+    marginTop: 15,
+
+    padding:10,
     backgroundColor: 'white',
     marginHorizontal: 10,
     borderRadius: 15,    
@@ -44,21 +52,24 @@ const styles = StyleSheet.create({
       height: -5,
     },
     shadowRadius:10,
-  },
+    flex:1,
+    justifyContent:'space-between',
+    flexDirection:'row',
+alignItems:'center',  },
   image: {
-    width: 200,
-    height: 100,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    width: 120,
+    height: 80,
+    borderRadius: 15,
   },
   textContainer: {
-    gap: 1,
+    alignSelf:'flex-start',
     paddingHorizontal:10,
     marginTop: 5,
     maxWidth: 150, // Adjusted maxWidth to match the width of the image
   },
   titleText: {
-    fontSize: 20,
+
+    fontSize: 15,
     fontWeight: 'bold',
   },
   descriptionText: {
