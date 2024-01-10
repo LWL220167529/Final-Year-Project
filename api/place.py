@@ -147,13 +147,6 @@ class Countries(Base):
 def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
     citiesPlace = session.query(CitiesPlace).filter(CitiesPlace.state_id == state_id).all()
 
-    while True:
-        try:
-            num_cities = int(input('how many cities you want to go: '))
-            break
-        except ValueError:
-            print("Invalid input. Please enter a valid number.")
-
     if not citiesPlace:
         print("No data found. Stopping...")
         return
@@ -170,20 +163,41 @@ def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
             try:
                 distance = calculate_distance(random_cities[index-1].latitude, random_cities[index-1].longitude, city.latitude, city.longitude)
                 if 10 < distance < 100:
+                    print(city.name)
+                    city_data = {
+                        'id': city.id,
+                        'name': city.name,
+                        'state_id': city.state_id,
+                        'state_code': city.state_code,
+                        'country_id': city.country_id,
+                        'country_code': city.country_code,
+                        'cities_id': city.cities_id,
+                        'type': city.type,
+                        'sub_type': city.sub_type,
+                        'rating': city.rating,
+                        'price_level': city.price_level,
+                        'reviews': city.reviews,
+                        'description': city.description,
+                        'address': city.address,
+                        'pictures': city.pictures,
+                        'websiteUri': city.websiteUri,
+                        'phone': city.phone,
+                        'latitude': city.latitude,
+                        'longitude': city.longitude,
+                        'created_at': city.created_at,
+                        'updated_at': city.updated_at
+                    }
+                    response.append(city_data)
                     break
                 else:
                     if len(citiesPlace) > 0:
                         random_cities[index-1] = random.choice(citiesPlace)
                         citiesPlace.remove(random_cities[index-1])
-                        return
+                    else:
+                        break
             except IndexError:
                 print("Invalid index. Skipping...")
                 break
-    response = []
-    for city_place in random_cities:
-        city_place_data = city_place.__dict__.copy()
-        city_place_data.pop('_sa_instance_state', None)
-        response.append(city_place_data)
     return response
                 
 

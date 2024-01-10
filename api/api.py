@@ -110,7 +110,6 @@ def getPlaceByID():
 
 @app.route('/AIPlan', methods=["GET", "POST"])
 def AIPlan():
-    try:
         if request.method == "GET":#get request from url
             state_id = request.args.get('stateId')
             day = request.args.get('day')
@@ -126,12 +125,8 @@ def AIPlan():
             num_of_people = data.get('numOfPeople')
             start_date = data.get('startDate')
             activities = data.get('activities')
-        
         response = place.getRandomPlan(state_id, day, budget, num_of_people, start_date, activities)
-        return jsonify(response)
-    except Exception as e:
-        print(e)
-        return jsonify({'message': str(e)}), 500
+        return jsonify(response), 200
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
