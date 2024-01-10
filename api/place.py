@@ -179,9 +179,11 @@ def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
             except IndexError:
                 print("Invalid index. Skipping...")
                 break
-    response = [city_place.__dict__ for city_place in random_cities]
-    for city_place_data in response:
-        del city_place_data['_sa_instance_state']
+    response = []
+    for city_place in random_cities:
+        city_place_data = city_place.__dict__.copy()
+        city_place_data.pop('_sa_instance_state', None)
+        response.append(city_place_data)
     return response
                 
 
