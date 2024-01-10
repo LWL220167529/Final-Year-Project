@@ -144,8 +144,8 @@ class Countries(Base):
 
 
 
-def getRandomPlan(request):
-    citiesPlace = session.query(CitiesPlace).filter(CitiesPlace.state_id == request.state_id).all()
+def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
+    citiesPlace = session.query(CitiesPlace).filter(CitiesPlace.state_id == state_id).all()
 
     while True:
         try:
@@ -158,7 +158,7 @@ def getRandomPlan(request):
         print("No data found. Stopping...")
         return
 
-    random_cities = random.sample(citiesPlace, (request.day*3))
+    random_cities = random.sample(citiesPlace, (int(day)*3))
 
     for i in random_cities:
         citiesPlace.remove(i)

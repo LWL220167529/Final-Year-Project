@@ -114,24 +114,24 @@ def AIPlan():
         if request.method == "GET":#get request from url
             state_id = request.args.get('stateId')
             day = request.args.get('day')
-            butget = request.args.get('butget')
+            budget = request.args.get('budget')
             num_of_people = request.args.get('numOfPeople')
             start_date = request.args.get('startDate')
             activities = request.args.get('activities')
-            request = {'state_id':state_id, 'day':day, 'butget':butget, 'num_of_people':num_of_people, 'start_date':start_date, 'activities':activities}
         else:#post request from body
             data = request.get_json()
             state_id = data.get('stateId')
             day = data.get('day')
-            butget = data.get('butget')
+            budget = data.get('budget')
             num_of_people = data.get('numOfPeople')
             start_date = data.get('startDate')
             activities = data.get('activities')
-            request = {'state_id':state_id, 'day':day, 'butget':butget, 'num_of_people':num_of_people, 'start_date':start_date, 'activities':activities}
-        place.getRandomPlan(request)
+        
+        response = place.getRandomPlan(state_id, day, budget, num_of_people, start_date, activities)
+        return jsonify(response)
     except Exception as e:
         print(e)
-        return jsonify({'message': e}), 500
+        return jsonify({'message': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
