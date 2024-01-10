@@ -4,6 +4,7 @@ from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+import math, random
 
 # Remote database configuration
 db_port = 3306  # Change the port to an integer
@@ -35,65 +36,17 @@ class CitiesPlace(Base):
     sub_type = Column(JSON)
     rating = Column(DOUBLE)
     price_level = Column(String(45))
+    reviews = Column(Integer)
+    description = Column(Text)
     address = Column(String(255))
     pictures = Column(String(255))
     websiteUri = Column(String(255))
+    phone = Column(String(25))
     latitude = Column(DECIMAL(10, 8), nullable=False)
     longitude = Column(DECIMAL(11, 8), nullable=False)
     created_at = Column(TIMESTAMP, nullable=False, default=datetime.utcnow)
     updated_at = Column(TIMESTAMP, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-        
-    def set_name(self, name):
-        self.name = name
-
-    def set_state_id(self, state_id):
-        self.state_id = state_id
-    
-    def get_state_id(self):
-        return self.state_id
-
-    def set_state_code(self, state_code):
-        self.state_code = state_code
-
-    def set_country_id(self, country_id):
-        self.country_id = country_id
-
-    def get_country_id(self):
-        return self.country_id
-
-    def set_country_code(self, country_code):
-        self.country_code = country_code
-
-    def set_cities_id(self, cities_id):
-        self.cities_id = cities_id
-    
-    def set_type(self, type):
-        self.type = type
-
-    def set_sub_type(self, sub_type):
-        self.sub_type = sub_type
-
-    def set_rating(self, rating):
-        self.rating = rating
-
-    def set_price_level(self, price_level):
-        self.price_level = price_level
-
-    def set_address(self, address):
-        self.address = address
-
-    def set_pictures(self, pictures):
-        self.pictures = pictures
-
-    def set_websiteUri(self, websiteUri):
-        self.websiteUri = websiteUri
-
-    def set_latitude(self, latitude):
-        self.latitude = latitude
-
-    def set_longitude(self, longitude):
-        self.longitude = longitude
 
     def get_all_cities_place():
         try:
@@ -190,5 +143,63 @@ class Countries(Base):
     wikiDataId = Column(String(255), comment='Rapid API GeoDB Cities')
 
 
+
+def getRandomPlan(request):
+    citiesPlace = session.query(CitiesPlace).filter(CitiesPlace.state_id == request.state_id).all()
+
+    while True:
+        try:
+            num_cities = int(input('how many cities you want to go: '))
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+    if not citiesPlace:
+        print("No data found. Stopping...")
+        return
+
+    random_cities = random.sample(citiesPlace, (request.day*3))
+
+    for i in random_cities:
+        citiesPlace.remove(i)
+
+    response = []
+
+    for index, city in enumerate(random_cities, start=1):
+        while True:
+            try:
+                distance = calculate_distance(random_cities[index-1].latitude, random_cities[index-1].longitude, city.latitude, city.longitude)
+                if 10 < distance < 100:
+                    break
+                else:
+                    if len(citiesPlace) > 0:
+                        random_cities[index-1] = random.choice(citiesPlace)
+                        citiesPlace.remove(random_cities[index-1])
+                        return
+            except IndexError:
+                print("Invalid index. Skipping...")
+                break
+    response = [city_place.__dict__ for city_place in random_cities]
+    for city_place_data in response:
+        del city_place_data['_sa_instance_state']
+    return response
+                
+
+def calculate_distance(lat1, lon1, lat2, lon2):
+    R = 6371  # Radius of the Earth in kilometers
+
+    lat1_rad = math.radians(lat1)
+    lon1_rad = math.radians(lon1)
+    lat2_rad = math.radians(lat2)
+    lon2_rad = math.radians(lon2)
+
+    delta_lat = lat2_rad - lat1_rad
+    delta_lon = lon2_rad - lon1_rad
+
+    a = math.sin(delta_lat/2) ** 2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(delta_lon/2) ** 2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    distance = R * c
+    return distance
 
 session.close()
