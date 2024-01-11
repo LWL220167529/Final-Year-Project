@@ -82,8 +82,28 @@ def resetPassword():
         print(e)
         return jsonify({'message': 'Internal server error'}), 500
 
-# Get attractions
+# Get user by userID
+@app.route('/getUserByID', methods=["GET", "POST"])
+def getUserByID():
+    try:
+        if request.method == "GET":#get request from url
+            userID = request.args.get('userID')
+        else:#post request from body
+            data = request.get_json()
+            userID = data.get('userID')
+        return user.User.get_user(userID)
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Internal server error'}), 500
 
+# Get all users
+@app.route('/getAllUser', methods=["GET"])
+def getAllUser():
+    try:
+        return user.User.get_all_users()
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Internal server error'}), 500
 
 # Flask routes
 @app.route('/getAllPlace')
