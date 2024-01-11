@@ -1,5 +1,5 @@
 from flask import jsonify
-from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_
+from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_, desc
 from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -145,7 +145,7 @@ class Countries(Base):
 
 
 def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
-    citiesPlace = session.query(CitiesPlace).filter(CitiesPlace.state_id == state_id).all()
+    citiesPlace = session.query(CitiesPlace).filter(CitiesPlace.state_id == state_id).order_by(desc(CitiesPlace.reviews)).all()
 
     if not citiesPlace:
         print("No data found. Stopping...")
