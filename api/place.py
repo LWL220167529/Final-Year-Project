@@ -163,7 +163,6 @@ def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
             try:
                 distance = calculate_distance(random_cities[index-1].latitude, random_cities[index-1].longitude, city.latitude, city.longitude)
                 if 10 < distance < 100:
-                    print(city.name)
                     city_data = {
                         'id': city.id,
                         'name': city.name,
