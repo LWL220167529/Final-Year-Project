@@ -1,5 +1,5 @@
 from flask import jsonify
-from sqlalchemy import create_engine, Column, String, DateTime, or_, MEDIUMINT
+from sqlalchemy import create_engine, Column, String, DateTime, or_, Mebiumint
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -25,7 +25,7 @@ session = Session()
 #user class
 class User(Base):
     __tablename__ = 'user'
-    id = Column(MEDIUMINT, primary_key=True, autoincrement=True)
+    id = Column(Mebiumint, primary_key=True, autoincrement=True)
     userName = Column(String(255), nullable=False)
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(252), nullable=False)
