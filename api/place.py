@@ -263,7 +263,7 @@ def get_all_cities_places():
     return city_list
 
 
-def get_by_input(city_input):
+def estimate_place(city_input):
     matches = get_city_matches(city_input, get_all_cities_places())
     print(matches)
 

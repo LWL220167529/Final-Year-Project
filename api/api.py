@@ -163,5 +163,15 @@ def AIPlan():
     return jsonify(response), 200
 
 
+@app.route('/estimatePlace', methods=["GET", "POST"])
+def AIPlan():
+    if request.method == "GET":  # get request from url
+        city = request.args.get('city')
+    else:  # post request from body
+        data = request.get_json()
+        city = data.get('city')
+    response = place.estimate_place(city)
+    return jsonify(response), 200
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
