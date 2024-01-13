@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
-from flask_bcrypt import generate_password_hash, check_password_hash
 import user
 import place  # connect database
 
@@ -25,7 +24,7 @@ def login():
             data = request.get_json()
             userName = data.get('userName')
             password = data.get('password')
-        return user.User.check_login(userName, password)
+        return user.check_login(userName, password)
     except Exception as e:
         print(e)
         abort(500)
@@ -47,7 +46,7 @@ def register():
         email = data.get('email')
         phone = data.get('phone')
     # check if user exists
-    return user.User.register(userName, password, email, phone)
+    return user.register(userName, password, email, phone)
 
 # update user
 
@@ -66,7 +65,7 @@ def updateUser():
             userName = data.get('userName')
             email = data.get('email')
             phoneNumber = data.get('phoneNumber')
-        return user.User.update_user(userID, userName, email, phoneNumber)
+        return user.update_user(userID, userName, email, phoneNumber)
     except Exception as e:
         print(e)
         abort(500)
@@ -84,7 +83,7 @@ def resetPassword():
             data = request.get_json()
             userID = data.get('userID')
             password = data.get('password')
-        return user.User.forgot_password(userID, password)
+        return user.forgot_password(userID, password)
     except Exception as e:
         print(e)
         return jsonify({'message': 'Internal server error'}), 500
@@ -100,7 +99,7 @@ def getUserByID():
         else:  # post request from body
             data = request.get_json()
             userID = data.get('userID')
-        return user.User.get_user(userID)
+        return user.get_user(userID)
     except Exception as e:
         print(e)
         return jsonify({'message': 'Internal server error'}), 500
@@ -111,7 +110,7 @@ def getUserByID():
 @app.route('/getAllUser', methods=["GET"])
 def getAllUser():
     try:
-        return user.User.get_all_users()
+        return user.get_all_users()
     except Exception as e:
         print(e)
         return jsonify({'message': 'Internal server error'}), 500
