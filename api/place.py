@@ -249,23 +249,16 @@ def get_city_matches(city_input, city_list, limit=5):
             {"message": result[0], "city": resultSplit[0], "state": resultSplit[1], "key": cityID.id})
     return matches
 
+rows = session.query(Cities.id, Cities.name, States.name, States.id).\
+    join(States, Cities.state_id == States.id).\
+    filter(Cities.country_code == 'JP').\
+    order_by(States.id.asc()).all()
 
-def get_all_cities_places():
-    # Execute the SQL query
-    rows = session.query(Cities.id, Cities.name, States.name, States.id).\
-        join(States, Cities.state_id == States.id).\
-        filter(Cities.country_code == 'JP').\
-        order_by(States.id.asc()).all()
-
-    # Store the city names in a list
-    city_list = [f'{row[1]}, {row[2]}' for row in rows]
-
-    return city_list
-
+# Store the city names in a list
+city_list = [f'{row[1]}, {row[2]}' for row in rows]
 
 def estimate_place(city_input):
-    matches = get_city_matches(city_input, get_all_cities_places())
-    print(matches)
-
+    matches = get_city_matches(city_input, city_list)
+    return matches
 
 session.close()
