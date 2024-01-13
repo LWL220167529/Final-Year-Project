@@ -13,7 +13,7 @@ export default class App extends Component {
     handleLoginPress = async () => {
         const { userName, password, email, phone } = this.state;
         const data = { userName, password, email, phone };
-
+        
         try {
             const response = await fetch('http://159.223.94.246:5000/register', {
                 method: 'POST',

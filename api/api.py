@@ -66,6 +66,7 @@ def updateUser():
             userName = data.get('userName')
             email = data.get('email')
             phoneNumber = data.get('phoneNumber')
+        print(userID, userName, email, phoneNumber)
         return user.User.update_user(userID, userName, email, phoneNumber)
     except Exception as e:
         print(e)
