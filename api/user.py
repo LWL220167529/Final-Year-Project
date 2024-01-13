@@ -49,10 +49,10 @@ class User(Base):
             return jsonify({'message': str(e), 'login': False})
         
     def register(userName, password, email, phone):
-        if session.query(User).filter(or_(User.id == id, User.userName == id)).first() is None:
+        if session.query(User).filter(or_(User.userName == userName)).first() is None:
             #create new user
             try:
-                new_user = User(userName=userName, email=email, password=password, phoneNumber=phone)
+                new_user = User(userName=userName, email=email, password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()), phoneNumber=phone)
                 session.add(new_user)
                 session.commit()
                 if new_user is not None:
