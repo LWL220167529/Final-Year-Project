@@ -164,7 +164,5 @@ def AIPlan():
     return jsonify(response), 200
 
 
-@app.route('/grees', methods=["GET", "POST"])
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

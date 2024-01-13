@@ -4,7 +4,6 @@ import { Text, View, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 
 export default class App extends Component {
     state = {
-        userID: "",
         userName: "",
         password: "",
         email: "",
@@ -12,8 +11,8 @@ export default class App extends Component {
     };
 
     handleLoginPress = async () => {
-        const { userID, userName, password, email, phone } = this.state;
-        const data = { userID, userName, password, email, phone };
+        const { userName, password, email, phone } = this.state;
+        const data = { userName, password, email, phone };
 
         try {
             const response = await fetch('http://159.223.94.246:5000/register', {
@@ -37,11 +36,6 @@ export default class App extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Login</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Username"
-                    onChangeText={(text) => this.setState({ userID: text })}
-                />
                 <TextInput
                     style={styles.input}
                     onChangeText={(text) => this.setState({ userName: text })}
