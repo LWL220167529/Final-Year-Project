@@ -1,10 +1,12 @@
 from flask import jsonify
-from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_, desc
+from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_, desc, and_
 from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-import math, random
+from rapidfuzz import process, fuzz
+import math
+import random
 
 # Remote database configuration
 db_port = 3306  # Change the port to an integer
@@ -23,14 +25,17 @@ Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
 
+
 class CitiesPlace(Base):
     __tablename__ = 'cities_place'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255))
     state_id = Column(Integer, ForeignKey('states.id'), nullable=False)
-    state_code = Column(String(255, collation='utf8mb4_unicode_ci'), nullable=False)
+    state_code = Column(
+        String(255, collation='utf8mb4_unicode_ci'), nullable=False)
     country_id = Column(Integer, ForeignKey('countries.id'), nullable=False)
-    country_code = Column(String(2, collation='utf8mb4_unicode_ci'), nullable=False)
+    country_code = Column(
+        String(2, collation='utf8mb4_unicode_ci'), nullable=False)
     cities_id = Column(Integer, ForeignKey('cities.id'), nullable=False)
     type = Column(JSON)
     sub_type = Column(JSON)
@@ -45,13 +50,14 @@ class CitiesPlace(Base):
     latitude = Column(DECIMAL(10, 8), nullable=False)
     longitude = Column(DECIMAL(11, 8), nullable=False)
     created_at = Column(TIMESTAMP, nullable=False, default=datetime.utcnow)
-    updated_at = Column(TIMESTAMP, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
-
+    updated_at = Column(TIMESTAMP, nullable=False,
+                        default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def get_all_cities_place():
         try:
             cities_places = session.query(CitiesPlace).all()
-            cities_places_data = [city_place.__dict__ for city_place in cities_places]
+            cities_places_data = [
+                city_place.__dict__ for city_place in cities_places]
             for city_place_data in cities_places_data:
                 del city_place_data['_sa_instance_state']
             return cities_places_data, 200
@@ -73,13 +79,15 @@ class CitiesPlace(Base):
                 )
             ).all()
 
-            cities_places_data = [city_place.__dict__ for city_place in cities_places]
+            cities_places_data = [
+                city_place.__dict__ for city_place in cities_places]
             for city_place_data in cities_places_data:
                 del city_place_data['_sa_instance_state']
 
             return cities_places_data, 200
         except Exception as e:
             return jsonify({'message': str(e)}), 500
+
 
 class Cities(Base):
     __tablename__ = 'cities'
@@ -91,10 +99,14 @@ class Cities(Base):
     country_code = Column(String(2), nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
-    created_at = Column(DateTime, nullable=False, default=datetime(2014, 1, 1, 6, 31, 1))
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False,
+                        default=datetime(2014, 1, 1, 6, 31, 1))
+    updated_at = Column(DateTime, nullable=False,
+                        default=datetime.utcnow, onupdate=datetime.utcnow)
     flag = Column(Integer, nullable=False, default=1)
-    wikiDataId = Column(String(255), nullable=True, comment='Rapid API GeoDB Cities')
+    wikiDataId = Column(String(255), nullable=True,
+                        comment='Rapid API GeoDB Cities')
+
 
 class States(Base):
     __tablename__ = 'states'
@@ -108,9 +120,11 @@ class States(Base):
     latitude = Column(DECIMAL(10, 8))
     longitude = Column(DECIMAL(11, 8))
     created_at = Column(TIMESTAMP)
-    updated_at = Column(TIMESTAMP, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = Column(TIMESTAMP, nullable=False,
+                        default=datetime.utcnow, onupdate=datetime.utcnow)
     flag = Column(Boolean, nullable=False, default=True)
     wikiDataId = Column(String(255), comment='Rapid API GeoDB Cities')
+
 
 class Countries(Base):
     __tablename__ = 'countries'
@@ -138,14 +152,15 @@ class Countries(Base):
     emoji = Column(String(191))
     emojiU = Column(String(191))
     created_at = Column(TIMESTAMP)
-    updated_at = Column(TIMESTAMP, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = Column(TIMESTAMP, nullable=False,
+                        default=datetime.utcnow, onupdate=datetime.utcnow)
     flag = Column(Boolean, nullable=False, default=True)
     wikiDataId = Column(String(255), comment='Rapid API GeoDB Cities')
 
 
-
 def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
-    citiesPlace = session.query(CitiesPlace).filter(CitiesPlace.state_id == state_id).order_by(desc(CitiesPlace.reviews)).all()
+    citiesPlace = session.query(CitiesPlace).filter(
+        CitiesPlace.state_id == state_id).order_by(desc(CitiesPlace.reviews)).all()
 
     if not citiesPlace:
         print("No data found. Stopping...")
@@ -161,7 +176,8 @@ def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
     for index, city in enumerate(random_cities, start=1):
         while True:
             try:
-                distance = calculate_distance(random_cities[index-1].latitude, random_cities[index-1].longitude, city.latitude, city.longitude)
+                distance = calculate_distance(
+                    random_cities[index-1].latitude, random_cities[index-1].longitude, city.latitude, city.longitude)
                 if 10 < distance < 100:
                     city_data = {
                         'id': city.id,
@@ -198,7 +214,7 @@ def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
                 print("Invalid index. Skipping...")
                 break
     return response
-                
+
 
 def calculate_distance(lat1, lon1, lat2, lon2):
     R = 6371  # Radius of the Earth in kilometers
@@ -211,10 +227,45 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     delta_lat = lat2_rad - lat1_rad
     delta_lon = lon2_rad - lon1_rad
 
-    a = math.sin(delta_lat/2) ** 2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(delta_lon/2) ** 2
+    a = math.sin(delta_lat/2) ** 2 + math.cos(lat1_rad) * \
+        math.cos(lat2_rad) * math.sin(delta_lon/2) ** 2
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
     distance = R * c
     return distance
+
+
+def get_city_matches(city_input, city_list, limit=5):
+    results = process.extract(city_input, city_list,
+                              scorer=fuzz.WRatio, limit=limit)
+    matches = []
+    for result in results:
+        resultSplit = result[0].split(', ')
+        cityID = session.query(Cities.id).\
+            join(States, Cities.state_id == States.id).\
+            filter(
+                and_(Cities.name == resultSplit[0], States.name == resultSplit[1])).first()
+        matches.append(
+            {"message": result[0], "city": resultSplit[0], "state": resultSplit[1], "key": cityID.id})
+    return matches
+
+
+def get_all_cities_places():
+    # Execute the SQL query
+    rows = session.query(Cities.id, Cities.name, States.name, States.id).\
+        join(States, Cities.state_id == States.id).\
+        filter(Cities.country_code == 'JP').\
+        order_by(States.id.asc()).all()
+
+    # Store the city names in a list
+    city_list = [f'{row[1]}, {row[2]}' for row in rows]
+
+    return city_list
+
+
+def get_by_input(city_input):
+    matches = get_city_matches(city_input, get_all_cities_places())
+    print(matches)
+
 
 session.close()

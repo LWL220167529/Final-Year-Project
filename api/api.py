@@ -36,20 +36,18 @@ def login():
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "GET":  # get request from url
-        userID = request.args.get('userID')
         userName = request.args.get('userName')
         password = request.args.get('password')
         email = request.args.get('email')
         phone = request.args.get('phone')
     else:  # post request from body
         data = request.get_json()
-        userID = data.get('userID')
         userName = data.get('userName')
         password = data.get('password')
         email = data.get('email')
         phone = data.get('phone')
     # check if user exists
-    return user.User.register(userID, userName, password, email, phone)
+    return user.User.register(userName, password, email, phone)
 
 # update user
 
@@ -165,6 +163,8 @@ def AIPlan():
         state_id, day, budget, num_of_people, start_date, activities)
     return jsonify(response), 200
 
+
+@app.route('/grees', methods=["GET", "POST"])
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

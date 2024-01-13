@@ -48,11 +48,11 @@ class User(Base):
             print(e)
             return jsonify({'message': str(e), 'login': False})
         
-    def register(id, userName, password, email, phone):
+    def register(userName, password, email, phone):
         if session.query(User).filter(or_(User.id == id, User.userName == id)).first() is None:
             #create new user
             try:
-                new_user = User(id=id, userName=userName, email=email, password=password, phoneNumber=phone)
+                new_user = User(userName=userName, email=email, password=password, phoneNumber=phone)
                 session.add(new_user)
                 session.commit()
                 if new_user is not None:
@@ -125,6 +125,21 @@ class User(Base):
                     'createTime': user.createTime
                 }
                 return jsonify({'user': user_data}), 200
+            else:
+                return jsonify({'message': 'User not found'}), 404
+        except Exception as e:
+            print(e)
+            return jsonify({'message': str(e)}), 500
+        
+    def delete_user(id):
+        try:
+            # Find user by id or email
+            user = session.query(User).filter(or_(User.email == id, User.id == id, User.userName == id)).first()
+
+            if user:
+                session.delete(user)
+                session.commit()
+                return jsonify({'message': 'User deleted successfully'}), 200
             else:
                 return jsonify({'message': 'User not found'}), 404
         except Exception as e:
