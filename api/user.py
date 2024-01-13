@@ -1,5 +1,5 @@
 from flask import jsonify
-from sqlalchemy import create_engine, Column, String, DateTime, or_
+from sqlalchemy import create_engine, Column, String, DateTime, or_, MEDIUMINT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -25,27 +25,20 @@ session = Session()
 #user class
 class User(Base):
     __tablename__ = 'user'
-    userID = Column(String(255), primary_key=True)
+    id = Column(MEDIUMINT, primary_key=True, autoincrement=True)
     userName = Column(String(255), nullable=False)
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(252), nullable=False)
     phoneNumber = Column(String(20), nullable=False)
     createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
 
-    def __init__(self, userID, userName, email, password, phoneNumber):
-        self.userID = userID
-        self.userName = userName
-        self.email = email
-        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        self.phoneNumber = phoneNumber
-
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
     
-    def check_login(userID, password):
+    def check_login(id, password):
         try:
-            # Find user by userID or email
-            user = session.query(User).filter(or_(User.email == userID, User.userID == userID)).first()
+            # Find user by id or email
+            user = session.query(User).filter(or_(User.email == id, User.id == id, User.userName == id)).first()
 
             if user and user.check_password(password):
                 return jsonify({'message': 'Login successfully', 'login': True})
@@ -55,11 +48,11 @@ class User(Base):
             print(e)
             return jsonify({'message': str(e), 'login': False})
         
-    def register(userID, userName, password, email, phone):
-        if session.query(User).filter(User.userID == userID).first() is None:
+    def register(id, userName, password, email, phone):
+        if session.query(User).filter(or_(User.id == id, User.userName == id)).first() is None:
             #create new user
             try:
-                new_user = User(userID=userID, userName=userName, email=email, password=password, phoneNumber=phone)
+                new_user = User(id=id, userName=userName, email=email, password=password, phoneNumber=phone)
                 session.add(new_user)
                 session.commit()
                 if new_user is not None:
@@ -69,10 +62,10 @@ class User(Base):
         else:
             return jsonify({'message': 'User already exists.'}), 409
         
-    def update_user(userID, userName, email, phoneNumber):
+    def update_user(id, userName, email, phoneNumber):
         try:
-            #find user by userID
-            user = session.query(User).filter(User.userID == userID).first()
+            #find user by id
+            user = session.query(User).filter(User.id == id).first()
             if not user:
                 return jsonify({'message': 'User not found'}), 404
             user.userName = userName
@@ -84,10 +77,10 @@ class User(Base):
             print(e)
             return jsonify({'message': e, 'updateUser': False})
 
-    def forgot_password(userID, password):
+    def forgot_password(id, password):
         try:
-            # Find user by userID or email
-            user = session.query(User).filter(or_(User.email == userID, User.userID == userID)).first()
+            # Find user by id or email
+            user = session.query(User).filter(or_(User.email == id, User.id == id, User.userName == id)).first()
             
             if user:
                 # Update password
@@ -106,7 +99,7 @@ class User(Base):
             user_list = []
             for user in users:
                 user_data = {
-                    'userID': user.userID,
+                    'id': user.id,
                     'userName': user.userName,
                     'email': user.email,
                     'phoneNumber': user.phoneNumber,
@@ -118,14 +111,14 @@ class User(Base):
             print(e)
             return jsonify({'message': 'Error occurred while retrieving users.', 'error': str(e)}), 500
         
-    def get_user(userID):
+    def get_user(id):
         try:
-            # Find user by userID or email
-            user = session.query(User).filter(or_(User.email == userID, User.userID == userID)).first()
+            # Find user by id or email
+            user = session.query(User).filter(or_(User.email == id, User.id == id, User.userName == id)).first()
 
             if user:
                 user_data = {
-                    'userID': user.userID,
+                    'id': user.id,
                     'userName': user.userName,
                     'email': user.email,
                     'phoneNumber': user.phoneNumber,

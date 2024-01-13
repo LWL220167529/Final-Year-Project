@@ -7,23 +7,23 @@ export default class App extends Component {
     password: ''
   };
 
-  action = async () => {
-    return 2;
-  };
-
   handleLoginPress = async () => {
     const { userName, password } = this.state;
     const data = { userName, password };
 
     try {
-      const url = `http://10.0.2.2:5000/login?userName=${userName}&password=${password}`;
-      const response = await fetch(url, {
-        method: 'GET',
-      });
+      const response = await fetch('http://159.223.94.246:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),//upload data to api
+      });//address host 因人而異-->(:5000)
+//我估唔洗全部解釋 如果要chat room ask me
 
-      const json = await response.json();
-      console.log(json);
-      Alert.alert(json.message);
+      const json = await response.json();//get json from api
+      console.log(json);//output json to console
+      Alert.alert(json.message);//output message at alert
     } catch (error) {
       console.error(error);
     }
