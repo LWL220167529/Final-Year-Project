@@ -258,6 +258,8 @@ rows = session.query(Cities.id, Cities.name, States.name, States.id).\
 city_list = [f'{row[1]}, {row[2]}' for row in rows]
 
 def estimate_place(city_input):
+    if city_input == '':
+        return []
     matches = get_city_matches(city_input, city_list)
     return matches
 

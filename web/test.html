@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var input = document.getElementById("city");
+            if (input) {
+                input.oninput = function () {
+                    childRows = document.getElementById("app")
+                    childRows.innerHTML = "";
+                    var value = input.value;
+                    if (value == "") {
+                        return
+                    }
+                    fetch("http://159.223.94.246:5000/estimatePlace?city=" + value)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            for (var i = 0; i < data.length; i++) {
+                                var obj = data[i];
+                                var div = document.createElement("div");
+                                div.innerHTML = obj.message;
+                                document.getElementById("app").appendChild(div);
+                            }
+                        });
+                };
+            }
+        });
+    </script>
+  </head>
+  <body>
+    <input type="text" id="city" name="city" placeholder="City" />
+    <section id="app"></section>
+  </body>
+</html>
