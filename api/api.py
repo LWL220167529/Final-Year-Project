@@ -164,7 +164,7 @@ def AIPlan():
 
 
 @app.route('/estimatePlace', methods=["GET", "POST"])
-def AIPlan():
+def estimatePlace():
     if request.method == "GET":  # get request from url
         city = request.args.get('city')
     else:  # post request from body
