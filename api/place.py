@@ -159,8 +159,8 @@ class Countries(Base):
 
 
 def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
-    citiesPlace = session.query(CitiesPlace).filter(
-        CitiesPlace.state_id == state_id).order_by(desc(CitiesPlace.reviews)).all()
+    citiesPlace = session.query(CitiesPlace).filter(or_(
+        CitiesPlace.state_id == state_id, CitiesPlace.cities_id == state_id)).order_by(desc(CitiesPlace.reviews)).all()
 
     if not citiesPlace:
         print("No data found. Stopping...")
@@ -258,9 +258,14 @@ rows = session.query(Cities.id, Cities.name, States.name, States.id).\
 city_list = [f'{row[1]}, {row[2]}' for row in rows]
 
 def estimate_place(city_input):
-    if city_input == '':
+    try:
+        if city_input == '':
+            return []
+        matches = get_city_matches(city_input, city_list)
+        return matches
+    except Exception as e:
+        # Handle the exception here
+        print(f"An error occurred: {e}")
         return []
-    matches = get_city_matches(city_input, city_list)
-    return matches
 
 session.close()

@@ -48,7 +48,7 @@ def check_login(id, password):
         if user and user.check_password(password):
             return jsonify({'message': 'Login successfully', 'login': True})
         else:
-            return jsonify({'message': 'Invalid username or password.', 'login': False})
+            return jsonify({'message': 'Invalid username or password.','userID': user.id, 'login': False})
     except Exception as e:
         print(e)
         return jsonify({'message': str(e), 'login': False})

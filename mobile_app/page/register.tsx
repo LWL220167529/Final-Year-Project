@@ -24,9 +24,18 @@ export default class App extends Component {
             });//address host 因人而異-->(:5000)
             //我估唔洗全部解釋 如果要chat room ask me
 
-            const json = await response.json();//get json from api
-            console.log(json);//output json to console
-            Alert.alert(json.message);//output message at alert
+            if (response.ok) {
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const json = await response.json();//get json from api
+                    console.log(json);//output json to console
+                    Alert.alert(json.message);//output message at alert
+                } else {
+                    console.error('Response is not valid JSON');
+                }
+            } else {
+                console.error('Network response was not ok');
+            }
         } catch (error) {
             console.error(error);
         }

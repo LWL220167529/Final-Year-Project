@@ -14,7 +14,7 @@
         </style>
         <script>
             // Fetch data from API endpoint
-            fetch('http://127.0.0.1:5000/getAttraction')
+            fetch('http://159.223.94.246:5000/getAllPlace')
                 .then(response => response.json())
                 .then(data => {
                     // Create HTML elements to display data
@@ -26,8 +26,8 @@
                         attractionDiv.setAttribute('class', 'attraction');
                         attractionDiv.innerHTML = `
                             <h2>${attraction.name}</h2>
-                            <img src="${attraction.image}" width="300" height="300">
-                            <p>Location: ${attraction.location}</p>
+                            <img src="${attraction.pictures}" width="300" height="300">
+                            <p>Location: ${attraction.address}</p>
                             <button value="${attraction.id}">View more</button>
                         `;
                         attractionsDiv.appendChild(attractionDiv);
