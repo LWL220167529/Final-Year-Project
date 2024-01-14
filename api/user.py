@@ -46,9 +46,9 @@ def check_login(id, password):
             or_(User.email == id, User.id == id, User.userName == id)).first()
 
         if user and user.check_password(password):
-            return jsonify({'message': 'Login successfully', 'login': True})
+            return jsonify({'message': 'Login successfully', 'userID': user.id, 'login': True})
         else:
-            return jsonify({'message': 'Invalid username or password.','userID': user.id, 'login': False})
+            return jsonify({'message': 'Invalid username or password.', 'login': False})
     except Exception as e:
         print(e)
         return jsonify({'message': str(e), 'login': False})

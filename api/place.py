@@ -169,7 +169,7 @@ def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
     random_cities = random.sample(citiesPlace, (int(day)*3))
 
     for i in random_cities:
-        citiesPlace.remove(i)
+        citiesPlace.remove(i)\
 
     response = []
 
