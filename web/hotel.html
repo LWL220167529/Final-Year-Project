@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+
+</head>
+
+<body>
+    <div class="container my-10">
+        <div class="row align-items-start">
+            <div class="col-4">
+                Filter Part
+            </div>
+            <div class="col-8" id="hotel_items">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            const url = "https://hotels4.p.rapidapi.com/properties/v2/list";
+            const options = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    'X-RapidAPI-Key': '',
+                    'X-RapidAPI-Host': 'hotels4.p.rapidapi.com'
+                },
+                body: JSON.stringify({
+                    currency: 'USD',
+                    locale: 'en_US',
+                    destination: {
+                        coordinates: {
+                            latitude: 35.48933,
+                            longitude: 138.68832
+                        }
+                    },
+                    checkInDate: {
+                        day: 27,
+                        month: 1,
+                        year: 2024
+                    },
+                    checkOutDate: {
+                        day: 28,
+                        month: 1,
+                        year: 2024
+                    },
+                    rooms: [{ adults: 2 }],
+                    resultsStartingIndex: 0,
+                    resultsSize: 100,
+                    sort: 'RECOMMENDED',
+                    filters: { price: {} }
+                })
+            };
+
+            fetch(url, options)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    items = result['data']['propertySearch']['properties'];
+                    createBootstrapCards(items);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+        function createBootstrapCards(responseData) {
+            let cardsHtml = ''; // Initialize the cards HTML string
+
+            // Loop over each property in the response data
+            responseData.forEach(property => {
+                const imageUrl = property.propertyImage && property.propertyImage.image ? property.propertyImage.image.url : 'default-image-path.jpg';
+                const imageDescription = property.propertyImage && property.propertyImage.image ? property.propertyImage.image.description : 'No description available';
+                const neighborhoodName = property.neighborhood ? property.neighborhood.name : 'Unknown neighborhood';
+                const distanceValue = property.destinationInfo && property.destinationInfo.distanceFromDestination ? property.destinationInfo.distanceFromDestination.value : 'Unknown';
+                const distanceUnit = property.destinationInfo && property.destinationInfo.distanceFromDestination ? property.destinationInfo.distanceFromDestination.unit : '';
+                const priceLabel = property.mapMarker ? property.mapMarker.label : 'Unknown price';
+                const offerText = property.offerBadge && property.offerBadge.secondary ? property.offerBadge.secondary.text : 'No offer available';
+                const rating = property.reviews && property.reviews.score ? property.reviews.score : 'No rating';
+                const reviewCount = property.reviews && property.reviews.total ? property.reviews.total : 'No reviews';
+
+                cardsHtml += `
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="${imageUrl}" class="img-fluid rounded-start" alt="${imageDescription}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">${property.name}</h5>
+                            <p class="card-text">${neighborhoodName}, ${distanceValue} ${distanceUnit} from destination</p>
+                            <p class="card-text">${priceLabel}</p>
+                            <p class="card-text"><small class="text-muted">${offerText}</small></p>
+                            <p class="card-text">Rating: ${rating} (${reviewCount} reviews)</p>
+                            <p class="card-text"><small class="text-body-secondary">Includes taxes & fees</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+            });
+
+            // Update the DOM with the new HTML
+            const cardsContainer = document.getElementById('hotel_items');
+            cardsContainer.innerHTML = cardsHtml;
+        }
+
+    </script>
+
+
+</body>
+
+
+
+</html>
