@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from rapidfuzz import process, fuzz
+import pandas as pd
 import math
 import random
 
@@ -157,57 +158,131 @@ class Countries(Base):
     flag = Column(Boolean, nullable=False, default=True)
     wikiDataId = Column(String(255), comment='Rapid API GeoDB Cities')
 
+rows = session.query(CitiesPlace).filter(CitiesPlace.state_id == 852).order_by(CitiesPlace.cities_id.asc()).all()
+
+data = {
+    'id': [],
+    'name': [],
+    'state_id': [],
+    'state_code': [],
+    'country_id': [],
+    'country_code': [],
+    'cities_id': [],
+    'type': [],
+    'sub_type': [],
+    'rating': [],
+    'price_level': [],
+    'reviews': [],
+    'description': [],
+    'address': [],
+    'pictures': [],
+    'websiteUri': [],
+    'phone': [],
+    'latitude': [],
+    'longitude': [],
+    'created_at': [],
+    'updated_at': []
+}
+
+for row in rows:
+    data['id'].append(row.id)
+    data['name'].append(row.name)
+    data['state_id'].append(row.state_id)
+    data['state_code'].append(row.state_code)
+    data['country_id'].append(row.country_id)
+    data['country_code'].append(row.country_code)
+    data['cities_id'].append(row.cities_id)
+    data['type'].append(row.type)
+    data['sub_type'].append(row.sub_type)
+    data['rating'].append(row.rating)
+    data['price_level'].append(row.price_level)
+    data['reviews'].append(row.reviews)
+    data['description'].append(row.description)
+    data['address'].append(row.address)
+    data['pictures'].append(row.pictures)
+    data['websiteUri'].append(row.websiteUri)
+    data['phone'].append(row.phone)
+    data['latitude'].append(row.latitude)
+    data['longitude'].append(row.longitude)
+    data['created_at'].append(row.created_at)
+    data['updated_at'].append(row.updated_at)
+
+df = pd.DataFrame(data)
+
+df2 = df.copy()
+
+C = df2['reviews'].mean()
+
+m = df2['rating'].quantile(0.4)
+
+q_attractions = df2.copy().loc[df2['rating'] >= m]
+
+def weighted_rating(x, m=m, C=C):
+    v = x['rating']
+    R = x['reviews']
+    # Calculation based on the IMDB formula
+    return (v/(v+m) * R) + (m/(m+v) * C)
+
+# Define a new feature 'score' and calculate its value with `weighted_rating()`
+q_attractions['score'] = q_attractions.apply(weighted_rating, axis=1)
+
+attractions = q_attractions.sort_values('score', ascending=False)
 
 def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
-    citiesPlace = session.query(CitiesPlace).filter(or_(
-        CitiesPlace.state_id == state_id, CitiesPlace.cities_id == state_id)).order_by(desc(CitiesPlace.reviews)).all()
+    # citiesPlace = session.query(CitiesPlace).filter(or_(
+    #     CitiesPlace.state_id == state_id, CitiesPlace.cities_id == state_id)).order_by(desc(CitiesPlace.reviews)).all()
 
-    if not citiesPlace:
-        print("No data found. Stopping...")
+    # if not citiesPlace:
+    #     print("No data found. Stopping...")
+    #     return
+
+    citiesPlace = attractions.copy()
+
+    if len(citiesPlace) < int(day)*3:
+        print("Insufficient data. Stopping...")
         return
 
-    random_cities = random.sample(citiesPlace, (int(day)*3))
+    random_cities = citiesPlace.sample(n=int(day)*3)
 
-    for i in random_cities:
-        citiesPlace.remove(i)\
-
+    citiesPlace = citiesPlace.drop(random_cities.index)
+    
     response = []
 
-    for index, city in enumerate(random_cities, start=1):
+    for index, (row_index, row) in enumerate(random_cities.iterrows(), start=1):
         while True:
             try:
                 distance = calculate_distance(
-                    random_cities[index-1].latitude, random_cities[index-1].longitude, city.latitude, city.longitude)
+                    random_cities.loc[row_index, 'latitude'], random_cities.loc[row_index, 'longitude'], row['latitude'], row['longitude'])
                 if 10 < distance < 100:
                     city_data = {
-                        'id': city.id,
-                        'name': city.name,
-                        'state_id': city.state_id,
-                        'state_code': city.state_code,
-                        'country_id': city.country_id,
-                        'country_code': city.country_code,
-                        'cities_id': city.cities_id,
-                        'type': city.type,
-                        'sub_type': city.sub_type,
-                        'rating': city.rating,
-                        'price_level': city.price_level,
-                        'reviews': city.reviews,
-                        'description': city.description,
-                        'address': city.address,
-                        'pictures': city.pictures,
-                        'websiteUri': city.websiteUri,
-                        'phone': city.phone,
-                        'latitude': city.latitude,
-                        'longitude': city.longitude,
-                        'created_at': city.created_at,
-                        'updated_at': city.updated_at
+                        'id': row['id'],
+                        'name': row['name'],
+                        'state_id': row['state_id'],
+                        'state_code': row['state_code'],
+                        'country_id': row['country_id'],
+                        'country_code': row['country_code'],
+                        'cities_id': row['cities_id'],
+                        'type': row['type'],
+                        'sub_type': row['sub_type'],
+                        'rating': row['rating'],
+                        'price_level': row['price_level'],
+                        'reviews': row['reviews'],
+                        'description': row['description'],
+                        'address': row['address'],
+                        'pictures': row['pictures'],
+                        'websiteUri': row['websiteUri'],
+                        'phone': row['phone'],
+                        'latitude': row['latitude'],
+                        'longitude': row['longitude'],
+                        'created_at': row['created_at'],
+                        'updated_at': row['updated_at']
                     }
                     response.append(city_data)
                     break
                 else:
                     if len(citiesPlace) > 0:
-                        random_cities[index-1] = random.choice(citiesPlace)
-                        citiesPlace.remove(random_cities[index-1])
+                        random_cities.iloc[index-1] = citiesPlace.iloc[0]
+                        citiesPlace = citiesPlace.drop(citiesPlace.index[0])
                     else:
                         break
             except IndexError:

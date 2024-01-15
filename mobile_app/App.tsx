@@ -7,7 +7,7 @@ import Register from './page/register'
 export default class App extends Component {
   render() {
     return (
-      <Register />
+      <Login />
     )
   } 
 }
