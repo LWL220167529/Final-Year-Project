@@ -3,7 +3,9 @@ from sqlalchemy import create_engine, Column, String, DateTime, or_, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+from typing import Optional
 import bcrypt
+
 # database connection
 
 # Remote database configuration
@@ -23,8 +25,6 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 # user class
-
-
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -34,12 +34,10 @@ class User(Base):
     phoneNumber = Column(String(20), nullable=False)
     createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
 
-
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
-
-def check_login(id, password):
+def check_login(id: Optional[int or str], password: str):
     try:
         # Find user by id or email
         user = session.query(User).filter(
@@ -54,12 +52,14 @@ def check_login(id, password):
         return jsonify({'message': str(e), 'login': False})
 
 
-def register(userName, password, email, phone):
+def register(userName: str, password: str, email: str, phoneNumber: str):
     if session.query(User).filter(or_(User.userName == userName)).first() is None:
         # create new user
+        if len(phoneNumber) < 3 or len(phoneNumber) > 20:
+            return jsonify({'message': 'phoneNumber must be between 3 and 20 characters.'}), 400
         try:
             new_user = User(userName=userName, email=email, password=bcrypt.hashpw(
-                password.encode('utf-8'), bcrypt.gensalt()), phoneNumber=phone)
+                password.encode('utf-8'), bcrypt.gensalt()), phoneNumber=phoneNumber)
             session.add(new_user)
             session.commit()
             if new_user is not None:
@@ -70,10 +70,12 @@ def register(userName, password, email, phone):
         return jsonify({'message': 'User already exists.'}), 409
 
 
-def update_user(id, userName, email, phoneNumber):
+def update_user(id: Optional[int or str], userName, email, phoneNumber):
     try:
         # find user by id
-        user = session.query(User).filter(User.id == id).first()
+        user = session.query(User).filter(or_(User.id == id, User.userName == id)).first()
+        if len(phoneNumber) < 3 or len(phoneNumber) > 20:
+            return jsonify({'message': 'phone must be between 3 and 20 characters.'}), 400
         if not user:
             return jsonify({'message': 'User not found'}), 404
         user.userName = userName
@@ -86,7 +88,7 @@ def update_user(id, userName, email, phoneNumber):
         return jsonify({'message': e, 'updateUser': False})
 
 
-def forgot_password(id, password):
+def forgot_password(id: Optional[int or str], password: str):
     try:
         # Find user by id or email
         user = session.query(User).filter(
@@ -124,7 +126,7 @@ def get_all_users():
         return jsonify({'message': 'Error occurred while retrieving users.', 'error': str(e)}), 500
 
 
-def get_user(id):
+def get_user(id: Optional[int or str]):
     try:
         # Find user by id or email
         user = session.query(User).filter(
@@ -146,7 +148,7 @@ def get_user(id):
         return jsonify({'message': str(e)}), 500
 
 
-def delete_user(id):
+def delete_user(id: Optional[int or str]):
     try:
         # Find user by id or email
         user = session.query(User).filter(

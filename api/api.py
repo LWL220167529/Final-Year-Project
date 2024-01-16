@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
 import user
-import place  # connect database
-
+import place  
+import collect
+# connect database
 app = Flask(__name__)
 CORS(app)
 
@@ -144,7 +145,7 @@ def getPlaceByID():
 @app.route('/AIPlan', methods=["GET", "POST"])
 def AIPlan():
     if request.method == "GET":  # get request from url
-        state_id = request.args.get('stateId')
+        state_id = request.args.get('stateID')
         day = request.args.get('day')
         budget = request.args.get('budget')
         num_of_people = request.args.get('numOfPeople')
@@ -152,7 +153,7 @@ def AIPlan():
         activities = request.args.get('activities')
     else:  # post request from body
         data = request.get_json()
-        state_id = data.get('stateId')
+        state_id = data.get('stateID')
         day = data.get('day')
         budget = data.get('budget')
         num_of_people = data.get('numOfPeople')
@@ -172,6 +173,23 @@ def estimatePlace():
         city = data.get('city')
     response = place.estimate_place(city)
     return jsonify(response), 200
+
+@app.route('/getCollection', methods=["GET", "POST"])
+def collation():
+    if request.method == "GET":
+        userID = request.args.get('userID')
+        placeID = request.args.get('placeID')
+        rating = request.args.get('rating')
+        like = request.args.get('like')
+        collection = request.args.get('collection')
+    else:
+        data = request.get_json()
+        userID = data.get('userID')
+        placeID = data.get('placeID')
+        rating = data.get('rating')
+        like = data.get('like')
+        collection = data.get('collection')
+    return collect.addNewCollection(userID, placeID, rating, like, collection)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

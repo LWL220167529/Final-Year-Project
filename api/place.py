@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from rapidfuzz import process, fuzz
+from typing import Optional
 import pandas as pd
 import math
 import random
@@ -66,7 +67,7 @@ class CitiesPlace(Base):
             return jsonify({'message': str(e)}), 500
 
     @staticmethod
-    def get_by_input(input):
+    def get_by_input(input: int):
         try:
             cities_places = session.query(CitiesPlace).filter(
                 or_(
@@ -275,7 +276,8 @@ def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
                         'latitude': row['latitude'],
                         'longitude': row['longitude'],
                         'created_at': row['created_at'],
-                        'updated_at': row['updated_at']
+                        'updated_at': row['updated_at'],
+                        'score': row['score'],
                     }
                     response.append(city_data)
                     break
@@ -332,7 +334,7 @@ rows = session.query(Cities.id, Cities.name, States.name, States.id).\
 # Store the city names in a list
 city_list = [f'{row[1]}, {row[2]}' for row in rows]
 
-def estimate_place(city_input):
+def estimate_place(city_input: int):
     try:
         if city_input == '':
             return []
