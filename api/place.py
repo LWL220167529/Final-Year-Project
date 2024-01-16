@@ -159,7 +159,9 @@ class Countries(Base):
     flag = Column(Boolean, nullable=False, default=True)
     wikiDataId = Column(String(255), comment='Rapid API GeoDB Cities')
 
-rows = session.query(CitiesPlace).filter(CitiesPlace.state_id == 852).order_by(CitiesPlace.cities_id.asc()).all()
+
+rows = session.query(CitiesPlace).filter(
+    CitiesPlace.state_id == 852).order_by(CitiesPlace.cities_id.asc()).all()
 
 data = {
     'id': [],
@@ -218,78 +220,62 @@ m = df2['rating'].quantile(0.4)
 
 q_attractions = df2.copy().loc[df2['rating'] >= m]
 
+
 def weighted_rating(x, m=m, C=C):
     v = x['rating']
     R = x['reviews']
     # Calculation based on the IMDB formula
     return (v/(v+m) * R) + (m/(m+v) * C)
 
+
 # Define a new feature 'score' and calculate its value with `weighted_rating()`
 q_attractions['score'] = q_attractions.apply(weighted_rating, axis=1)
 
 attractions = q_attractions.sort_values('score', ascending=False)
 
+
 def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
-    # citiesPlace = session.query(CitiesPlace).filter(or_(
-    #     CitiesPlace.state_id == state_id, CitiesPlace.cities_id == state_id)).order_by(desc(CitiesPlace.reviews)).all()
-
-    # if not citiesPlace:
-    #     print("No data found. Stopping...")
-    #     return
-
     citiesPlace = attractions.copy()
 
-    if len(citiesPlace) < int(day)*3:
+    if len(citiesPlace) < (int(day)+1) * 3:
         print("Insufficient data. Stopping...")
         return
 
-    random_cities = citiesPlace.sample(n=int(day)*3)
+    random_cities = citiesPlace.sample(n=(int(day)+1) * 3)
+    random_cities = random_cities[random_cities['id'].isin(
+        random_cities['id'])]
 
-    citiesPlace = citiesPlace.drop(random_cities.index)
-    
+    # Add errors='ignore' to handle missing labels
+    citiesPlace = citiesPlace.drop(random_cities.index, errors='ignore')
     response = []
+    temp_list = []
 
     for index, (row_index, row) in enumerate(random_cities.iterrows(), start=1):
-        while True:
-            try:
-                distance = calculate_distance(
-                    random_cities.loc[row_index, 'latitude'], random_cities.loc[row_index, 'longitude'], row['latitude'], row['longitude'])
-                if 10 < distance < 100:
-                    city_data = {
-                        'id': row['id'],
-                        'name': row['name'],
-                        'state_id': row['state_id'],
-                        'state_code': row['state_code'],
-                        'country_id': row['country_id'],
-                        'country_code': row['country_code'],
-                        'cities_id': row['cities_id'],
-                        'type': row['type'],
-                        'sub_type': row['sub_type'],
-                        'rating': row['rating'],
-                        'price_level': row['price_level'],
-                        'reviews': row['reviews'],
-                        'description': row['description'],
-                        'address': row['address'],
-                        'pictures': row['pictures'],
-                        'websiteUri': row['websiteUri'],
-                        'phone': row['phone'],
-                        'latitude': row['latitude'],
-                        'longitude': row['longitude'],
-                        'created_at': row['created_at'],
-                        'updated_at': row['updated_at'],
-                        'score': row['score'],
-                    }
-                    response.append(city_data)
-                    break
-                else:
-                    if len(citiesPlace) > 0:
-                        random_cities.iloc[index-1] = citiesPlace.iloc[0]
-                        citiesPlace = citiesPlace.drop(citiesPlace.index[0])
-                    else:
-                        break
-            except IndexError:
-                print("Invalid index. Skipping...")
-                break
+        try:
+            if index < len(random_cities):
+                    next_row = random_cities.iloc[index]
+                    while True:
+                        distance = calculate_distance(
+                            row['latitude'], row['longitude'], next_row['latitude'], next_row['longitude'])
+                        if 10 < distance < 100 and int(row['score']) > 5:
+                            temp_list.append(row.to_dict())
+                            if index % 3 == 0:
+                                response.append(temp_list)
+                                temp_list = []
+                            break
+                        else:
+                            if len(citiesPlace) > 0:
+                                random_cities.iloc[index - 1] = citiesPlace.iloc[0]
+                                # Add errors='ignore' to handle missing labels
+                                citiesPlace = citiesPlace.drop(citiesPlace.index[0], errors='ignore')
+                                next_row = citiesPlace.iloc[0]
+                            else:
+                                print("No more cities to try. Stopping...")
+                                return
+            # Rest of your code...
+        except IndexError:
+            print("Invalid index. Skipping...")
+            break
     return response
 
 
@@ -326,6 +312,7 @@ def get_city_matches(city_input, city_list, limit=5):
             {"message": result[0], "city": resultSplit[0], "state": resultSplit[1], "key": cityID.id})
     return matches
 
+
 rows = session.query(Cities.id, Cities.name, States.name, States.id).\
     join(States, Cities.state_id == States.id).\
     filter(Cities.country_code == 'JP').\
@@ -333,6 +320,7 @@ rows = session.query(Cities.id, Cities.name, States.name, States.id).\
 
 # Store the city names in a list
 city_list = [f'{row[1]}, {row[2]}' for row in rows]
+
 
 def estimate_place(city_input: int):
     try:
@@ -344,5 +332,6 @@ def estimate_place(city_input: int):
         # Handle the exception here
         print(f"An error occurred: {e}")
         return []
+
 
 session.close()
