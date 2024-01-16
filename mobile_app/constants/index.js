@@ -5,6 +5,19 @@ export {default as Attractions} from '../image/forest.png';
 export const DayTime = [ 'Day1', 'Day2', 'Day3', 'Day4'];
 export const PlanType = [ 'My Draft', 'My Travel Plan'];
 
+export const Plcaelat = [{
+  'latitude': 37.78825,
+  'longitude': -122.4324,
+  'latitudeDelta': 0.1,
+  'longitudeDelta': 0.1,
+  'title': 'PlaceA'
+},
+{"latitude": 37.80201958608362, "latitudeDelta": 0.013563803720330725, "longitude": -122.44858229532838, "longitudeDelta": 0.01716647297141094, 'title': 'PlaceB'},
+{"latitude": 37.78894577400723, "latitudeDelta": 0.013566204272528637, "longitude": -122.45118169113994, "longitudeDelta": 0.017166472971453572, 'title': 'PlaceC'},
+{"latitude": 37.76517930317627, "latitudeDelta": 0.01357056635144005, "longitude": -122.43440782651305, "longitudeDelta": 0.01716647297142515, 'title': 'PlaceD'}
+];
+
+
 export const EstimatedBudgetData = [
     {
       type: "Transportation",

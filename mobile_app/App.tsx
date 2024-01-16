@@ -8,13 +8,13 @@ import { View, Text } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
 import ItemScreen from './screens/itemScreen';
 import InterestScreen from './screens/InterestScreen';
-import DestinationScreen from './screens/DestinationScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import SplashScreen from "./screens/SplashScreen";
 import PlanGeneration from './screens/PlanGeneration';
 import InterestCon2 from "./screens/InterestCon2";
 import InterestCon3 from "./screens/InterestCon3";
 import InterestCon4 from "./screens/InterestCon4";
+import MapView from './screens/MapView';
 import PlanList from "./screens/PlanList";
 import InterestScreenCon from "./screens/InterestScreenCon";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -41,7 +41,7 @@ function TabGroup() {
       <Tab.Screen name="Profile" component={Profile}
         options={{ tabBarIcon: () => <FontAwesomeIcon2 name="user" size={25} /> }}
       />
-            <Tab.Screen name="PlanList" component={PlanList}
+      <Tab.Screen name="PlanList" component={PlanList}
         options={{ tabBarIcon: () => <FontAwesomeIcon2 name="plane" size={25} /> }}
       />
 
@@ -63,40 +63,22 @@ export default function App() {
   return (
     <NavigationContainer >
       {hideSplashScreen ? (
-        <Stack.Navigator initialRouteName='Home'>
-                                        <Stack.Screen name="PlanGeneration" component={PlanGeneration} options={{ headerShown: false }}/>
-
-                                                            <Stack.Screen name="Login" component={LoginScreen} />
-
-                                        <Stack.Screen name="SignUp" component={SignUpScreen} />
-
-
-
-
-                              <Stack.Screen name="UserListScreen" component={UserListScreen} />
-                              <Stack.Screen name="Home" component={TabGroup} options={{ headerShown: false }}
+        <Stack.Navigator initialRouteName='MapView'>
+          <Stack.Screen name="PlanGeneration" component={PlanGeneration} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="MapView" component={MapView} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="UserListScreen" component={UserListScreen} />
+          <Stack.Screen name="Home" component={TabGroup} options={{ headerShown: false }}
           />
-                              <Stack.Screen name="PlanList" component={PlanList} 
-                              />
-
+          <Stack.Screen name="PlanList" component={PlanList}
+          />
           <Stack.Screen name="Interest" component={InterestScreen} options={{ headerShown: false }}
           />
-
-
-
-
           <Stack.Screen name="InterestCon4" component={InterestCon4} options={{ headerShown: false }} />
-
-
-
-
           <Stack.Screen name="InterestCon" component={InterestScreenCon} options={{ headerShown: false }} />
-
           <Stack.Screen name="InterestCon2" component={InterestCon2} options={{ headerShown: false }} />
           <Stack.Screen name="InterestCon3" component={InterestCon3} options={{ headerShown: false }} />
-
-
-
           <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -105,7 +87,6 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen name="ItemScreen" component={ItemScreen} />
-
         </Stack.Navigator>
       ) : (
         <SplashScreen />

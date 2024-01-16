@@ -132,7 +132,7 @@ console.log(CityString);
   CityData && CityData.length > 0 ? (
   <Image
     source={{
-      uri: CityData[0]?.result_object?.photo?.images?.medium?.url || 'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png'
+      uri: CityData[0]?.result_object?.photo?.images?.original?.url || 'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png'
     }}
     style={[styles.image, { shadowColor: 'black', shadowOpacity: 0.7, shadowRadius: 9 }]}
   />

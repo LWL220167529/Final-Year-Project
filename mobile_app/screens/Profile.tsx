@@ -16,10 +16,7 @@ const Profile = () => {
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
   const [hasData, setHasData] = useState(false);
 
-  useEffect(() => {
-      getUserData();
 
-    },[]);
 
 
   return (

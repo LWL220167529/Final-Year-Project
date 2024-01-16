@@ -10,8 +10,7 @@ import Destinations from '../components/destination';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import ItemCardContainer from '../components/itemCardContainer';
 import { getPlacesData } from '../api';
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 handleLoginPress = async () => {
   const { userName, password } = this.state;
@@ -41,18 +40,19 @@ export default function HomeScreen() {
   const [tr_lng, settr_lng] = useState(null);
   const [mainData, setMainData] = useState([]);
   const [hasData, setHasData] = useState(false);
+  const [userDetail, setUserData] = useState(null);
 
 
   useEffect(() => {
     setIsLoading(true);
     getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng, type).then((data) => {
-      console.log(data); // Add this line to log the data
       setMainData(data);
-      getUserData();
       setInterval(() => {
         setIsLoading(false);
       }, 2000);
     });
+    getUserData();
+
   }, [bl_lat, bl_lng, tr_lat, tr_lng, type]);
 
   const getUserData = async () => {
@@ -71,16 +71,41 @@ export default function HomeScreen() {
       });
   
       const json = await response.json();
-      console.log(json);
   
       Alert.alert(json.message);
-  
+      const stringValue = JSON.stringify(json);
+      console.log(stringValue);
+      storeSessionData('userData', stringValue);
       setHasData(!json.error);
     } catch (error) {
       console.error(error);
+      storeSessionData('userData', JSON.stringify(error));
+
     }
   };
- 
+  
+  const showUserData = () => {
+    const data = getSessionData('userData');
+    setUserData(data);
+};
+
+const  storeSessionData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (error) {
+    console.error('Error storing session data:', error);
+  }
+};
+
+// Retrieving session data
+const  getSessionData = async (key) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    return value;
+  } catch (error) {
+    console.error('Error retrieving session data:', error);
+  }
+};
 
   return (
     <SafeAreaView style={styles.container}>
@@ -88,7 +113,7 @@ export default function HomeScreen() {
         <Text style={styles.title}>Let's Discover</Text>
         <TouchableOpacity
         >
-{hasData ? (
+{ hasData ? (
   <Image
     source={{ uri: 'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png' }}
     style={styles.avatar}
@@ -126,9 +151,15 @@ export default function HomeScreen() {
         contentContainerStyle={{ paddingHorizontal: 15 }}
         showsHorizontalScrollIndicator={false}
     >
+      {/*test userdata
             <TouchableOpacity onPress={getUserData}>
         <View style={{padding: 10, backgroundColor: 'red'}}></View>
       </TouchableOpacity>
+      <TouchableOpacity onPress={showUserData}>
+        <View style={{padding: 10, backgroundColor: 'blue'}}></View>
+      </TouchableOpacity>
+      <Text>{JSON.stringify(userDetail)}</Text>
+      */}
         <View style={styles.catContainer}>
           <MenuContainer
           key={"hotel"}
