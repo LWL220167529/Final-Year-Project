@@ -3,6 +3,7 @@ from flask_cors import CORS
 import user
 import place  
 import collect
+import userSchedule
 # connect database
 app = Flask(__name__)
 CORS(app)
@@ -174,7 +175,7 @@ def estimatePlace():
     response = place.estimate_place(city)
     return jsonify(response), 200
 
-@app.route('/getCollection', methods=["GET", "POST"])
+@app.route('/setCollection', methods=["GET", "POST"])
 def collation():
     if request.method == "GET":
         userID = request.args.get('userID')
@@ -190,6 +191,30 @@ def collation():
         like = data.get('like')
         collection = data.get('collection')
     return collect.addNewCollection(userID, placeID, rating, like, collection)
+
+@app.route('/getCollectionByID', methods=["GET", "POST"])
+def getCollectionByID():
+    if request.method == "GET":
+        userID = request.args.get('userID')
+    else:
+        data = request.get_json()
+        userID = data.get('userID')
+    return collect.getCollectionByID(userID)
+
+@app.route('/addSchedule', methods=["POST"])
+def addSchedule():
+    data = request.get_json()
+    userID = data.get('userID')
+    description = data.get('description')
+    startTime = data.get('startTime')
+    endTime = data.get('endTime')
+    places = data.get('places')
+    
+    # Call the add_schedule function with the provided parameters
+    response = userSchedule.add_schedule(userID, description, startTime, endTime, places)
+    
+    return jsonify(response), 200
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

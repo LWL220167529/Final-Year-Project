@@ -94,3 +94,9 @@ def addNewCollection(user_ID: int, place_ID: int, rating: Optional[float] = None
         session.commit()
         return {'message': 'Collection updated successfully', 'updateCollection': True}
 
+def getCollectionByID(user_ID: int):
+    collection = session.query(UserCollection).filter_by(user_ID=user_ID).all()
+    if collection:
+        return jsonify([i.serialize for i in collection])
+    else:
+        return {'message': 'User does not have any collection.'}

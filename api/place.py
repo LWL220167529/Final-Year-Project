@@ -257,10 +257,10 @@ def getRandomPlan(state_id, day, budget, num_of_people, start_date, activities):
                     while True:
                         distance = calculate_distance(
                             row['latitude'], row['longitude'], next_row['latitude'], next_row['longitude'])
-                        if 10 < distance < 100 and float(row['score']) > 10:
+                        if 10 < distance < 100:
                             temp_list.append(row.to_dict())
                             if index % 3 == 0:
-                                response.append(temp_list)
+                                response.append({f"{int(int(day) - index/3)}":temp_list})
                                 temp_list = []
                             break
                         else:
