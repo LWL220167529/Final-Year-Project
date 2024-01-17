@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
+import gpt
 import user
 import place  
 import collect
@@ -271,6 +272,22 @@ def updateSchedule():
     
     return jsonify(response), 200
 
+@app.route('/tripPlan', methods=["GET", "POST"])
+def tripPlan():
+    if request.method == "GET":
+        userID = request.args.get('userID')
+        scheduleID = request.args.get('scheduleID')
+        day = request.args.get('day')
+    else:
+        data = request.get_json()
+        userID = data.get('userID')
+        scheduleID = data.get('scheduleID')
+        day = data.get('day')
+    
+    # Call the trip_plan function with the provided parameters
+    response = gpt.gpt_plan_trip()
+    
+    return jsonify(response), 200
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
