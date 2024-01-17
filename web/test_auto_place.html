@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Google Places Autocomplete Example</title>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb4iE2zwfaw7lxIavF6cTt4sjoiM4cDGc&libraries=places"></script>
+</head>
+
+<body>
+    <input id="autocomplete" type="text" placeholder="Enter a location" style="width: 300px;">
+
+    <div id="location-details">
+        <p>Top Right Latitude: <span id="tr_latitude"></span></p>
+        <p>Top Right Longitude: <span id="tr_longitude"></span></p>
+        <p>Bottom Left Latitude: <span id="bl_latitude"></span></p>
+        <p>Bottom Left Longitude: <span id="bl_longitude"></span></p>
+        <hr>
+        <p>Latitude: <span id="latitude"></span></p>
+        <p>Longitude: <span id="longitude"></span></p>
+    </div>
+
+    <script>
+        function initAutocomplete() {
+            var autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('autocomplete'), { types: ['geocode'] }
+            );
+
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var location = place.geometry.location;
+                var viewport = place.geometry.viewport;
+                var ne = viewport.getNorthEast(); // northeast corner of the viewport
+                var sw = viewport.getSouthWest(); // southwest corner of the viewport
+
+                // Assuming you want to display these in the HTML
+                document.getElementById('tr_latitude').textContent = ne.lat();
+                document.getElementById('tr_longitude').textContent = ne.lng();
+                document.getElementById('bl_latitude').textContent = sw.lat();
+                document.getElementById('bl_longitude').textContent = sw.lng();
+                document.getElementById('latitude').textContent = location.lat();
+                document.getElementById('longitude').textContent = location.lng();
+            });
+        }
+
+
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+    </script>
+</body>
+
+</html>
