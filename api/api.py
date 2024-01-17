@@ -120,6 +120,32 @@ def getAllUser():
 # Flask routes
 
 
+@app.route('/addNewCitiesPlace', methods=["GET", "POST"])
+def addNewCitiesPlace():
+    try:
+        if request.method == "GET":  # get request from url
+            data = request.args.to_dict()  # Get the GET request data as a dictionary
+            return place.add_new_cities_place(data)  # Call the add_new_cities_place function with the data
+        else:  # post request from body
+            data = request.get_json()
+            return place.add_new_cities_place(data)
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Internal server error'}), 500
+
+@app.route('/updateCitiesPlace/<int:place_id>', methods=["GET", "POST"])
+def updateCitiesPlace(place_id):
+    try:
+        if request.method == "GET":  # get request from url
+            data = request.args.to_dict()  # Get the GET request data as a dictionary
+        else:  # post request from body
+            data = request.get_json()
+        return place.update_cities_place(place_id, data)
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
 @app.route('/getAllPlace')
 def getAllPlace():
     try:

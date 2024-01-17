@@ -54,6 +54,35 @@ class CitiesPlace(Base):
     created_at = Column(TIMESTAMP, nullable=False, default=datetime.utcnow)
     updated_at = Column(TIMESTAMP, nullable=False,
                         default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+def add_new_cities_place(data: dict):
+    try:
+        # Create a new cities place instance
+        new_cities_place = CitiesPlace(**data)
+
+        # Add the new cities place to the database
+        session.add(new_cities_place)
+        session.commit()
+
+        return jsonify({'message': 'New cities place created successfully.'}), 201
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+def update_cities_place(place_id: int, data: dict):
+    try:
+        # Retrieve the cities place by ID
+        cities_place = session.query(CitiesPlace).get(place_id)
+
+        # Update the cities place attributes with the provided data
+        for key, value in data.items():
+            setattr(cities_place, key, value)
+
+        # Commit the changes to the database
+        session.commit()
+
+        return jsonify({'message': 'Cities place updated successfully'}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
 
 
 def get_all_cities_place():

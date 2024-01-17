@@ -89,7 +89,7 @@ class ScheduleDirectory(Base):
     editTime = Column(DateTime, default=None)
 
 
-def add_schedule(userID: str, description: str, startTime: str, placesJson: JSON):
+def add_schedule(userID: str, description: str, startTime: str, placesJson: dict):
     try:
         new_schedule = create_schedule(userID, description, startTime)
         session.add(new_schedule)
@@ -107,7 +107,7 @@ def add_schedule(userID: str, description: str, startTime: str, placesJson: JSON
         return jsonify({'message': 'Error occurred during add schedule.', 'error': str(e)}), 500
 
 
-def update_schedule(userID: str, scheduleID: int, description: str, startTime: str, placesJson: JSON):
+def update_schedule(userID: str, scheduleID: int, description: str, startTime: str, placesJson: dict):
     try:
         directory = get_schedule_directory(userID, scheduleID)
         if not directory:
