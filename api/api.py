@@ -123,7 +123,7 @@ def getAllUser():
 @app.route('/getAllPlace')
 def getAllPlace():
     try:
-        return place.CitiesPlace.get_all_cities_place()
+        return place.get_all_cities_place()
     except Exception as e:
         print(e)
         return jsonify({'message': e}), 500
@@ -137,7 +137,7 @@ def getPlaceByID():
         else:  # post request from body
             data = request.get_json()
             getPlace = data.get('getPlace')
-        return place.CitiesPlace.get_by_input(getPlace)
+        return place.get_by_input(getPlace)
     except Exception as e:
         print(e)
         return jsonify({'message': 'Internal server error'}), 500
@@ -201,17 +201,47 @@ def getCollectionByID():
         userID = data.get('userID')
     return collect.getCollectionByID(userID)
 
-@app.route('/addSchedule', methods=["POST"])
+@app.route('/addSchedule', methods=["GET", "POST"])
 def addSchedule():
-    data = request.get_json()
-    userID = data.get('userID')
-    description = data.get('description')
-    startTime = data.get('startTime')
-    endTime = data.get('endTime')
-    places = data.get('places')
+    if request.method == "GET":
+        userID = request.args.get('userID')
+        description = request.args.get('description')
+        startTime = request.args.get('startTime')
+        endTime = request.args.get('endTime')
+        places = request.args.get('places')
+    else:
+        data = request.get_json()
+        userID = data.get('userID')
+        description = data.get('description')
+        startTime = data.get('startTime')
+        endTime = data.get('endTime')
+        places = data.get('places')
     
     # Call the add_schedule function with the provided parameters
     response = userSchedule.add_schedule(userID, description, startTime, endTime, places)
+    
+    return jsonify(response), 200
+
+@app.route('/updateSchedule', methods=["GET", "POST"])
+def updateSchedule():
+    if request.method == "GET":
+        userID = request.args.get('userID')
+        scheduleID = request.args.get('scheduleID')
+        description = request.args.get('description')
+        startTime = request.args.get('startTime')
+        endTime = request.args.get('endTime')
+        places = request.args.get('places')
+    else:
+        data = request.get_json()
+        userID = data.get('userID')
+        scheduleID = data.get('scheduleID')
+        description = data.get('description')
+        startTime = data.get('startTime')
+        endTime = data.get('endTime')
+        places = data.get('places')
+    
+    # Call the update_schedule function with the provided parameters
+    response = userSchedule.update_schedule(userID, scheduleID, description, startTime, endTime, places)
     
     return jsonify(response), 200
 

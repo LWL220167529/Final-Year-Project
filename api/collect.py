@@ -4,7 +4,7 @@ from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List, Union
 
 # Remote database configuration
 db_port = 3306  # Change the port to an integer
@@ -76,8 +76,9 @@ class UserCollection(Base):
     place = relationship("CitiesPlace", backref="user_collections")
 
 
-def addNewCollection(user_ID: int, place_ID: int, rating: Optional[float] = None, like: Optional[bool] = None, collection: Optional[bool] = None):
-    existing_collection = session.query(UserCollection).filter_by(user_ID=user_ID, place_ID=place_ID).first()
+def addNewCollection(user_ID: int, place_ID: int, rating: Optional[float] = None, like: Optional[bool] = None, collection: Optional[bool] = None) -> dict:
+    existing_collection = session.query(UserCollection).filter(and_(
+        UserCollection.user_ID == user_ID, UserCollection.place_ID == place_ID)).first()
     if existing_collection:
         if rating is not None:
             existing_collection.rating = rating
@@ -92,11 +93,15 @@ def addNewCollection(user_ID: int, place_ID: int, rating: Optional[float] = None
             user_ID=user_ID, place_ID=place_ID, rating=rating, like=like, collection=collection)
         session.add(new_collection)
         session.commit()
-        return {'message': 'Collection updated successfully', 'updateCollection': True}
+        return {'message': 'Collection added successfully', 'updateCollection': True}
 
-def getCollectionByID(user_ID: int):
-    collection = session.query(UserCollection).filter_by(user_ID=user_ID).all()
+
+def getCollectionByID(user_ID: int) -> Union[dict, List[dict]]:
+    collection = session.query(UserCollection).get(user_ID)
     if collection:
         return jsonify([i.serialize for i in collection])
     else:
         return {'message': 'User does not have any collection.'}
+
+
+session.close()

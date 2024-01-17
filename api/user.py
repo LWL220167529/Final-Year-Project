@@ -43,49 +43,59 @@ def check_login(id: Optional[int or str], password: str):
         user = session.query(User).filter(
             or_(User.email == id, User.id == id, User.userName == id)).first()
 
-        if user and user.check_password(password):
-            return jsonify({'message': 'Login successfully', 'userID': user.id, 'login': True})
-        else:
+        if user is None or not user.check_password(password):
             return jsonify({'message': 'Invalid username or password.', 'login': False})
+
+        return jsonify({'message': 'Login successfully', 'userID': user.id, 'login': True})
     except Exception as e:
         print(e)
-        return jsonify({'message': str(e), 'login': False})
+        return jsonify({'message': 'Error occurred during login.', 'error': str(e), 'login': False})
 
 
 def register(userName: str, password: str, email: str, phoneNumber: str):
-    if session.query(User).filter(or_(User.userName == userName)).first() is None:
-        # create new user
+    try:
+        existing_user = session.query(User).filter(User.userName == userName).first()
+        if existing_user:
+            return jsonify({'message': 'User already exists.'}), 409
+
         if len(phoneNumber) < 3 or len(phoneNumber) > 20:
-            return jsonify({'message': 'phoneNumber must be between 3 and 20 characters.'}), 400
-        try:
-            new_user = User(userName=userName, email=email, password=bcrypt.hashpw(
-                password.encode('utf-8'), bcrypt.gensalt()), phoneNumber=phoneNumber)
-            session.add(new_user)
-            session.commit()
-            if new_user is not None:
-                return jsonify({'message': 'Sign Up successfully', 'signUp': True}), 201
-        except Exception as e:
-            return jsonify({'message': 'Error occurred during sign up.', 'error': str(e)}), 500
-    else:
-        return jsonify({'message': 'User already exists.'}), 409
+            return jsonify({'message': 'Phone number must be between 3 and 20 characters.'}), 400
+
+        new_user = User(
+            userName=userName,
+            email=email,
+            password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()),
+            phoneNumber=phoneNumber
+        )
+        session.add(new_user)
+        session.commit()
+
+        return jsonify({'message': 'Sign Up successfully', 'signUp': True}), 201
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Error occurred during sign up.', 'error': str(e)}), 500
 
 
 def update_user(id: Optional[int or str], userName, email, phoneNumber):
     try:
-        # find user by id
+        # Find user by id or username
         user = session.query(User).filter(or_(User.id == id, User.userName == id)).first()
-        if len(phoneNumber) < 3 or len(phoneNumber) > 20:
-            return jsonify({'message': 'phone must be between 3 and 20 characters.'}), 400
+
         if not user:
             return jsonify({'message': 'User not found'}), 404
+
+        if len(phoneNumber) < 3 or len(phoneNumber) > 20:
+            return jsonify({'message': 'Phone number must be between 3 and 20 characters.'}), 400
+
         user.userName = userName
         user.email = email
         user.phoneNumber = phoneNumber
         session.commit()
+
         return jsonify({'message': 'User updated successfully', 'updateUser': True}), 200
     except Exception as e:
         print(e)
-        return jsonify({'message': e, 'updateUser': False})
+        return jsonify({'message': 'Error occurred while updating user.', 'error': str(e), 'updateUser': False})
 
 
 def forgot_password(id: Optional[int or str], password: str):
@@ -99,27 +109,27 @@ def forgot_password(id: Optional[int or str], password: str):
             user.password = bcrypt.hashpw(
                 password.encode('utf-8'), bcrypt.gensalt())
             session.commit()
-            return jsonify({'message': 'User updated password successfully', 'resetPassword': True})
+            return jsonify({'message': 'User password reset successfully', 'resetPassword': True})
         else:
             return jsonify({'message': 'User not found', 'resetPassword': False})
     except Exception as e:
         print(e)
-        return jsonify({'message': str(e), 'resetPassword': False})
+        return jsonify({'message': 'Error occurred while resetting password.', 'error': str(e), 'resetPassword': False})
 
 
 def get_all_users():
     try:
         users = session.query(User).all()
-        user_list = []
-        for user in users:
-            user_data = {
+        user_list = [
+            {
                 'id': user.id,
                 'userName': user.userName,
                 'email': user.email,
                 'phoneNumber': user.phoneNumber,
                 'createTime': user.createTime
             }
-            user_list.append(user_data)
+            for user in users
+        ]
         return jsonify({'users': user_list}), 200
     except Exception as e:
         print(e)
@@ -129,8 +139,7 @@ def get_all_users():
 def get_user(id: Optional[int or str]):
     try:
         # Find user by id or email
-        user = session.query(User).filter(
-            or_(User.email == id, User.id == id, User.userName == id)).first()
+        user = session.query(User).get(id)
 
         if user:
             user_data = {
