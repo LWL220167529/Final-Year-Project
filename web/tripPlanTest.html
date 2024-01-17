@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Plan Test</title>
+</head>
+<body>
+    <h1>Trip Plan</h1>
+    <div id="trip-details"></div>
+    <script>
+        fetch('http://159.223.94.246:5000/tripPlan')
+            .then(response => response.json())
+            .then(data => {
+                const trip = data.trip;
+                const tripDetails = document.getElementById('trip-details');
+                tripDetails.innerHTML = `
+                    <h2>Accommodation: ${trip.accommodation}</h2>
+                    <h3>Arrival Airport: ${trip.arrival_airport}</h3>
+                    <h3>Arrival City: ${trip.arrival_city}</h3>
+                    <h3>Duration: ${trip.duration}</h3>
+                `;
+                const itinerary = trip.itinerary;
+                itinerary.forEach(day => {
+                    const dayActivities = day.activities;
+                    const dayElement = document.createElement('div');
+                    dayElement.innerHTML = `
+                        <h3>Day ${day.day}</h3>
+                    `;
+                    dayActivities.forEach(activity => {
+                        const activityElement = document.createElement('div');
+                        activityElement.innerHTML = `
+                            <h4>${activity.name}</h4>
+                            <p>${activity.activities_content}</p>
+                            <p>Transportation: ${activity.transportation.type}</p>
+                            <p>${activity.transportation.details}</p>
+                        `;
+                        dayElement.appendChild(activityElement);
+                    });
+                    tripDetails.appendChild(dayElement);
+                });
+            })
+            .catch(error => console.error(error));
+    </script>
+    
+</body>
+</html>
