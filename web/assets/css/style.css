@@ -1,0 +1,186 @@
+/*BODY STYLE*/
+body{font-family:Nunito,sans-serif;color:#000}
+
+/* --------FONT SIZES---------- */
+h1{font-size:94px}
+h2{font-size:50px}
+h3{font-size:40px}
+h4{font-size:30px}
+h6{font-size:26px}
+h1, h2, h3, h4, h5, h6{font-family: 'Abril Fatface', cursive;}
+p{font-size:16px}
+.p-sm{font-size: 14px;}
+
+/* -----------GLOBAL STYLES------------------ */
+a,a:focus,a:hover{color:inherit;text-decoration:none;transition:all .3s;display:inline-block}
+:focus{outline:0!important;box-shadow:none!important}
+
+/* --------FONT WEIGHTS--------------- */
+.medium{font-weight:500}
+.semi-bold{font-weight:600}
+.bold{font-weight:700}
+
+/* ------COLORS------ */
+.yellow-text{color:#e2c400}
+.grey-text{color:#666}
+.red-text{color:#d40000}
+
+/* ----------BUTTON STYLING-------- */
+.site-btn{background:#fff;border:1px solid #fff;color:#000;font-weight:600;padding:12px 30px;min-width:160px;border-radius:5px;font-size:18px;transition:ease-in-out .2s}
+.site-btn:hover{background:#000;color:#fff;border:1px solid #000}
+.white-btn{color:#fff;background:0 0}
+.white-btn:hover{background:#fff;color:#000;border:1px solid #fff}
+.black-btn{color:#fff;background:#000;border:1px solid #000}
+.black-btn:hover{background:#fff;color:#000;border:1px solid #fff}
+.transparent-btn{background:0 0;padding:0;border:0}
+.navbar-toggler.transparent-btn{color: white;}
+
+/* -----INPUT STYLING------- */
+.site-input{background:#fff;border-radius:5px;width:100%;border:0;padding:14px 20px;resize:none}
+.site-input::placeholder{color:#333}
+.site-label{font-family:'Abril Fatface',cursive;font-size:20px}
+.contact-input{border:1px solid #aeaeae}
+
+/* ----------- HEADER------------- */
+header{position:absolute;width:100%;z-index:3}
+header .navbar-nav a{color: white !important; border-bottom: 2px solid transparent;}
+header .navbar-nav a:hover, header .navbar-nav a.active{border-bottom: 2px solid white;}
+.site-logo{width:185px;object-fit:contain}
+
+/* ------ BANNER----- */
+.banner{position:relative;min-height:800px;color:#fff;text-align:center;padding:150px 0;display:flex;flex-direction:column;justify-content:center}
+.banner-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1}
+.banner::after{content:'';background:linear-gradient(to bottom,rgb(0 0 0 / 0),rgb(0 11 28 / 66%));position:absolute;top:0;left:0;width:100%;height:100%}
+.banner-inner{position:relative;z-index:1}
+
+/* ------------TOP DESTINATIONS--------- */
+.top-destinations{padding:70px 0}
+.top-destination-card{box-shadow:0 3px 27px rgb(0 0 0 / 24%);border-radius:10px;color:#fff;position:relative}
+.top-destination-img{width:100%;height:290px;object-fit:cover;border-radius:10px}
+.top-destination-card::after{content:'';border-radius:10px;background:linear-gradient(to bottom,rgb(0 0 0 / 0),rgb(0 0 0 / 50%));width:100%;height:100%;position:absolute;top:0;left:0}
+.top-destination-rating{display:flex;align-items:center;justify-content:center;position:absolute;top:15px;right:15px;z-index:1}
+.top-destination-text{position:absolute;bottom:25px;left:15px;z-index:1}
+
+
+/* ------- BLOGS-------------------------- */
+.blogs{padding-bottom: 70px;}
+.blog-img{border-radius: 5px; width: 100%; height: 310px; object-fit: cover;}
+.blog-card{border: 1px solid #002754; border-radius: 5px; padding: 30px 25px; height: 310px; display: flex; flex-direction: column; justify-content: space-between;}
+.blog-text{height: 120px;text-overflow: ellipsis;overflow-y: hidden;}
+
+
+/* -------NEWSLETTER-------------- */
+.newsletter{padding-bottom: 70px;}
+.newsletter-card{padding: 70px 30px; border-radius: 5px; text-align: center; background: url('../images/newsletter-bg.png') no-repeat; background-size: cover; color: white;}
+
+/* ---------FOOTER------------- */
+footer{background: #000000; color: white;}
+footer ul{padding-left: 0 !important; list-style: none;}
+.social-icons{display:flex;align-items:center}
+.social-icons li a{width:30px;height:30px;border:1px solid #fff;display:flex;align-items:center;justify-content:center;border-radius:100%;color:#fff;background:0 0}
+.social-icons li a:hover{border:1px solid #fff;background:#fff;color:#000}
+
+/*Modal*/
+
+
+.modal-form * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.modal-content {
+    background-color: #fff; /* This ensures the modal background is white */
+    border-radius: 10px; /* This matches the border-radius of .wrapper */
+    padding: 20px; /* This adds some space around your .wrapper */
+    box-shadow: 0 20px 35px rgba(0,0,0,0.1); /* This ensures the shadow applies to the outer modal */
+}
+
+.modal-form .wrapper{
+    width: 330px;
+    margin: auto;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.modal-form h1{
+    font-size: 2rem;
+    color: #07001f;
+    margin-bottom: 1.2rem;
+    padding-top: 1.2rem;
+}
+
+.modal-form form input{
+    width: 85%;
+    outline: none;
+    border: 1px solid #fff;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background: #e4e4e4;
+}
+
+.modal-form button{
+    font-size: 1rem;
+    margin-top: 1.8rem;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    width: 90%;
+    color: #fff;
+    cursor: pointer;
+    background: rgb(17, 107, 143);
+}
+
+.modal-form button:hover{
+    background: rgba(17, 107, 143, 0.85);
+}
+
+.modal-form input:focus{
+    border: 1px solid rgb(192, 192, 192);
+}
+
+.modal-form .terms{
+    margin-top: 0.2rem;
+}
+
+.modal-form .terms input{
+    height: 1em;
+    width: 1em;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.modal-form .terms label{
+    font-size: 0.7rem;
+}
+
+.modal-form .terms a {
+    color: rgb(17,107,143);
+    text-decoration: none;
+}
+
+.modal-form .member{
+    font-size: 0.8rem;
+    margin-top: 1.4rem;
+    color: #636363;
+}
+
+.modal-form .member a {
+    color: rgb(17, 107, 143);
+    text-decoration: none;
+}
+
+.modal-form .recover{
+    text-align: right;
+    font-size: 0.7rem;
+    margin: 0.3rem 1.4rem 0 0;
+}
+
+.modal-form .recover a{
+    text-decoration: none;
+    color: #464647;
+}

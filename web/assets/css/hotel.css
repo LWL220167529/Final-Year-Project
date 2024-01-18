@@ -1,0 +1,56 @@
+        
+    
+body {
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+ 
+
+.filter-part {
+	border-right: 1px solid #ddd; /* Placeholder style for the filter sidebar */
+	padding-right: 20px; /* Placeholder padding */
+}
+
+
+ 
+header{
+   box-sizing : border-box;
+
+	  margin: 0;
+	 padding: 0 ;
+	 display : flex;
+	justify-content: space-between;
+  align-items: center;
+  padding: 30px 10%;
+}
+
+.nav_links {
+	 list-style: none;
+}
+
+.nav_links li{
+	display: inline-block;
+	padding: 0px 30px;
+}
+
+.nav_links li a{
+	transition: all 0.3s ease 0s;
+}
+
+.header  li, a, button{
+	font-size : 20px;
+	color: black;
+	text-decoration: none;
+}
+
+
+.cta button{
+	  padding: 9px 18px;
+	 background-color: black;
+	 border: none;
+	border-radius: 70px;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+	color : white;
+}
+
