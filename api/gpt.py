@@ -44,6 +44,8 @@ def fix_json_and_validate(ai_response_content):
         print("Error:", e)
         return None
     
+content = "I'm planning a three-day, two-night trip to Japan. I'll arrive at Tokyo (HND-Haneda), stay at Fuji Onsenji Yumedono, and visit attractions including Mitama no Yu, Kanzo Yashiki, Manns Wines Katsunuma Winery, Michi-no-Eki Toyotomi, Gourmet Strawberry Kan Maeda, and the Yamanashi Prefecture Archaeological Museum. I need a detailed itinerary including transportation options for each destination and introduce the content of the event. The itinerary should start with my arrival at Tokyo Haneda Airport, include transportation to Fuji Onsenji Yumedono and check-in hotel, and cover all the attractions I plan to visit. Please present this in a structured JSON format with keys for 'trip'{ 'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary':[{'day', 'activities':[{'name','transportation:{'type','details}','activities_content'}]}], with type and details for each mode of transport,such as Take the JR Yamanote Line from Tokyo Haneda Airport to Shinagawa Station, then transfer to the JR Keihin-Tohoku Line to Oimachi Station. From Oimachi Station, walk to Mitama no Yu."
+
 messages3 = [
     {
         "role": "system",
@@ -51,11 +53,14 @@ messages3 = [
     },
     {
         "role": "user",
-        "content": "I'm planning a three-day, two-night trip to Japan. I'll arrive at Tokyo (HND-Haneda), stay at Fuji Onsenji Yumedono, and visit attractions including Mitama no Yu, Kanzo Yashiki, Manns Wines Katsunuma Winery, Michi-no-Eki Toyotomi, Gourmet Strawberry Kan Maeda, and the Yamanashi Prefecture Archaeological Museum. I need a detailed itinerary including transportation options for each destination and introduce the content of the event. The itinerary should start with my arrival at Tokyo Haneda Airport, include transportation to Fuji Onsenji Yumedono and check-in hotel, and cover all the attractions I plan to visit. Please present this in a structured JSON format with keys for 'trip'{ 'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary':[{'day', 'activities':[{'name', and 'transportation','activities_content'}]}], with type and details for each mode of transport,such as Take the JR Yamanote Line from Tokyo Haneda Airport to Shinagawa Station, then transfer to the JR Keihin-Tohoku Line to Oimachi Station. From Oimachi Station, walk to Mitama no Yu."
+        "content": content
     }
 ]
 
 
 def gpt_plan_trip():
-    result = gpt_35_api(messages3)
-    return result
+    while True:
+        result = gpt_35_api(messages3)
+        if 'itinerary' is not result:
+            continue
+        return result
