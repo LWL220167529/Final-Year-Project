@@ -41,7 +41,7 @@ def check_login(id: Optional[int or str], password: str):
     try:
         # Find user by id or email
         user = session.query(User).filter(
-            or_(User.email == id, User.id == id, User.userName == id)).first()
+            or_(User.email == id, User.userName == id)).first()
 
         if user is None or not user.check_password(password):
             return jsonify({'message': 'Invalid username or password.', 'login': False})
