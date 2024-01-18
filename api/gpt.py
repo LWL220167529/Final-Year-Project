@@ -59,8 +59,5 @@ messages3 = [
 
 
 def gpt_plan_trip():
-    while True:
-        result = gpt_35_api(messages3)
-        if 'itinerary' is not result:
-            continue
-        return result
+    result = gpt_35_api(messages3)
+    return result
