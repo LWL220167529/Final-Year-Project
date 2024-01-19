@@ -46,18 +46,23 @@ def fix_json_and_validate(ai_response_content):
     
 content = "I'm planning a three-day, two-night trip to Japan. I'll arrive at Tokyo (HND-Haneda), stay at Fuji Onsenji Yumedono, and visit attractions including Mitama no Yu, Kanzo Yashiki, Manns Wines Katsunuma Winery, Michi-no-Eki Toyotomi, Gourmet Strawberry Kan Maeda, and the Yamanashi Prefecture Archaeological Museum. I need a detailed itinerary including transportation options for each destination and introduce the content of the event. The itinerary should start with my arrival at Tokyo Haneda Airport, include transportation to Fuji Onsenji Yumedono and check-in hotel, and cover all the attractions I plan to visit. Please present this in a structured JSON format with keys for 'trip'{ 'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary':[{'day', 'activities':[{'name','transportation:{'type','details}','activities_content'}]}], with type and details for each mode of transport,such as Take the JR Yamanote Line from Tokyo Haneda Airport to Shinagawa Station, then transfer to the JR Keihin-Tohoku Line to Oimachi Station. From Oimachi Station, walk to Mitama no Yu."
 
-messages3 = [
-    {
-        "role": "system",
-        "content": "You are a travel planning assistant, skilled in creating detailed itineraries including transportation options. Provide the plan in a structured format suitable for converting to JSON, ensuring consistent keys for database storage."
-    },
-    {
-        "role": "user",
-        "content": content
-    }
-]
 
 
-def gpt_plan_trip():
-    result = gpt_35_api(messages3)
+
+
+def gpt_plan_trip(plan: dict):    
+    testContent = "I'm planning a trip to Japan. I will give you a json please help me rewrite or add 'itinerary':[{'day', 'activities':[{'name','transportation:{'type','details) between each location }','activities_content'}], here is my trip "
+    testContent = testContent + f"plan: {plan}"
+    print(testContent)
+    messages = [
+        {
+            "role": "system",
+            "content": "You are a travel planning assistant, skilled in creating detailed itineraries including transportation options. Provide the plan in a structured format suitable for converting to JSON, ensuring consistent keys for database storage."
+        },
+        {
+            "role": "user",
+            "content": testContent
+        }
+    ]
+    result = gpt_35_api(messages)
     return result

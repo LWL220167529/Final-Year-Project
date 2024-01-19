@@ -285,7 +285,8 @@ def tripPlan():
         day = data.get('day')
     
     # Call the trip_plan function with the provided parameters
-    response = gpt.gpt_plan_trip()
+    response = gpt.gpt_plan_trip(place.getRandomPlan(
+        0, 3, 0, 0, 0, 0))
     
     return jsonify(response), 200
 
