@@ -53,7 +53,6 @@ content = "I'm planning a three-day, two-night trip to Japan. I'll arrive at Tok
 def gpt_plan_trip(plan: dict):    
     testContent = "I'm planning a trip to Japan. I will give you a json please help me rewrite or add 'itinerary':[{'day', 'activities':[{'name','transportation:{'type','details) between each location }','activities_content'}], here is my trip "
     testContent = testContent + f"plan: {plan}"
-    print(testContent)
     messages = [
         {
             "role": "system",
