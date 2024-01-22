@@ -26,7 +26,7 @@ import UserListScreen from "./screens/UserListScreen";
 import SelectHotel from "./screens/SelectHotelScreen";
 import Navigation from "./screens/Navigation";
 import GenPlanLoading from './screens/GenPlanLoading';
-import Test from './screens/Test';
+import TestScreen from './screens/Test';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -67,7 +67,7 @@ export default function App() {
         <Stack.Navigator initialRouteName='Test'>
           <Stack.Screen name="PlanGeneration" component={PlanGeneration} options={{ headerShown: false }} />
           <Stack.Screen name="GenPlanLoading" component={GenPlanLoading} options={{ headerShown: false }} />
-          <Stack.Screen name="Test" component={Test} options={{ headerShown: false }} />
+          
 
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="SelectHotel" component={SelectHotel} />
@@ -76,6 +76,7 @@ export default function App() {
           <Stack.Screen name="UserListScreen" component={UserListScreen} />
           <Stack.Screen name="Home" component={TabGroup} options={{ headerShown: false }}
           />
+          <Stack.Screen name="Test" component={TestScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PlanList" component={PlanList}
           />
               <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }}
