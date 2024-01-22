@@ -5,6 +5,7 @@ import user
 import place  
 import collect
 import userSchedule
+import json
 # connect database
 app = Flask(__name__)
 CORS(app)
@@ -172,23 +173,10 @@ def getPlaceByID():
 
 @app.route('/AIPlan', methods=["GET", "POST"])
 def AIPlan():
-    if request.method == "GET":  # get request from url
-        state_id = request.args.get('stateID')
-        day = request.args.get('day')
-        budget = request.args.get('budget')
-        num_of_people = request.args.get('numOfPeople')
-        start_date = request.args.get('startDate')
-        activities = request.args.get('activities')
-    else:  # post request from body
-        data = request.get_json()
-        state_id = data.get('stateID')
-        day = data.get('day')
-        budget = data.get('budget')
-        num_of_people = data.get('numOfPeople')
-        start_date = data.get('startDate')
-        activities = data.get('activities')
-    response = place.getRandomPlan(
-        state_id, day, budget, num_of_people, start_date, activities)
+    # data = request.get_json()
+    with open(r'C:\Users\User\Downloads\TransferData.json', 'r') as f:
+        data = json.load(f)
+    response = place.getRandomPlan(data)
     return jsonify(response), 200
 
 
@@ -232,6 +220,7 @@ def getCollectionByID():
 def addSchedule():
     if request.method == "GET":
         userID = request.args.get('userID')
+        title = request.args.get('title')
         description = request.args.get('description')
         startTime = request.args.get('startTime')
         endTime = request.args.get('endTime')
@@ -239,13 +228,14 @@ def addSchedule():
     else:
         data = request.get_json()
         userID = data.get('userID')
+        title = data.get('title')
         description = data.get('description')
         startTime = data.get('startTime')
         endTime = data.get('endTime')
         places = data.get('places')
     
     # Call the add_schedule function with the provided parameters
-    response = userSchedule.add_schedule(userID, description, startTime, endTime, places)
+    response = userSchedule.add_schedule(userID, title, description, startTime, endTime, places)
     
     return jsonify(response), 200
 
@@ -253,6 +243,7 @@ def addSchedule():
 def updateSchedule():
     if request.method == "GET":
         userID = request.args.get('userID')
+        title = request.args.get('title')
         scheduleID = request.args.get('scheduleID')
         description = request.args.get('description')
         startTime = request.args.get('startTime')
@@ -261,6 +252,7 @@ def updateSchedule():
     else:
         data = request.get_json()
         userID = data.get('userID')
+        title = data.get('title')
         scheduleID = data.get('scheduleID')
         description = data.get('description')
         startTime = data.get('startTime')
@@ -268,27 +260,26 @@ def updateSchedule():
         places = data.get('places')
     
     # Call the update_schedule function with the provided parameters
-    response = userSchedule.update_schedule(userID, scheduleID, description, startTime, endTime, places)
+    response = userSchedule.update_schedule(userID, scheduleID, title, description, startTime, endTime, places)
     
     return jsonify(response), 200
 
-@app.route('/tripPlan', methods=["GET", "POST"])
-def tripPlan():
-    if request.method == "GET":
-        userID = request.args.get('userID')
-        scheduleID = request.args.get('scheduleID')
-        day = request.args.get('day')
-    else:
-        data = request.get_json()
-        userID = data.get('userID')
-        scheduleID = data.get('scheduleID')
-        day = data.get('day')
+# @app.route('/tripPlan', methods=["GET", "POST"])
+# def tripPlan():
+#     if request.method == "GET":
+#         userID = request.args.get('userID')
+#         scheduleID = request.args.get('scheduleID')
+#         day = request.args.get('day')
+#     else:
+#         data = request.get_json()
+#         userID = data.get('userID')
+#         scheduleID = data.get('scheduleID')
+#         day = data.get('day')
     
-    # Call the trip_plan function with the provided parameters
-    response = gpt.gpt_plan_trip(place.getRandomPlan(
-        0, 3, 0, 0, 0, 0))
+#     # Call the trip_plan function with the provided parameters
+#     response = gpt.gpt_plan_trip(data)
     
-    return jsonify(response), 200
+#     return jsonify(response), 200
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

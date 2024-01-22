@@ -7,7 +7,9 @@ from datetime import datetime
 from rapidfuzz import process, fuzz
 from typing import Optional
 import pandas as pd
+import json
 import math
+import requests
 import random
 
 # Remote database configuration
@@ -54,7 +56,8 @@ class CitiesPlace(Base):
     created_at = Column(TIMESTAMP, nullable=False, default=datetime.utcnow)
     updated_at = Column(TIMESTAMP, nullable=False,
                         default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
+
 def add_new_cities_place(data: dict):
     try:
         # Create a new cities place instance
@@ -67,6 +70,7 @@ def add_new_cities_place(data: dict):
         return jsonify({'message': 'New cities place created successfully.'}), 201
     except Exception as e:
         return jsonify({'message': str(e)}), 500
+
 
 def update_cities_place(place_id: int, data: dict):
     try:
@@ -118,7 +122,8 @@ def get_by_input(input: str):
 
         cities_places_data = []
         for city_place in cities_places:
-            city_place_data = {key: getattr(city_place, key) for key in city_place.__table__.columns.keys()}
+            city_place_data = {key: getattr(city_place, key)
+                               for key in city_place.__table__.columns.keys()}
             city_place_data.pop('_sa_instance_state', None)
             cities_places_data.append(city_place_data)
 
@@ -247,50 +252,160 @@ q_attractions['score'] = q_attractions.apply(weighted_rating, axis=1)
 attractions = q_attractions.sort_values('score', ascending=False)
 
 
-def getRandomPlan(state_id: int, day: int, budget: float, num_of_people: int, start_date: str, activities: list) -> list:
-    citiesPlace = attractions.copy()
+def getRandomPlan(data: dict):
+    # citiesPlace = attractions.copy()
+    planData = json.loads(json.dumps(data))
+    day = int(planData['numberOfDays'])
 
-    if len(citiesPlace) < (int(day) + 1) * 3:
-        raise ValueError("Insufficient data. Stopping...")
+    urls = {"https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary",
+            "https://travel-advisor.p.rapidapi.com/attractions/list-in-boundary"}
 
-    random_cities = citiesPlace.sample(n=(int(day) + 1) * 3)
-    random_cities = random_cities[random_cities['id'].isin(
-        random_cities['id'])]
+    querystring = {
+        "bl_latitude": data['destination']['bl_lat'],
+        "tr_latitude": data['destination']['tr_lat'],
+        "bl_longitude": data['destination']['bl_lng'],
+        "tr_longitude": data['destination']['tr_lng'],
+        "limit": "30",
+        "currency": "USD",
+                    "lunit": "km",
+                    "lang": "en_US"
+    }
+
+    headers = {
+        "X-RapidAPI-Key": "337de8d7c5msh99e0dfd0e714de4p182b66jsn0a5d798b1e0a",
+        "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com"
+    }
+
+    place = []  # save restaurants and attraction response
+
+    for url in urls:
+        response = requests.get(url, headers=headers, params=querystring)
+        place.append(response.json())
+
+    random_attractions = []
+    random_restaurants = []
+
+    index = 0
+    for attraction in place[1]["data"]:
+        if 'latitude' not in attraction and 'longitude' not in attraction:
+            place[1]["data"].pop(index)
+        index += 1
+    index = 0
+    for restaurant in place[0]["data"]:
+        if 'latitude' not in restaurant and 'longitude' not in restaurant:
+            place[0]["data"].pop(index)
+        index += 1
+
+    for i in range((day + 1) * 3):
+        random_number = random.randint(0, len(place[1]["data"]) - 1)
+        random_attractions.append(place[1]["data"][random_number])
+        place[1]["data"].pop(random_number)
+    for i in range((day + 1) * 3):
+        random_number = random.randint(0, len(place[0]["data"]) - 1)
+        random_restaurants.append(place[0]["data"][random_number])
+        place[0]["data"].pop(random_number)
+    # random_cities = citiesPlace.sample(n=(int(day) + 1) * 3)
+    # random_cities = random_cities[random_cities['id'].isin(
+    #     random_cities['id'])]
 
     # Add errors='ignore' to handle missing labels
-    citiesPlace = citiesPlace.drop(random_cities.index, errors='ignore')
     response = []
     temp_list = []
-
-    for index, (row_index, row) in enumerate(random_cities.iterrows(), start=1):
+    hotel = data['HotelData']
+    response.append({"HotelData": hotel})
+    index = 1
+    for attraction, restaurant in zip(random_attractions, random_restaurants):
         try:
-            if index < len(random_cities):
-                next_row = random_cities.iloc[index]
-                while True:
-                    distance = calculate_distance(
-                        row['latitude'], row['longitude'], next_row['latitude'], next_row['longitude'])
-                    if 10 < distance < 100:
-                        temp_list.append(row.to_dict())
-                        if index % 3 == 0:
-                            response.append(
-                                {"day": int(int(day) - index/3), "place": temp_list})
-                            temp_list = []
-                        break
-                    else:
-                        if len(citiesPlace) > 0:
-                            random_cities.iloc[index - 1] = citiesPlace.iloc[0]
-                            # Add errors='ignore' to handle missing labels
-                            citiesPlace = citiesPlace.drop(
-                                citiesPlace.index[0], errors='ignore')
-                            next_row = citiesPlace.iloc[0]
-                        else:
-                            raise ValueError(
-                                "No more cities to try. Stopping...")
-            # Rest of your code...
+            # while True:
+            # distance = calculate_distance(
+            #     float(attraction['latitude']), float(attraction['longitude']), float(next_row['latitude']), float(next_row['longitude']))
+            # if 10 < distance < 100:
+            if index % 2 == 0:
+                temp_list.append(
+                    {"itinerary": index % 3, **restaurant})
+            else:
+                temp_list.append(
+                    {"itinerary": index % 3, **attraction})
+
+            print(index)
+            print(index % 3 == 0)
+            if index % 3 == 0:
+                response.append(
+                    {"day": int(day - index/3), "place": temp_list})
+                temp_list = []
+            if index/3 == day:
+                break
+            index += 1
+                #     break
+                # else:
+                #     if len(random_attractions) > 0:
+                #         random_number = random.randint(
+                #             0, len(place[1]["data"]) - 1)
+                #         random_attractions[index -
+                #                         1] = place[1]["data"][random_number]
+                #         place[1]["data"].pop(random_number)
+                #         # Add errors='ignore' to handle missing labels
+                #         next_row = random_attractions[0]
+
+            # if index < len(random_cities):
+            #     next_row = random_cities.iloc[index]
+            #     while True:
+            #         distance = calculate_distance(
+            #             row['latitude'], row['longitude'], next_row['latitude'], next_row['longitude'])
+            #         if 10 < distance < 100:
+            #             temp_list.append({"itinerary": index %
+            #                              3, **row.to_dict()})
+            #             if index % 3 == 0:
+            #                 response.append(
+            #                     {"day": int(int(day) - index/3), "place": temp_list})
+            #                 temp_list = []
+            #             break
+            #         else:
+            #             if len(citiesPlace) > 0:
+            #                 random_cities.iloc[index - 1] = citiesPlace.iloc[0]
+            #                 # Add errors='ignore' to handle missing labels
+            #                 citiesPlace = citiesPlace.drop(
+            #                     citiesPlace.index[0], errors='ignore')
+            #                 next_row = citiesPlace.iloc[0]
+            #             else:
+            #                 raise ValueError(
+            #                     "No more cities to try. Stopping...")
+            # # Rest of your code...
         except IndexError:
             print("Invalid index. Skipping...")
             break
     return response
+
+    # for index, (row_index, row) in enumerate(random_cities.iterrows(), start=1):
+    #     try:
+    #         if index < len(random_cities):
+    #             next_row = random_cities.iloc[index]
+    #             while True:
+    #                 distance = calculate_distance(
+    #                     row['latitude'], row['longitude'], next_row['latitude'], next_row['longitude'])
+    #                 if 10 < distance < 100:
+    #                     temp_list.append({"itinerary": index %
+    #                                      3, **row.to_dict()})
+    #                     if index % 3 == 0:
+    #                         response.append(
+    #                             {"day": int(int(day) - index/3), "place": temp_list})
+    #                         temp_list = []
+    #                     break
+    #                 else:
+    #                     if len(citiesPlace) > 0:
+    #                         random_cities.iloc[index - 1] = citiesPlace.iloc[0]
+    #                         # Add errors='ignore' to handle missing labels
+    #                         citiesPlace = citiesPlace.drop(
+    #                             citiesPlace.index[0], errors='ignore')
+    #                         next_row = citiesPlace.iloc[0]
+    #                     else:
+    #                         raise ValueError(
+    #                             "No more cities to try. Stopping...")
+    #         # Rest of your code...
+    #     except IndexError:
+    #         print("Invalid index. Skipping...")
+    #         break
+    # return response
 
 
 def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
