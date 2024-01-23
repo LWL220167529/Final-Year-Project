@@ -7,6 +7,7 @@ from datetime import datetime
 from rapidfuzz import process, fuzz
 from typing import Optional
 import pandas as pd
+import gpt
 import json
 import math
 import requests
@@ -253,12 +254,13 @@ attractions = q_attractions.sort_values('score', ascending=False)
 
 
 def getRandomPlan(data: dict):
-    # citiesPlace = attractions.copy()
     planData = json.loads(json.dumps(data))
     day = int(planData['numberOfDays'])
 
-    urls = {"https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary",
-            "https://travel-advisor.p.rapidapi.com/attractions/list-in-boundary"}
+    urls = [
+        "https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary",
+        "https://travel-advisor.p.rapidapi.com/attractions/list-in-boundary"
+    ]
 
     querystring = {
         "bl_latitude": data['destination']['bl_lat'],
@@ -267,8 +269,8 @@ def getRandomPlan(data: dict):
         "tr_longitude": data['destination']['tr_lng'],
         "limit": "30",
         "currency": "USD",
-                    "lunit": "km",
-                    "lang": "en_US"
+        "lunit": "km",
+        "lang": "en_US"
     }
 
     headers = {
@@ -282,130 +284,54 @@ def getRandomPlan(data: dict):
         response = requests.get(url, headers=headers, params=querystring)
         place.append(response.json())
 
-    random_attractions = []
-    random_restaurants = []
+    random_attractions = random.sample(place[1]["data"], (day + 1) * 3)
+    random_restaurants = random.sample(place[0]["data"], (day + 1) * 3)
 
-    index = 0
-    for attraction in place[1]["data"]:
-        if 'latitude' not in attraction and 'longitude' not in attraction:
-            place[1]["data"].pop(index)
-        index += 1
-    index = 0
-    for restaurant in place[0]["data"]:
-        if 'latitude' not in restaurant and 'longitude' not in restaurant:
-            place[0]["data"].pop(index)
-        index += 1
-
-    for i in range((day + 1) * 3):
-        random_number = random.randint(0, len(place[1]["data"]) - 1)
-        random_attractions.append(place[1]["data"][random_number])
-        place[1]["data"].pop(random_number)
-    for i in range((day + 1) * 3):
-        random_number = random.randint(0, len(place[0]["data"]) - 1)
-        random_restaurants.append(place[0]["data"][random_number])
-        place[0]["data"].pop(random_number)
-    # random_cities = citiesPlace.sample(n=(int(day) + 1) * 3)
-    # random_cities = random_cities[random_cities['id'].isin(
-    #     random_cities['id'])]
-
-    # Add errors='ignore' to handle missing labels
     response = []
     temp_list = []
-    hotel = data['HotelData']
-    response.append({"HotelData": hotel})
-    index = 1
-    for attraction, restaurant in zip(random_attractions, random_restaurants):
-        try:
-            # while True:
-            # distance = calculate_distance(
-            #     float(attraction['latitude']), float(attraction['longitude']), float(next_row['latitude']), float(next_row['longitude']))
-            # if 10 < distance < 100:
-            if index % 2 == 0:
-                temp_list.append(
-                    {"itinerary": index % 3, **restaurant})
-            else:
-                temp_list.append(
-                    {"itinerary": index % 3, **attraction})
 
-            print(index)
-            print(index % 3 == 0)
+    for index, (attraction, restaurant) in enumerate(zip(random_attractions, random_restaurants), start=1):
+        try:
+            if index == 1:
+                    temp_list.append({"id": index, "sequence": index % 3,
+                                    "name": data['HotelData']['Hotel'],
+                                    "imageSrc": data['HotelData']['ImageSrc'],
+                                    "category": data['HotelData']['category'],
+                                    "latitude": data['HotelData']['coordinate']['latitude'],
+                                    "longitude": data['HotelData']['coordinate']['longitude'],
+                                    "distanceFromDestination": data['HotelData']['distanceFromDestination'],
+                                    "price": data['HotelData']['price']['price'],
+                                    "currency": data['HotelData']['price']['currency'],
+                                    "rating": data['HotelData']['rating'],
+                                    "reviewCount": data['HotelData']['reviewCount']})
+            elif index % 2 == 0:
+                if isinstance(restaurant, list) and len(restaurant) > 0 and 'name' in restaurant and 'address' in restaurant:
+                    temp_list.append(
+                        {"id": index, "sequence": index % 3, **restaurant[0]})
+                else:
+                    temp_list.append(
+                        {"id": index, "sequence": index % 3, **random.sample(place[0]["data"], 1)[0]})
+            else:
+                if isinstance(attraction, list) and len(attraction) > 0 and 'name' in attraction and 'address' in attraction:
+                    temp_list.append(
+                        {"id": index, "sequence": index % 3, **attraction[0]})
+                else:
+                    temp_list.append(
+                        {"id": index, "sequence": index % 3, **random.sample(place[1]["data"], 1)[0]})
+
             if index % 3 == 0:
                 response.append(
-                    {"day": int(day - index/3), "place": temp_list})
+                    {"day": day - (day - index // 3), "place": temp_list})
                 temp_list = []
-            if index/3 == day:
-                break
-            index += 1
-                #     break
-                # else:
-                #     if len(random_attractions) > 0:
-                #         random_number = random.randint(
-                #             0, len(place[1]["data"]) - 1)
-                #         random_attractions[index -
-                #                         1] = place[1]["data"][random_number]
-                #         place[1]["data"].pop(random_number)
-                #         # Add errors='ignore' to handle missing labels
-                #         next_row = random_attractions[0]
 
-            # if index < len(random_cities):
-            #     next_row = random_cities.iloc[index]
-            #     while True:
-            #         distance = calculate_distance(
-            #             row['latitude'], row['longitude'], next_row['latitude'], next_row['longitude'])
-            #         if 10 < distance < 100:
-            #             temp_list.append({"itinerary": index %
-            #                              3, **row.to_dict()})
-            #             if index % 3 == 0:
-            #                 response.append(
-            #                     {"day": int(int(day) - index/3), "place": temp_list})
-            #                 temp_list = []
-            #             break
-            #         else:
-            #             if len(citiesPlace) > 0:
-            #                 random_cities.iloc[index - 1] = citiesPlace.iloc[0]
-            #                 # Add errors='ignore' to handle missing labels
-            #                 citiesPlace = citiesPlace.drop(
-            #                     citiesPlace.index[0], errors='ignore')
-            #                 next_row = citiesPlace.iloc[0]
-            #             else:
-            #                 raise ValueError(
-            #                     "No more cities to try. Stopping...")
-            # # Rest of your code...
+            if index // 3 == day:
+                break
+
         except IndexError:
             print("Invalid index. Skipping...")
             break
-    return response
-
-    # for index, (row_index, row) in enumerate(random_cities.iterrows(), start=1):
-    #     try:
-    #         if index < len(random_cities):
-    #             next_row = random_cities.iloc[index]
-    #             while True:
-    #                 distance = calculate_distance(
-    #                     row['latitude'], row['longitude'], next_row['latitude'], next_row['longitude'])
-    #                 if 10 < distance < 100:
-    #                     temp_list.append({"itinerary": index %
-    #                                      3, **row.to_dict()})
-    #                     if index % 3 == 0:
-    #                         response.append(
-    #                             {"day": int(int(day) - index/3), "place": temp_list})
-    #                         temp_list = []
-    #                     break
-    #                 else:
-    #                     if len(citiesPlace) > 0:
-    #                         random_cities.iloc[index - 1] = citiesPlace.iloc[0]
-    #                         # Add errors='ignore' to handle missing labels
-    #                         citiesPlace = citiesPlace.drop(
-    #                             citiesPlace.index[0], errors='ignore')
-    #                         next_row = citiesPlace.iloc[0]
-    #                     else:
-    #                         raise ValueError(
-    #                             "No more cities to try. Stopping...")
-    #         # Rest of your code...
-    #     except IndexError:
-    #         print("Invalid index. Skipping...")
-    #         break
-    # return response
+    
+    return gpt.gpt_plan_trip(response)
 
 
 def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

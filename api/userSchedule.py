@@ -33,7 +33,7 @@ class UserSchedule(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     directory_ID = Column(Integer, ForeignKey(
         'schedule_directory.id'), nullable=False)
-    itinerary = Column(Integer, nullable=False)
+    sequence = Column(Integer, nullable=False)
     place_ID = Column(Integer, ForeignKey('cities_place.id'), nullable=False)
     description = Column(String(255))
     startTime = Column(DateTime)
@@ -146,7 +146,7 @@ def get_new_schedule_id(userID: str) -> int:
 
 
 def create_user_schedule(directory_id: int, place: dict) -> UserSchedule:
-    return UserSchedule(directory_ID=directory_id, itinerary=place['itinerary'], place_ID=place['place_ID'],
+    return UserSchedule(directory_ID=directory_id, sequence=place['sequence'], place_ID=place['place_ID'],
                         description=place['description'], createTime=datetime.utcnow(), editTime=datetime.utcnow())
 
 
@@ -161,7 +161,7 @@ def get_user_schedules(directory_id: int) -> List[UserSchedule]:
 
 def update_user_schedule(schedule: UserSchedule, place: dict):
     schedule.description = place['description']
-    schedule.itinerary = place['itinerary']
+    schedule.sequence = place['sequence']
     schedule.place_ID = place['place_ID']
     schedule.editTime = datetime.utcnow()
 

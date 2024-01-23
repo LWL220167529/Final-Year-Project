@@ -50,8 +50,28 @@ content = "I'm planning a three-day, two-night trip to Japan. I'll arrive at Tok
 
 
 
-def gpt_plan_trip(plan: dict):
-    itinerary_instructions = "I'm planning a trip to Japan, . Here is my initial plan: {0}. I need a detailed itinerary including transportation options that category have flight,train, bus, taxi, walking such as ride Narita Express to some station, JR Line to some station, specify bus. Detailed itinerary that includes: 1)Flight to some airport,not need to specify which flight is from which airport. 2) Traveling from the airport to the hotel , 3) Checking in at hotel and visit at least one attraction on initial plan, 4) Covering all the places I plan to visit for the rest of my trip . Please format the itinerary in structured JSON with keys for 'trip': {{'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary': [{{'day', 'activities': [{{'name', 'transportation': {{'type', 'details'}}, 'activities_content'}}]}}]}} and cannot be change the JSON structured.".format(plan)
+def gpt_plan_trip(plans: dict):
+    planMessage = []
+    for plan in plans:
+        planDay = {
+            'day': plan['day'],
+            'activities': []
+        }
+        for place in plan['place']:
+            activity = {
+                    'id': place['id'] if 'id' in place else '',
+                    'name': place['name'] if 'name' in place else '',
+                    'sequence': place['sequence'] if 'sequence' in place else '',
+                    'address': place['address'] if 'address' in place else '',
+                }
+            planDay['activities'].append(activity)
+        planMessage.append(planDay)
+
+
+    with open(r'C:\Users\User\Documents\IT114105\IT4116\save\save.json', "w") as outfile:
+        json.dump(planMessage, outfile)
+
+    itinerary_instructions = "I'm planning a trip to Japan, . Here is my initial plan: {0}. I need a detailed itinerary including transportation options that category have flight,train, bus, taxi, walking such as ride Narita Express to some station, JR Line to some station, specify bus. Detailed itinerary that includes: 1) check in the hotel , 2) Checking in at hotel and visit at least one attraction on initial plan, 3) Covering all the places I plan to visit for the rest of my trip . Please format the itinerary in structured JSON with keys for 'trip': {{'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary': [{{'day', 'activities': [{{'id', 'name', 'transportation': {{'type', 'details'}}, 'sequence', 'activities_content'}}]}}]}} and cannot be change the JSON structured.".format(planMessage)
 
     messages = [
         {
@@ -60,19 +80,19 @@ def gpt_plan_trip(plan: dict):
         },
         {
             "role": "user",
-            "content": itinerary_instructions
+            "content": itinerary_instructions   
         }
     ]
 
     # attempt = 0
     # max_attempts = 3  # Set a maximum number of attempts to avoid infinite loops
 
-    result = gpt_35_api(messages)
-    return result
-    while attempt < max_attempts:
+    result = gpt_35_api(messages) # need
+    return result # need
+    # while attempt < max_attempts:
 
-        # Check if the first activity is a flight
-        if result and result['trip']['itinerary'][0]['activities'][0]['transportation']['type'] == 'Flight':
-            return None
-        else:
-            attempt += 1
+    #     # Check if the first activity is a flight
+    #     if result and result['trip']['itinerary'][0]['activities'][0]['transportation']['type'] == 'Flight':
+    #         return None
+    #     else:
+    #         attempt += 1
