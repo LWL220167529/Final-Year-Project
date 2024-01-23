@@ -33,7 +33,7 @@ class UserSchedule(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     directory_ID = Column(Integer, ForeignKey(
         'schedule_directory.id'), nullable=False)
-    Itinerary = Column(Integer, nullable=False)
+    sequence = Column(Integer, nullable=False)
     place_ID = Column(Integer, ForeignKey('cities_place.id'), nullable=False)
     description = Column(String(255))
     startTime = Column(DateTime)
@@ -83,15 +83,16 @@ class ScheduleDirectory(Base):
     __tablename__ = 'schedule_directory'
     id = Column(Integer, primary_key=True, autoincrement=True)
     userID = Column(Integer, ForeignKey('user.id'), nullable=False)
+    title = Column(String(255), default=None)
     description = Column(String(255), default=None)
     startTime = Column(DateTime, default=None)
     createTime = Column(DateTime, default=datetime.utcnow)
     editTime = Column(DateTime, default=None)
 
 
-def add_schedule(userID: str, description: str, startTime: str, placesJson: dict):
+def add_schedule(userID: str, title: str, description: str, startTime: str, placesJson: dict):
     try:
-        new_schedule = create_schedule(userID, description, startTime)
+        new_schedule = create_schedule(userID, title, description, startTime)
         session.add(new_schedule)
         session.commit()
 
@@ -107,13 +108,14 @@ def add_schedule(userID: str, description: str, startTime: str, placesJson: dict
         return jsonify({'message': 'Error occurred during add schedule.', 'error': str(e)}), 500
 
 
-def update_schedule(userID: str, scheduleID: int, description: str, startTime: str, placesJson: dict):
+def update_schedule(userID: str, title: str, scheduleID: int, description: str, startTime: str, placesJson: dict):
     try:
         directory = get_schedule_directory(userID, scheduleID)
         if not directory:
             return jsonify({'message': 'Schedule not found'}), 404
 
         directory.startTime = startTime
+        directory.title = title
         directory.description = description
 
         schedules = get_user_schedules(directory.id)
@@ -134,8 +136,8 @@ def update_schedule(userID: str, scheduleID: int, description: str, startTime: s
         return jsonify({'message': 'Error occurred during update schedule.', 'error': str(e)}), 500
 
 
-def create_schedule(userID: str, description: str, startTime: str) -> ScheduleDirectory:
-    return ScheduleDirectory(userID=userID, description=description, startTime=startTime)
+def create_schedule(userID: str, title: str, description: str, startTime: str) -> ScheduleDirectory:
+    return ScheduleDirectory(userID=userID, title=title, description=description, startTime=startTime)
 
 
 def get_new_schedule_id(userID: str) -> int:
@@ -144,7 +146,7 @@ def get_new_schedule_id(userID: str) -> int:
 
 
 def create_user_schedule(directory_id: int, place: dict) -> UserSchedule:
-    return UserSchedule(directory_ID=directory_id, Itinerary=place['itinerary'], place_ID=place['place_ID'],
+    return UserSchedule(directory_ID=directory_id, sequence=place['sequence'], place_ID=place['place_ID'],
                         description=place['description'], createTime=datetime.utcnow(), editTime=datetime.utcnow())
 
 
@@ -159,7 +161,7 @@ def get_user_schedules(directory_id: int) -> List[UserSchedule]:
 
 def update_user_schedule(schedule: UserSchedule, place: dict):
     schedule.description = place['description']
-    schedule.Itinerary = place['Itinerary']
+    schedule.sequence = place['sequence']
     schedule.place_ID = place['place_ID']
     schedule.editTime = datetime.utcnow()
 

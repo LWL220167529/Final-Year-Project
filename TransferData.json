@@ -1,0 +1,2720 @@
+{
+   "TransferData": {
+      "userID": 5,
+      "destination": {
+         "bl_lat": 34.5776326,
+         "bl_lng": 138.2991098,
+         "tr_lat": 36.4408483,
+         "tr_lng": 141.2405144
+      },
+      "Country": "Tokyo, Japan",
+      "TravelDate": "2024-01-21T16:04:23.710Z",
+      "numberOfDays": "3",
+      "AllTravelDates": [
+         "2024-01-21T16:04:23.710Z",
+         "2024-01-22T16:04:23.710Z",
+         "2024-01-23T16:04:23.710Z"
+      ],
+      "RestaurantData": [
+         {
+            "name": "Shabu Shabu Tajimaya Haneda Airport Garden",
+            "latitude": "35.543198",
+            "longitude": "139.78821",
+            "ranking": "#1 of 4,145 Restaurants in Ota",
+            "rating": "5.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ]
+            ],
+            "distance": "4.130639151212824",
+            "distance_string": "4.1 km",
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10679",
+                  "name": "Healthy"
+               }
+            ]
+         },
+         {
+            "name": "Ramen Kaneyuki",
+            "latitude": "35.505474",
+            "longitude": "138.7591",
+            "ranking": "#1 of 391 Restaurants in Fujikawaguchiko-machi",
+            "rating": "5.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 1200
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 1200
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 1200
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 1200
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 1200
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 1200
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 1200
+                  }
+               ]
+            ],
+            "distance": null,
+            "distance_string": null,
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10686",
+                  "name": "Street Food"
+               },
+               {
+                  "key": "10700",
+                  "name": "Soups"
+               }
+            ]
+         },
+         {
+            "name": "Yoritomo",
+            "latitude": "35.500008",
+            "longitude": "138.76329",
+            "ranking": "#2 of 391 Restaurants in Fujikawaguchiko-machi",
+            "rating": "5.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 900,
+                     "close_time": 1320
+                  }
+               ],
+               [],
+               [
+                  {
+                     "open_time": 900,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 900,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 900,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 900,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 900,
+                     "close_time": 1320
+                  }
+               ]
+            ],
+            "distance": null,
+            "distance_string": null,
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10345",
+                  "name": "Steakhouse"
+               },
+               {
+                  "key": "10651",
+                  "name": "Barbecue"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10992",
+                  "name": "Gluten Free Options"
+               }
+            ]
+         },
+         {
+            "name": "Izakaya High Spirits",
+            "latitude": "35.508297",
+            "longitude": "138.75854",
+            "ranking": "#3 of 391 Restaurants in Fujikawaguchiko-machi",
+            "rating": "5.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [],
+               [
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1050,
+                     "close_time": 1350
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1050,
+                     "close_time": 1350
+                  }
+               ]
+            ],
+            "distance": null,
+            "distance_string": null,
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10670",
+                  "name": "Pub"
+               },
+               {
+                  "key": "10671",
+                  "name": "Fusion"
+               },
+               {
+                  "key": "10643",
+                  "name": "Seafood"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               },
+               {
+                  "key": "10992",
+                  "name": "Gluten Free Options"
+               }
+            ]
+         },
+         {
+            "hours": []
+         },
+         {
+            "name": "Sushiryori Inose",
+            "latitude": "35.624958",
+            "longitude": "139.73038",
+            "ranking": "#1 of 3,739 Restaurants in Shinagawa",
+            "rating": "5.0",
+            "hours": [
+               [],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 780
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 780
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 780
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 780
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 780
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1080,
+                     "close_time": 1380
+                  }
+               ]
+            ],
+            "distance": "13.364448993944812",
+            "distance_string": "13.4 km",
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10643",
+                  "name": "Seafood"
+               },
+               {
+                  "key": "10653",
+                  "name": "Sushi"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10992",
+                  "name": "Gluten Free Options"
+               }
+            ]
+         },
+         {
+            "name": "Kebab Kamakura",
+            "latitude": "35.314964",
+            "longitude": "139.53519",
+            "ranking": "#1 of 1,630 Restaurants in Kamakura",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1020
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 2099
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 2099
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 2099
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 2099
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 2099
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 2099
+                  }
+               ]
+            ],
+            "distance": "30.338108948137688",
+            "distance_string": "30.3 km",
+            "cuisine": [
+               {
+                  "key": "10646",
+                  "name": "Fast Food"
+               },
+               {
+                  "key": "10663",
+                  "name": "Turkish"
+               },
+               {
+                  "key": "10687",
+                  "name": "Middle Eastern"
+               },
+               {
+                  "key": "10751",
+                  "name": "Halal"
+               }
+            ]
+         },
+         {
+            "name": "Tetsuyaki",
+            "latitude": "35.498528",
+            "longitude": "138.76617",
+            "ranking": "#4 of 391 Restaurants in Fujikawaguchiko-machi",
+            "rating": "4.5",
+            "hours": [
+               [],
+               [
+                  {
+                     "open_time": 720,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1290
+                  }
+               ],
+               [
+                  {
+                     "open_time": 720,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1290
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1020,
+                     "close_time": 1290
+                  }
+               ],
+               [
+                  {
+                     "open_time": 720,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1290
+                  }
+               ],
+               [
+                  {
+                     "open_time": 720,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1290
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1020,
+                     "close_time": 1230
+                  }
+               ]
+            ],
+            "distance": null,
+            "distance_string": null,
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10668",
+                  "name": "Grill"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               }
+            ]
+         },
+         {
+            "name": "Galleria Cafe Sheraton Grande Tokyo Bay Hotel",
+            "latitude": "35.62611",
+            "longitude": "139.87729",
+            "ranking": "#1 of 142 Restaurants in Maihama",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1440
+                  }
+               ]
+            ],
+            "distance": "16.244029588396174",
+            "distance_string": "16.2 km",
+            "cuisine": [
+               {
+                  "key": "10648",
+                  "name": "International"
+               },
+               {
+                  "key": "10654",
+                  "name": "European"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10345",
+                  "name": "Steakhouse"
+               },
+               {
+                  "key": "10642",
+                  "name": "Cafe"
+               }
+            ]
+         },
+         {
+            "name": "Ukai Toriyama",
+            "latitude": "35.615967",
+            "longitude": "139.25725",
+            "ranking": "#1 of 2,342 Restaurants in Hachioji",
+            "rating": "4.5",
+            "hours": [],
+            "distance": null,
+            "distance_string": null,
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               }
+            ]
+         },
+         {
+            "name": "Oimachi Zeniba Seinikuten",
+            "latitude": "35.60658",
+            "longitude": "139.73633",
+            "ranking": "#2 of 3,739 Restaurants in Shinagawa",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ]
+            ],
+            "distance": "11.24947719758354",
+            "distance_string": "11.3 km",
+            "cuisine": [
+               {
+                  "key": "10648",
+                  "name": "International"
+               },
+               {
+                  "key": "10668",
+                  "name": "Grill"
+               },
+               {
+                  "key": "10345",
+                  "name": "Steakhouse"
+               },
+               {
+                  "key": "10651",
+                  "name": "Barbecue"
+               }
+            ]
+         },
+         {
+            "hours": []
+         },
+         {
+            "name": "Grand Cafe",
+            "latitude": "35.62581",
+            "longitude": "139.87738",
+            "ranking": "#3 of 142 Restaurants in Maihama",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 690,
+                     "close_time": 870
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 690,
+                     "close_time": 870
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 690,
+                     "close_time": 870
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 690,
+                     "close_time": 870
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 690,
+                     "close_time": 870
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1320
+                  }
+               ]
+            ],
+            "distance": "16.222170711820752",
+            "distance_string": "16.2 km",
+            "cuisine": [
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               },
+               {
+                  "key": "10992",
+                  "name": "Gluten Free Options"
+               }
+            ]
+         },
+         {
+            "name": "Tokyo Yakiniku Heijoen Haneda Airport Garden",
+            "latitude": "35.549393",
+            "longitude": "139.77985",
+            "ranking": "#2 of 4,145 Restaurants in Ota",
+            "rating": "5.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ]
+            ],
+            "distance": "4.560474711804322",
+            "distance_string": "4.6 km",
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10661",
+                  "name": "Korean"
+               }
+            ]
+         },
+         {
+            "name": "Saiko Shinkan",
+            "latitude": "35.44318",
+            "longitude": "139.64685",
+            "ranking": "#1 of 16,599 Restaurants in Yokohama",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 930
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 930
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 930
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 930
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 930
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ]
+            ],
+            "distance": "13.35063662178161",
+            "distance_string": "13.4 km",
+            "cuisine": [
+               {
+                  "key": "5379",
+                  "name": "Chinese"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               }
+            ]
+         },
+         {
+            "name": "Katsuretsu An Bashamichi Sohonten",
+            "latitude": "35.447243",
+            "longitude": "139.63498",
+            "ranking": "#2 of 16,599 Restaurants in Yokohama",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ]
+            ],
+            "distance": "14.033033622546059",
+            "distance_string": "14 km",
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               }
+            ]
+         },
+         {
+            "name": "Fuji Tempura Idaten",
+            "latitude": "35.498672",
+            "longitude": "138.76627",
+            "ranking": "#5 of 391 Restaurants in Fujikawaguchiko-machi",
+            "rating": "4.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1260
+                  }
+               ]
+            ],
+            "distance": null,
+            "distance_string": null,
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               },
+               {
+                  "key": "10697",
+                  "name": "Vegan Options"
+               }
+            ]
+         },
+         {
+            "name": "Acqua E Sole",
+            "latitude": "35.607567",
+            "longitude": "140.11888",
+            "ranking": "#1 of 4,251 Restaurants in Chiba",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 660,
+                     "close_time": 1350
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 660,
+                     "close_time": 1350
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 660,
+                     "close_time": 1350
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 660,
+                     "close_time": 1350
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 660,
+                     "close_time": 1350
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 660,
+                     "close_time": 1350
+                  }
+               ],
+               [
+                  {
+                     "open_time": 390,
+                     "close_time": 600
+                  },
+                  {
+                     "open_time": 660,
+                     "close_time": 1350
+                  }
+               ]
+            ],
+            "distance": "33.446606740957",
+            "distance_string": "33.5 km",
+            "cuisine": [
+               {
+                  "key": "4617",
+                  "name": "Italian"
+               },
+               {
+                  "key": "5086",
+                  "name": "French"
+               }
+            ]
+         },
+         {
+            "hours": []
+         },
+         {
+            "name": "Hoto Fudo, Kawaguchiko Ekimae",
+            "latitude": "35.498837",
+            "longitude": "138.76865",
+            "ranking": "#6 of 391 Restaurants in Fujikawaguchiko-machi",
+            "rating": "4.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1140
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1140
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1140
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1140
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1140
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1140
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1140
+                  }
+               ]
+            ],
+            "distance": null,
+            "distance_string": null,
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               },
+               {
+                  "key": "10700",
+                  "name": "Soups"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               },
+               {
+                  "key": "10697",
+                  "name": "Vegan Options"
+               }
+            ]
+         },
+         {
+            "name": "DINO DINER",
+            "latitude": "35.508347",
+            "longitude": "138.75891",
+            "ranking": "#7 of 391 Restaurants in Fujikawaguchiko-machi",
+            "rating": "5.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1260
+                  }
+               ],
+               [],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1080,
+                     "close_time": 1260
+                  }
+               ]
+            ],
+            "distance": null,
+            "distance_string": null,
+            "cuisine": [
+               {
+                  "key": "9908",
+                  "name": "American"
+               },
+               {
+                  "key": "10676",
+                  "name": "Diner"
+               },
+               {
+                  "key": "10640",
+                  "name": "Bar"
+               },
+               {
+                  "key": "10679",
+                  "name": "Healthy"
+               },
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10670",
+                  "name": "Pub"
+               }
+            ]
+         },
+         {
+            "name": "Shatenki 2",
+            "latitude": "35.442715",
+            "longitude": "139.64693",
+            "ranking": "#3 of 16,599 Restaurants in Yokohama",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 510,
+                     "close_time": 1230
+                  }
+               ],
+               [
+                  {
+                     "open_time": 510,
+                     "close_time": 1230
+                  }
+               ],
+               [
+                  {
+                     "open_time": 510,
+                     "close_time": 1230
+                  }
+               ],
+               [
+                  {
+                     "open_time": 510,
+                     "close_time": 1230
+                  }
+               ],
+               [
+                  {
+                     "open_time": 510,
+                     "close_time": 1230
+                  }
+               ],
+               [
+                  {
+                     "open_time": 510,
+                     "close_time": 1290
+                  }
+               ],
+               [
+                  {
+                     "open_time": 510,
+                     "close_time": 1290
+                  }
+               ]
+            ],
+            "distance": "13.373498247138038",
+            "distance_string": "13.4 km",
+            "cuisine": [
+               {
+                  "key": "5379",
+                  "name": "Chinese"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               }
+            ]
+         },
+         {
+            "name": "Ristorante Di Canaletto",
+            "latitude": "35.625916",
+            "longitude": "139.88763",
+            "ranking": "#4 of 142 Restaurants in Maihama",
+            "rating": "4.5",
+            "hours": [],
+            "distance": "16.805057002373673",
+            "distance_string": "16.8 km",
+            "cuisine": [
+               {
+                  "key": "4617",
+                  "name": "Italian"
+               },
+               {
+                  "key": "10641",
+                  "name": "Pizza"
+               },
+               {
+                  "key": "10654",
+                  "name": "European"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               }
+            ]
+         },
+         {
+            "name": "Oimachi Yoshizou Sohonten",
+            "latitude": "35.606564",
+            "longitude": "139.73634",
+            "ranking": "#3 of 3,739 Restaurants in Shinagawa",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 840,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 1020,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 840,
+                     "close_time": 1380
+                  }
+               ]
+            ],
+            "distance": "11.247469634208684",
+            "distance_string": "11.2 km",
+            "cuisine": [
+               {
+                  "key": "10651",
+                  "name": "Barbecue"
+               },
+               {
+                  "key": "10668",
+                  "name": "Grill"
+               }
+            ]
+         },
+         {
+            "name": "T.Y.HARBOR",
+            "latitude": "35.622963",
+            "longitude": "139.74734",
+            "ranking": "#4 of 3,739 Restaurants in Shinagawa",
+            "rating": "4.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 840
+                  },
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 690,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1050,
+                     "close_time": 1320
+                  }
+               ]
+            ],
+            "distance": "12.819195496667989",
+            "distance_string": "12.8 km",
+            "cuisine": [
+               {
+                  "key": "9908",
+                  "name": "American"
+               },
+               {
+                  "key": "10621",
+                  "name": "Brew Pub"
+               },
+               {
+                  "key": "10640",
+                  "name": "Bar"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               },
+               {
+                  "key": "10697",
+                  "name": "Vegan Options"
+               }
+            ]
+         },
+         {
+            "name": "Manchinro Honten",
+            "latitude": "35.44323",
+            "longitude": "139.64452",
+            "ranking": "#4 of 16,599 Restaurants in Yokohama",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ]
+            ],
+            "distance": "13.524756078776793",
+            "distance_string": "13.5 km",
+            "cuisine": [
+               {
+                  "key": "5379",
+                  "name": "Chinese"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               }
+            ]
+         },
+         {
+            "name": "Hungry Tiger Hodogaya",
+            "latitude": "35.455734",
+            "longitude": "139.58257",
+            "ranking": "#5 of 16,599 Restaurants in Yokohama",
+            "rating": "4.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1350
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1320
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1350
+                  }
+               ]
+            ],
+            "distance": "17.983532290439637",
+            "distance_string": "18 km",
+            "cuisine": [
+               {
+                  "key": "10345",
+                  "name": "Steakhouse"
+               },
+               {
+                  "key": "10648",
+                  "name": "International"
+               }
+            ]
+         },
+         {
+            "name": "Tsurutontan Haneda Airport",
+            "latitude": "35.545284",
+            "longitude": "139.76938",
+            "ranking": "#3 of 4,145 Restaurants in Ota",
+            "rating": "4.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 360,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 360,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 360,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 360,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 360,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 360,
+                     "close_time": 1440
+                  }
+               ],
+               [
+                  {
+                     "open_time": 360,
+                     "close_time": 1440
+                  }
+               ]
+            ],
+            "distance": "4.011824945964824",
+            "distance_string": "4 km",
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               }
+            ]
+         },
+         {
+            "name": "bills Shichirigahama",
+            "latitude": "35.305565",
+            "longitude": "139.51024",
+            "ranking": "#2 of 1,630 Restaurants in Kamakura",
+            "rating": "4.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1020
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 420,
+                     "close_time": 1260
+                  }
+               ]
+            ],
+            "distance": "32.68387301035543",
+            "distance_string": "32.7 km",
+            "cuisine": [
+               {
+                  "key": "10681",
+                  "name": "Australian"
+               },
+               {
+                  "key": "10648",
+                  "name": "International"
+               },
+               {
+                  "key": "10669",
+                  "name": "Contemporary"
+               },
+               {
+                  "key": "10679",
+                  "name": "Healthy"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               },
+               {
+                  "key": "10697",
+                  "name": "Vegan Options"
+               }
+            ]
+         },
+         {
+            "name": "Yoshinoya Haneda Airport International Terminal",
+            "latitude": "35.545612",
+            "longitude": "139.7683",
+            "ranking": "#4 of 4,145 Restaurants in Ota",
+            "rating": "4.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 480,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 480,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 480,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 480,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 480,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 480,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 480,
+                     "close_time": 1260
+                  }
+               ]
+            ],
+            "distance": "4.050461868713126",
+            "distance_string": "4.1 km",
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               },
+               {
+                  "key": "10646",
+                  "name": "Fast Food"
+               },
+               {
+                  "key": "10659",
+                  "name": "Asian"
+               }
+            ]
+         },
+         {
+            "name": "Bills Yokohama Red Brick Warehouse",
+            "latitude": "35.45268",
+            "longitude": "139.6431",
+            "ranking": "#6 of 16,599 Restaurants in Yokohama",
+            "rating": "4.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 480,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 540,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 540,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 540,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 540,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 540,
+                     "close_time": 1380
+                  }
+               ],
+               [
+                  {
+                     "open_time": 480,
+                     "close_time": 1380
+                  }
+               ]
+            ],
+            "distance": "13.095623344991878",
+            "distance_string": "13.1 km",
+            "cuisine": [
+               {
+                  "key": "10679",
+                  "name": "Healthy"
+               },
+               {
+                  "key": "10648",
+                  "name": "International"
+               },
+               {
+                  "key": "10669",
+                  "name": "Contemporary"
+               },
+               {
+                  "key": "10665",
+                  "name": "Vegetarian Friendly"
+               },
+               {
+                  "key": "10697",
+                  "name": "Vegan Options"
+               }
+            ]
+         },
+         {
+            "name": "Sanrokuen",
+            "latitude": "35.49014",
+            "longitude": "138.77005",
+            "ranking": "#8 of 391 Restaurants in Fujikawaguchiko-machi",
+            "rating": "4.5",
+            "hours": [
+               [
+                  {
+                     "open_time": 600,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 600,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 600,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 600,
+                     "close_time": 1260
+                  }
+               ],
+               [],
+               [
+                  {
+                     "open_time": 600,
+                     "close_time": 1260
+                  }
+               ],
+               [
+                  {
+                     "open_time": 600,
+                     "close_time": 1260
+                  }
+               ]
+            ],
+            "distance": null,
+            "distance_string": null,
+            "cuisine": [
+               {
+                  "key": "5473",
+                  "name": "Japanese"
+               }
+            ]
+         },
+         {
+            "name": "Meat Yazawa Tokyo Gotanda Honten",
+            "latitude": "35.626102",
+            "longitude": "139.72058",
+            "ranking": "#6 of 3,739 Restaurants in Shinagawa",
+            "rating": "4.0",
+            "hours": [
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1410
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1410
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1410
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1410
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1410
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 900
+                  },
+                  {
+                     "open_time": 1020,
+                     "close_time": 1410
+                  }
+               ],
+               [
+                  {
+                     "open_time": 660,
+                     "close_time": 1410
+                  }
+               ]
+            ],
+            "distance": "13.748563039611494",
+            "distance_string": "13.8 km",
+            "cuisine": [
+               {
+                  "key": "10345",
+                  "name": "Steakhouse"
+               }
+            ]
+         }
+      ],
+      "AttractionData": [
+         {
+            "name": "MOA Museum of Art",
+            "latitude": "35.109264",
+            "longitude": "139.07521",
+            "subcategory": [
+               {
+                  "key": "49",
+                  "name": "Museums"
+               }
+            ],
+            "ranking": "#1 of 101 things to do in Atami",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Kunozan Toshogu Shrine",
+            "latitude": "34.964718",
+            "longitude": "138.46753",
+            "subcategory": [
+               {
+                  "key": "47",
+                  "name": "Sights & Landmarks"
+               }
+            ],
+            "ranking": "#1 of 478 things to do in Shizuoka",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Jogasaki Coast",
+            "latitude": "34.89105",
+            "longitude": "139.13992",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               },
+               {
+                  "key": "61",
+                  "name": "Outdoor Activities"
+               }
+            ],
+            "ranking": "#2 of 138 things to do in Ito",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Hoki Museum",
+            "latitude": "35.52202",
+            "longitude": "140.27992",
+            "subcategory": [
+               {
+                  "key": "49",
+                  "name": "Museums"
+               }
+            ],
+            "ranking": "#2 of 195 things to do in Chiba",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Mt. Nokogiri",
+            "latitude": "35.159245",
+            "longitude": "139.83325",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#3 of 28 things to do in Kyonan-machi",
+            "rating": "4.5",
+            "distance": "39.37631276664007",
+            "distance_string": "39.4 km"
+         },
+         {
+            "name": "Naritasan Shinsho-ji Temple",
+            "latitude": "35.7861",
+            "longitude": "140.31828",
+            "subcategory": [
+               {
+                  "key": "47",
+                  "name": "Sights & Landmarks"
+               }
+            ],
+            "ranking": "#2 of 169 things to do in Narita",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {},
+         {
+            "name": "Shinjuku Gyoen National Garden",
+            "latitude": "35.686",
+            "longitude": "139.70984",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#1 of 495 things to do in Shinjuku",
+            "rating": "4.5",
+            "distance": "20.407481540460488",
+            "distance_string": "20.4 km"
+         },
+         {
+            "name": "Mt. Omuro",
+            "latitude": "34.90387",
+            "longitude": "139.09584",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#1 of 138 things to do in Ito",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Chureito Pagoda",
+            "latitude": "35.501354",
+            "longitude": "138.80154",
+            "subcategory": [
+               {
+                  "key": "47",
+                  "name": "Sights & Landmarks"
+               }
+            ],
+            "ranking": "#1 of 75 things to do in Fujiyoshida",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "MITSUI OUTLET PARK KISARAZU",
+            "latitude": "35.435562",
+            "longitude": "139.9354",
+            "subcategory": [
+               {
+                  "key": "26",
+                  "name": "Shopping"
+               }
+            ],
+            "ranking": "#2 of 70 things to do in Kisarazu",
+            "rating": "4.0",
+            "distance": "17.102544361144037",
+            "distance_string": "17.1 km"
+         },
+         {
+            "name": "Fuji-Q Highland",
+            "latitude": "35.489227",
+            "longitude": "138.78201",
+            "subcategory": [
+               {
+                  "key": "52",
+                  "name": "Water & Amusement Parks"
+               }
+            ],
+            "ranking": "#5 of 75 things to do in Fujiyoshida",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Tove Jansson Akebono Children's Forest Park",
+            "latitude": "35.830635",
+            "longitude": "139.34439",
+            "subcategory": [
+               {
+                  "key": "47",
+                  "name": "Sights & Landmarks"
+               },
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#1 of 48 things to do in Hanno",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Shirahama Beach",
+            "latitude": "34.68953",
+            "longitude": "138.97298",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               },
+               {
+                  "key": "61",
+                  "name": "Outdoor Activities"
+               }
+            ],
+            "ranking": "#3 of 70 things to do in Shimoda",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Odakyu Limited Express Romancecar",
+            "latitude": "35.68896",
+            "longitude": "139.69989",
+            "subcategory": [
+               {
+                  "key": "59",
+                  "name": "Transportation"
+               }
+            ],
+            "ranking": "#422 of 20,646 things to do in Kanto",
+            "rating": "4.0",
+            "distance": "20.978974697003423",
+            "distance_string": "21 km"
+         },
+         {},
+         {
+            "name": "Daifukuji Temple (Gake Kannon)",
+            "latitude": "35.030956",
+            "longitude": "139.84113",
+            "subcategory": [
+               {
+                  "key": "47",
+                  "name": "Sights & Landmarks"
+               }
+            ],
+            "ranking": "#3 of 56 things to do in Tateyama",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Enoshima Island",
+            "latitude": "35.300667",
+            "longitude": "139.4805",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#1 of 161 things to do in Fujisawa",
+            "rating": "4.5",
+            "distance": "35.03718878104178",
+            "distance_string": "35 km"
+         },
+         {
+            "name": "The Omiya Bonsai Art Museum Saitama",
+            "latitude": "35.92881",
+            "longitude": "139.63277",
+            "subcategory": [
+               {
+                  "key": "49",
+                  "name": "Museums"
+               }
+            ],
+            "ranking": "#2 of 214 things to do in Saitama",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Yakushiike Park",
+            "latitude": "35.579746",
+            "longitude": "139.4487",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#3 of 107 things to do in Machida",
+            "rating": "4.0",
+            "distance": "30.11853365474181",
+            "distance_string": "30.1 km"
+         },
+         {
+            "name": "Akebonoyama Park",
+            "latitude": "35.894497",
+            "longitude": "140.00551",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#2 of 96 things to do in Kashiwa",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Gotemba Kogen Toki no Sumika",
+            "latitude": "35.236584",
+            "longitude": "138.92691",
+            "subcategory": [
+               {
+                  "key": "47",
+                  "name": "Sights & Landmarks"
+               },
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#2 of 149 things to do in Gotemba",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Asamizo Park",
+            "latitude": "35.528915",
+            "longitude": "139.39262",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#1 of 125 things to do in Sagamihara",
+            "rating": "4.0",
+            "distance": "34.23732640654716",
+            "distance_string": "34.2 km"
+         },
+         {
+            "name": "Mount Tsukuba",
+            "latitude": "36.225086",
+            "longitude": "140.10628",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#2 of 82 things to do in Tsukuba",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {},
+         {
+            "name": "Joren Waterfall",
+            "latitude": "34.87242",
+            "longitude": "138.92351",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#1 of 107 things to do in Izu",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Sagamihara Prefectural Park",
+            "latitude": "35.531982",
+            "longitude": "139.3876",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#2 of 125 things to do in Sagamihara",
+            "rating": "4.0",
+            "distance": "34.713718530854145",
+            "distance_string": "34.7 km"
+         },
+         {
+            "name": "Izu Shaboten Zoo",
+            "latitude": "34.90739",
+            "longitude": "139.10202",
+            "subcategory": [
+               {
+                  "key": "48",
+                  "name": "Zoos & Aquariums"
+               },
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               },
+               {
+                  "key": "61",
+                  "name": "Outdoor Activities"
+               }
+            ],
+            "ranking": "#3 of 138 things to do in Ito",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Rinkokaku",
+            "latitude": "36.39587",
+            "longitude": "139.06224",
+            "subcategory": [
+               {
+                  "key": "47",
+                  "name": "Sights & Landmarks"
+               }
+            ],
+            "ranking": "#2 of 142 things to do in Maebashi",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Izuruhara Benten Pond",
+            "latitude": "36.366764",
+            "longitude": "139.53882",
+            "subcategory": [
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#3 of 64 things to do in Sano",
+            "rating": "4.0",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Mitsumine Shrine",
+            "latitude": "35.925472",
+            "longitude": "138.93037",
+            "subcategory": [
+               {
+                  "key": "47",
+                  "name": "Sights & Landmarks"
+               }
+            ],
+            "ranking": "#1 of 149 things to do in Chichibu",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Stone Church",
+            "latitude": "36.356342",
+            "longitude": "138.58711",
+            "subcategory": [
+               {
+                  "key": "47",
+                  "name": "Sights & Landmarks"
+               }
+            ],
+            "ranking": "#1 of 112 things to do in Karuizawa-machi",
+            "rating": "4.5",
+            "distance": null,
+            "distance_string": null
+         },
+         {
+            "name": "Enoshima Aquarium",
+            "latitude": "35.309658",
+            "longitude": "139.47974",
+            "subcategory": [
+               {
+                  "key": "48",
+                  "name": "Zoos & Aquariums"
+               },
+               {
+                  "key": "57",
+                  "name": "Nature & Parks"
+               }
+            ],
+            "ranking": "#3 of 161 things to do in Fujisawa",
+            "rating": "4.0",
+            "distance": "34.43411810266912",
+            "distance_string": "34.4 km"
+         }
+      ],
+      "HotelData": {
+         "Hotel": "Hotel Abest Meguro",
+         "rating": 6.8,
+         "reviewCount": 465,
+         "category": "Tokyo",
+         "distanceFromDestination": 9.15,
+         "ImageSrc": "https://images.trvl-media.com/lodging/6000000/5380000/5378800/5378709/919f9533.jpg?impolicy=resizecrop&rw=455&ra=fit",
+         "price": {
+            "currency": "USD",
+            "price": "$134"
+         },
+         "coordinate": {
+            "__typename": "Coordinates",
+            "latitude": 35.63387,
+            "longitude": 139.714658
+         }
+      }
+   }
+}

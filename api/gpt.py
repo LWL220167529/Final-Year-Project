@@ -44,27 +44,34 @@ def fix_json_and_validate(ai_response_content):
         print("Error:", e)
         return None
     
-# content = "I'm planning a three-day, two-night trip to Japan. I'll arrive at Tokyo (HND-Haneda), stay at Fuji Onsenji Yumedono, and visit attractions including Mitama no Yu, Kanzo Yashiki, Manns Wines Katsunuma Winery, Michi-no-Eki Toyotomi, Gourmet Strawberry Kan Maeda, and the Yamanashi Prefecture Archaeological Museum. I need a detailed itinerary including transportation options for each destination and introduce the content of the event. The itinerary should start with my arrival at Tokyo Haneda Airport, include transportation to Fuji Onsenji Yumedono and check-in hotel, and cover all the attractions I plan to visit. Please present this in a structured JSON format with keys for 'trip'{ 'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary':[{'day', 'activities':[{'name','transportation:{'type','details}','activities_content'}]}], with type and details for each mode of transport,such as Take the JR Yamanote Line from Tokyo Haneda Airport to Shinagawa Station, then transfer to the JR Keihin-Tohoku Line to Oimachi Station. From Oimachi Station, walk to Mitama no Yu."
+content = "I'm planning a three-day, two-night trip to Japan. I'll arrive at Tokyo (HND-Haneda), stay at Fuji Onsenji Yumedono, and visit attractions including Mitama no Yu, Kanzo Yashiki, Manns Wines Katsunuma Winery, Michi-no-Eki Toyotomi, Gourmet Strawberry Kan Maeda, and the Yamanashi Prefecture Archaeological Museum. I need a detailed itinerary including transportation options for each destination and introduce the content of the event. The itinerary should start with my arrival at Tokyo Haneda Airport, include transportation to Fuji Onsenji Yumedono and check-in hotel, and cover all the attractions I plan to visit. Please present this in a structured JSON format with keys for 'trip'{ 'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary':[{'day', 'activities':[{'name','transportation:{'type','details}','activities_content'}]}], with type and details for each mode of transport,such as Take the JR Yamanote Line from Tokyo Haneda Airport to Shinagawa Station, then transfer to the JR Keihin-Tohoku Line to Oimachi Station. From Oimachi Station, walk to Mitama no Yu."
 
 
-# def gpt_plan_trip(plan: dict):    
-#     testContent = "I'm planning a trip to Japan. I will give you a json please help me rewrite or add 'trip'{ 'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary':[{'day', 'activities':[{'name','transportation:{'type','details} }','activities_content'}] between each location and just transportation category have train, Taxi, Bus and Walking .The itinerary should start with my arrival at Airport, include transportation to and check-in hotel, and cover all the attractions I plan to visit, here is my trip "
-#     testContent = testContent + f"plan: {plan}"
-#     messages = [
-#         {
-#             "role": "system",
-#             "content": "You are a travel planning assistant, skilled in creating detailed itineraries including transportation options. Provide the plan in a structured format suitable for converting to JSON, ensuring consistent keys for database storage."
-#         },
-#         {
-#             "role": "user",
-#             "content": testContent
-#         }
-#     ]
-#     result = gpt_35_api(messages)
-#     return result
 
-def gpt_plan_trip(plan: dict):
-    itinerary_instructions = "I'm planning a trip to Japan, . Here is my initial plan: {0}. I need a detailed itinerary including transportation options that category have flight,train, bus, taxi, walking such as ride Narita Express to some station, JR Line to some station, specify bus. Detailed itinerary that includes: 1)Flight to some airport,not need to specify which flight is from which airport. 2) Traveling from the airport to the hotel , 3) Checking in at hotel and visit at least one attraction on initial plan, 4) Covering all the places I plan to visit for the rest of my trip . Please format the itinerary in structured JSON with keys for 'trip': {{'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary': [{{'day', 'activities': [{{'name', 'transportation': {{'type', 'details'}}, 'activities_content'}}]}}]}} and cannot be change the JSON structured.".format(plan)
+
+
+def gpt_plan_trip(plans: dict):
+    planMessage = []
+    for plan in plans:
+        planDay = {
+            'day': plan['day'],
+            'activities': []
+        }
+        for place in plan['place']:
+            activity = {
+                    'id': place['id'] if 'id' in place else '',
+                    'name': place['name'] if 'name' in place else '',
+                    'sequence': place['sequence'] if 'sequence' in place else '',
+                    'address': place['address'] if 'address' in place else '',
+                }
+            planDay['activities'].append(activity)
+        planMessage.append(planDay)
+
+
+    with open(r'C:\Users\yinrz\Desktop\Ive\Y2_S4\FYP\Final-Year-Project\save_plan.json', "w") as outfile:
+        json.dump(planMessage, outfile)
+
+    itinerary_instructions = "I'm planning a trip . Here is my initial plan: {0}. I need a detailed itinerary including transportation options that category have flight,train, bus, taxi, walking such as ride Narita Express to some station, JR Line to some station, specify bus. Detailed itinerary that includes: 1) check in the hotel , 2) Checking in at hotel and visit at least one attraction on initial plan, 3) Covering all the places I plan to visit for the rest of my trip . Especially the transportation details and activities_content_description, please explain in detail as much as possible. Please format the itinerary in structured JSON with keys for 'trip': {{'duration', 'arrival_city', 'accommodation', 'itinerary': [{{'day', 'activities': [{{'id','place_name', 'activities_name', 'transportation': {{'type', 'details'}}, 'sequence', 'activities_content_description'}}]}}]}} and cannot be change the JSON structured.".format(planMessage)
 
     messages = [
         {
@@ -73,20 +80,19 @@ def gpt_plan_trip(plan: dict):
         },
         {
             "role": "user",
-            "content": itinerary_instructions
+            "content": itinerary_instructions   
         }
     ]
 
-    attempt = 0
-    max_attempts = 3  # Set a maximum number of attempts to avoid infinite loops
+    # attempt = 0
+    # max_attempts = 3  # Set a maximum number of attempts to avoid infinite loops
 
-    while attempt < max_attempts:
-        result = gpt_35_api(messages)
+    result = gpt_35_api(messages) # need
+    return result # need
+    # while attempt < max_attempts:
 
-        # Check if the first activity is a flight
-        if result and result['trip']['itinerary'][0]['activities'][0]['transportation']['type'] == 'Flight':
-            return result
-        else:
-            attempt += 1
-
-
+    #     # Check if the first activity is a flight
+    #     if result and result['trip']['itinerary'][0]['activities'][0]['transportation']['type'] == 'Flight':
+    #         return None
+    #     else:
+    #         attempt += 1
