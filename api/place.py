@@ -201,6 +201,27 @@ class Countries(Base):
     flag = Column(Boolean, nullable=False, default=True)
     wikiDataId = Column(String(255), comment='Rapid API GeoDB Cities')
 
+class SavePlan(Base):
+    __tablename__ = 'save_plan'
+    id = Column(Integer, primary_key=True)
+    plan = Column(JSON)
+    user_ID = Column(Integer)
+
+class UserSavePlan(Base):
+    __tablename__ = 'user_save_plan'
+    id = Column(Integer, primary_key=True)
+    plan_ID = Column(Integer, ForeignKey('save_plan.id'))
+    user_ID = Column(Integer)
+
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    userName = Column(String(255), nullable=False)
+    email = Column(String(255), nullable=False, unique=True)
+    password = Column(String(252), nullable=False)
+    phoneNumber = Column(String(20), nullable=False)
+    createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
+
 
 rows = session.query(CitiesPlace).filter(
     CitiesPlace.state_id == 852).order_by(CitiesPlace.cities_id.asc()).all()
@@ -331,7 +352,92 @@ def getRandomPlan(data: dict):
             print("Invalid index. Skipping...")
             break
     
-    return gpt.gpt_plan_trip(response)
+    gpt_txt = gpt.gpt_plan_trip(response)
+
+    for day_plan in gpt_txt['trip']['itinerary']:
+        for activity in day_plan['activities']:
+            activity_id = activity['id']
+            new_activity_dict = {'activity_info': activity}
+            for plan in response:
+                if plan['day'] == day_plan['day']:
+                    for place in plan['place']:
+                        if place['id'] == activity_id:
+                            place.update(new_activity_dict)
+                            break
+
+    final_response = [{
+        'accommodation': gpt_txt['trip']['accommodation'],
+        'arrival_city': gpt_txt['trip']['arrival_city'],
+        'duration': gpt_txt['trip']['duration'],
+        "itinerary": response,
+        "initial_input": planData
+    }]
+
+    newPlan = SavePlan(plan=final_response, user_ID=data['userID'])
+
+    session.add(newPlan)
+    session.commit()
+
+    final_response.append(newPlan.id)
+
+    return final_response
+
+
+def savePlan(userID: int, planID: int):
+    try:
+        newPlan = UserSavePlan(plan_ID=planID, user_ID=userID)
+
+        session.add(newPlan)
+        session.commit()
+
+        return jsonify({'message': 'Plan saved successfully.'}), 201
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+def getSavedPlanByUserID(userID: int):
+    try:
+        plans = session.query(UserSavePlan).filter(UserSavePlan.user_ID == userID).all()
+
+        plan_list = [
+            {
+                'id': plan.id,
+                'plan_ID': plan.plan_ID,
+                'user_ID': plan.user_ID
+            }
+            for plan in plans
+        ]
+
+        return jsonify({'plans': plan_list}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Error occurred while retrieving plans.', 'error': str(e)}), 500
+
+def getSavedPlanByID(planID: int):
+    try:
+        plan = session.query(SavePlan).get(planID)
+
+        if plan:
+            plan_data = {
+                'id': plan.id,
+                'plan': plan.plan,
+                'user_ID': plan.user_ID
+            }
+            return jsonify({'plan': plan_data}), 200
+        else:
+            return jsonify({'message': 'Plan not found'}), 404
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
+
+    # for day in gpt_txt['trip']['itinerary']:
+    #     for activity in day['activities']:
+    #         activity_id = activity.get('id')
+    #         corresponding_place = next((place for plan in response if plan['day'] == day['day'] for place in plan['place'] if place['id'] == activity_id), None)
+    #         if corresponding_place:
+    #             activity.update(corresponding_place)
+    # return gpt_txt
+    # return response
+    # return gpt.gpt_plan_trip(response)
 
 
 def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

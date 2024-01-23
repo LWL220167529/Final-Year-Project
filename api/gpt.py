@@ -67,11 +67,7 @@ def gpt_plan_trip(plans: dict):
             planDay['activities'].append(activity)
         planMessage.append(planDay)
 
-
-    with open(r'C:\Users\User\Documents\IT114105\IT4116\save\save.json', "w") as outfile:
-        json.dump(planMessage, outfile)
-
-    itinerary_instructions = "I'm planning a trip to Japan, . Here is my initial plan: {0}. I need a detailed itinerary including transportation options that category have flight,train, bus, taxi, walking such as ride Narita Express to some station, JR Line to some station, specify bus. Detailed itinerary that includes: 1) check in the hotel , 2) Checking in at hotel and visit at least one attraction on initial plan, 3) Covering all the places I plan to visit for the rest of my trip . Please format the itinerary in structured JSON with keys for 'trip': {{'duration', 'arrival_city', 'arrival_airport', 'accommodation', 'itinerary': [{{'day', 'activities': [{{'id', 'name', 'transportation': {{'type', 'details'}}, 'sequence', 'activities_content'}}]}}]}} and cannot be change the JSON structured.".format(planMessage)
+    itinerary_instructions = "I'm planning a trip . Here is my initial plan: {0}. I need a detailed itinerary including transportation options that category have flight,train, bus, taxi, walking such as ride Narita Express to some station, JR Line to some station, specify bus. Detailed itinerary that includes: 1) check in the hotel , 2) Checking in at hotel and visit at least one attraction on initial plan, 3) Covering all the places I plan to visit for the rest of my trip . Especially the transportation details and activities_content_description, please explain in detail as much as possible. Please format the itinerary in structured JSON with keys for 'trip': {{'duration', 'arrival_city', 'accommodation', 'itinerary': [{{'day', 'activities': [{{'id','place_name', 'activities_name', 'transportation': {{'type', 'details'}}, 'sequence', 'activities_content_description'}}]}}]}} and cannot be change the JSON structured.".format(planMessage)
 
     messages = [
         {

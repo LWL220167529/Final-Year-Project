@@ -179,6 +179,38 @@ def AIPlan():
     response = place.getRandomPlan(data)
     return jsonify(response), 200
 
+@app.route('/saveAIPlan', methods=["GET", "POST"])
+def saveAIPlan():
+    if request.method == "GET":
+        userID = request.args.get('userID')
+        plan = request.args.get('plan')
+    else:
+        data = request.get_json()
+        userID = data.get('userID')
+        plan = data.get('plan')
+    response = place.savePlan(userID, plan)
+    return jsonify(response), 200
+
+
+@app.route('/getAIPlanByUser', methods=["GET", "POST"])
+def getAIPlanByUser():
+    if request.method == "GET":
+        userID = request.args.get('userID')
+    else:
+        data = request.get_json()
+        userID = data.get('userID')
+    response = place.getSavedPlanByUserID(userID)
+    return jsonify(response), 200
+
+@app.route('/getAIPlanByID', methods=["GET", "POST"])
+def getAIPlanByID():
+    if request.method == "GET":
+        planID = request.args.get('planID')
+    else:
+        data = request.get_json()
+        planID = data.get('planID')
+    response = place.getSavedPlanByID(planID)
+    return jsonify(response), 200
 
 @app.route('/estimatePlace', methods=["GET", "POST"])
 def estimatePlace():
