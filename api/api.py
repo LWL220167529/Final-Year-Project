@@ -189,7 +189,7 @@ def saveAIPlan():
         userID = data.get('userID')
         plan = data.get('plan')
     response = place.savePlan(userID, plan)
-    return jsonify(response), 200
+    return response
 
 
 @app.route('/getAIPlanByUser', methods=["GET", "POST"])
@@ -200,7 +200,7 @@ def getAIPlanByUser():
         data = request.get_json()
         userID = data.get('userID')
     response = place.getSavedPlanByUserID(userID)
-    return jsonify(response), 200
+    return response
 
 @app.route('/getAIPlanByID', methods=["GET", "POST"])
 def getAIPlanByID():
@@ -210,7 +210,7 @@ def getAIPlanByID():
         data = request.get_json()
         planID = data.get('planID')
     response = place.getSavedPlanByID(planID)
-    return jsonify(response), 200
+    return response
 
 @app.route('/estimatePlace', methods=["GET", "POST"])
 def estimatePlace():

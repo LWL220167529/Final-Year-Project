@@ -365,20 +365,22 @@ def getRandomPlan(data: dict):
                             place.update(new_activity_dict)
                             break
 
-    final_response = [{
-        'accommodation': gpt_txt['trip']['accommodation'],
-        'arrival_city': gpt_txt['trip']['arrival_city'],
-        'duration': gpt_txt['trip']['duration'],
-        "itinerary": response,
-        "initial_input": planData
-    }]
-
-    newPlan = SavePlan(plan=final_response, user_ID=data['userID'])
+    newPlan = SavePlan(user_ID=data['userID'])
 
     session.add(newPlan)
     session.commit()
 
-    final_response.append(newPlan.id)
+    final_response = {
+        'accommodation': gpt_txt['trip']['accommodation'],
+        'arrival_city': gpt_txt['trip']['arrival_city'],
+        'duration': gpt_txt['trip']['duration'],
+        "itinerary": response,
+        "initial_input": planData,
+        "planID": newPlan.id
+    }
+
+    newPlan.plan = final_response
+    session.commit()
 
     return final_response
 
