@@ -12,6 +12,7 @@
         fetch('http://159.223.94.246:5000/tripPlan')
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 const trip = data.trip;
                 const tripDetails = document.getElementById('trip-details');
                 const title = document.getElementById('title');
@@ -33,9 +34,9 @@
                         const activityElement = document.createElement('div');
                         activityElement.innerHTML = `
                             <h2>${activity.name}</h4>
-                            <p>Description: ${activity.activities_content}</p>
-                            <p>Transportation: ${activity.transportation.type}</p>
-                            <p>Detail: ${activity.transportation.details}</p>
+                            <p>Description: ${activity.activities_content != null ? activity.activities_content : 'Null'}</p>
+                            <p>Transportation: ${activity.transportation.type != null ? activity.transportation.type : 'Null'}</p>
+                            <p>Detail: ${activity.transportation.details != null ? activity.transportation.details : 'Null'}</p>
                         `;
                         dayElement.appendChild(activityElement);
                     });

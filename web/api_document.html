@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-3">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+                    <a href="/"
+                        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                        <span class="fs-4">API Documentation</span>
+                    </a>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active" aria-current="page">
+                                Location Search
+                            </a>
+                        </li>
+                        <!-- More items -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        Find Search
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">GET https://api.content.tripadvisor.com/api/v1/location/search</h5>
+                        <p class="card-text">The Location Search request returns up to 10 locations found by the given
+                            search query...</p>
+                        <!-- Additional content -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <!-- Main content -->
+                    <!-- Card for Installation Section -->
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Installation</h5>
+                            <code class="d-block p-2 bg-light">\$ python -m pip install requests</code>
+                        </div>
+                    </div>
+
+                    <!-- Card for Request Section -->
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Request</h5>
+                            <pre class="d-block p-2 bg-light">
+                                    import requests
+                                    
+                                    url = "https://api.content.tripadvisor.com/api/v1/location/search"
+                                    headers = {"accept": "application/json"}
+                                    response = requests.get(url, headers=headers)
+                                    print(response.text)
+                            </pre>
+                            <button class="btn btn-success">Try It!</button>
+                        </div>
+                    </div>
+
+                    <!-- Card for Response Section -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Response</h5>
+                            <p>Click <em>Try It!</em> to start a request and see the response here! Or choose an
+                                example:</p>
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">application/json</div>
+                                <div class="bg-success text-white rounded-circle p-2">200</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+</html>
