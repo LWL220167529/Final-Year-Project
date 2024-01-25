@@ -14,11 +14,11 @@
 
 </head>
 
-<body>
-    <div class="container-fluid">
+<body class="my-5">
+    <div class="container" style="max-width:1800px">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-3">
+            <div class="col-2">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
                     <a href="/"
                         class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
@@ -28,7 +28,7 @@
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
                             <a href="#" class="nav-link active" aria-current="page">
-                                Location Search
+                                Auto Plan
                             </a>
                         </li>
                         <!-- More items -->
@@ -37,63 +37,208 @@
             </div>
 
             <!-- Content -->
-            <div class="col-6">
-                <div class="card">
+            <div class="col-5">
+                <div class="card mb-3">
                     <div class="card-header">
                         Find Search
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">GET https://api.content.tripadvisor.com/api/v1/location/search</h5>
-                        <p class="card-text">The Location Search request returns up to 10 locations found by the given
-                            search query...</p>
+                        <h5 class="card-title"><span class="badge bg-danger">POST</span>
+                            http://159.223.94.246:5000/AIPlan</h5>
+                        <p class="card-text">A Auto Plan request return comprehensive information about a trip (hotel, restaurant, and an attraction) such as day of trip, name, activities information.</p>
                         <!-- Additional content -->
                     </div>
                 </div>
-            </div>
-            <div class="col-3">
-                <div class="row">
-                    <!-- Main content -->
-                    <!-- Card for Installation Section -->
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Installation</h5>
-                            <code class="d-block p-2 bg-light">\$ python -m pip install requests</code>
-                        </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Method</h5>
+                        <code class="d-block p-2 bg-light">fetch</code>
                     </div>
+                </div>
+                <!-- Card for Request Section -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Request</h5>
+                        <pre class="d-block p-2 bg-light" style="max-height: 500px; overflow-y: auto;">
+const url = 'http://159.223.94.246:5000/AIPlan';
+const body = {
+    userID: 5,
+    destination: {
+        bl_lat: 34.5776326,
+        bl_lng: 138.2991098,
+        tr_lat: 36.4408483,
+        tr_lng: 141.2405144
+    },
+    Country: "Tokyo, Japan",
+    TravelDate: "2024-01-21T16:04:23.710Z",
+    numberOfDays: "3",
+    AllTravelDates: [
+        "2024-01-21T16:04:23.710Z",
+        "2024-01-22T16:04:23.710Z",
+        "2024-01-23T16:04:23.710Z"
+    ],
+    HotelData: {
+        Hotel: "Hotel Abest Meguro",
+        rating: 6.8,
+        reviewCount: 465,
+        category: "Tokyo",
+        distanceFromDestination: 9.15,
+        ImageSrc: "https://images.trvl-media.com/lodging/6000000/5380000/5378800/5378709/919f9533.jpg?impolicy=resizecrop&rw=455&ra=fit",
+        price: {
+            currency: "USD",
+            price: "$134"
+        },
+        coordinate: {
+            __typename: "Coordinates",
+            latitude: 35.63387,
+            longitude: 139.714658
+        }
+    }
+};
 
-                    <!-- Card for Request Section -->
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Request</h5>
-                            <pre class="d-block p-2 bg-light">
-                                    import requests
-                                    
-                                    url = "https://api.content.tripadvisor.com/api/v1/location/search"
-                                    headers = {"accept": "application/json"}
-                                    response = requests.get(url, headers=headers)
-                                    print(response.text)
+const options = {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body)
+};
+
+fetch(url, options)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+                            
                             </pre>
-                            <button class="btn btn-success">Try It!</button>
-                        </div>
+                        <button class="btn btn-success d-flex ms-auto " id="tryButton">Try It!</button>
                     </div>
-
-                    <!-- Card for Response Section -->
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Response</h5>
-                            <p>Click <em>Try It!</em> to start a request and see the response here! Or choose an
-                                example:</p>
-                            <div class="d-flex align-items-center">
-                                <div class="me-3">application/json</div>
-                                <div class="bg-success text-white rounded-circle p-2">200</div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="card">
+                    <div class="card-body" id="response_body">
+                        <h5 class="card-title d-flex me-3" id="response">
+                            Response
+                        </h5>
+                        <p>Click <Strong>Try It!</Strong> to start a request</p>
+                        <div class="d-flex align-items-center">
+                            <!-- Place this where you want the spinner to appear -->
+                            <div id="loadingSpinner" class="spinner-border d-none" role="status">
+                                <span class="sr-only"></span>
                             </div>
+                            <pre class="d-block p-2 " id="result_json">
+
+                            </pre>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+
+    <script>
+        const options = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            }
+        };
+        const body = {
+            userID: 5,
+            destination: {
+                bl_lat: 34.5776326,
+                bl_lng: 138.2991098,
+                tr_lat: 36.4408483,
+                tr_lng: 141.2405144
+            },
+            Country: "Tokyo, Japan",
+            TravelDate: "2024-01-21T16:04:23.710Z",
+            numberOfDays: "3",
+            AllTravelDates: [
+                "2024-01-21T16:04:23.710Z",
+                "2024-01-22T16:04:23.710Z",
+                "2024-01-23T16:04:23.710Z"
+            ],
+            HotelData: {
+                Hotel: "Hotel Abest Meguro",
+                rating: 6.8,
+                reviewCount: 465,
+                category: "Tokyo",
+                distanceFromDestination: 9.15,
+                ImageSrc: "https://images.trvl-media.com/lodging/6000000/5380000/5378800/5378709/919f9533.jpg?impolicy=resizecrop&rw=455&ra=fit",
+                price: {
+                    currency: "USD",
+                    price: "$134"
+                },
+                coordinate: {
+                    __typename: "Coordinates",
+                    latitude: 35.63387,
+                    longitude: 139.714658
+                }
+            }
+        }
+        document.getElementById('tryButton').addEventListener('click', function () {
+            $.getJSON("AIPlan.json", function (data) {
+                // Show the spinner
+                var spinner = document.getElementById('loadingSpinner');
+                spinner.classList.add('spinner-border');
+                spinner.classList.remove('d-none'); // Remove the 'd-none' class to show the spinner
+
+                setTimeout(function () {
+                    // Hide the spinner
+                    spinner.classList.remove('spinner-border');
+                    spinner.classList.add('d-none'); // Add the 'd-none' class to hide the spinner
+
+                    // Now set the JSON data to the element and style it
+                    var resultJson = document.getElementById('result_json');
+                    resultJson.textContent = JSON.stringify(data, null, 2);
+                    resultJson.classList.add('d-block', 'p-2', 'bg-light');
+                    resultJson.style.maxHeight = '600px';
+                    resultJson.style.overflowY = 'auto';
+
+                    var responseBody = document.getElementById('response_body');
+                    responseBody.style.maxHeight = '1000px';
+                    responseBody.style.overflowY = 'auto';
+
+                    var response = document.getElementById('response');
+                    response.innerHTML = 'Response<div class="bg-success text-white rounded-circle p-2 ms-auto">200</div>';
+                }, 3000); // Delay in milliseconds (3000ms = 3 seconds)
+            });
+
+
+            // const url = 'http://159.223.94.246:5000/AIPlan'; // Your API endpoint
+            // const options = {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(body)
+            // };
+
+            // fetch(url, options)
+            //     .then(response => {
+            //         if (!response.ok) {
+            //             throw new Error('Network response was not ok: ' + response.statusText);
+            //         }
+            //         return response.json();
+            //     })
+            //     .then(data => {
+            //         document.getElementById('result_json').textContent = JSON.stringify(data, null, 2);
+            //         document.getElementById('result_json').classList.add('d-block', 'p-2', 'bg-light').setAttribute('style', 'max-height: 600px; overflow-y: auto;');
+            //         document.getElementById('response_body').setAttribute('style', 'max-height: 1000px; overflow-y: auto;');
+            //     })
+            //     .catch(error => {
+            //         console.error('Error:', error);
+            //         document.getElementById('result_json').textContent = 'Error: ' + error.toString();
+            //         document.getElementById('result_json').classList.add('d-block', 'p-2', 'bg-light');
+            //     });
+        });
+    </script>
 </body>
 
 
