@@ -1,0 +1,60 @@
+{mainData && mainData.slice(0, 2).map((marker, index) => (
+    <Marker
+      key={index}
+      coordinate={{ latitude: parseFloat(marker.latitude), longitude: parseFloat(marker.longitude) }}
+                    >
+    <Callout tooltip>
+        <View style={{ padding: 5,backgroundColor: 'white'}}>
+        <Text>{marker.name}</Text>
+        <Text>
+        <Image
+        source={{uri: marker?.photo?.images?.thumbnail?.url ? marker?.photo?.images?.thumbnail?.url: 'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png'}}
+        style={{width:60, height: 60}}
+        resizeMode='cover'
+        /></Text>
+        </View>
+    </Callout>  
+    </Marker>
+  ))}
+  {resData && resData.slice(0, 2).map((marker, index) => (
+    <Marker
+      key={index}
+      coordinate={{ latitude: parseFloat(marker.latitude), longitude: parseFloat(marker.longitude) }}
+      >
+    <Callout tooltip>
+        <View style={{ padding: 5,backgroundColor: 'white'}}>
+        <Text>{marker.name}</Text>
+        <View>
+        <Text style={{ alignContent:'center'}}>
+        <Image
+         source={{uri: marker?.photo?.images?.thumbnail?.url ? marker?.photo?.images?.thumbnail?.url: 'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png'}}
+         style={{width:60, height: 60, alignSelf:'center'}}
+         resizeMode='cover'
+        /></Text>
+        </View>
+        </View>
+    </Callout>  
+    </Marker>
+  ))}
+
+
+
+          <MapView
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          region={{
+            latitude: lat,
+            longitude: lng,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+          ref={mapRef}
+          onRegionChangeComplete={onRegionChange}
+        >
+          {placeData && placeData[0].places.map((place, index) => (
+            <Marker
+              key={index}
+              coordinate={{ latitude: parseFloat(place.latitude), longitude: parseFloat(place.longitude) }}
+            ></Marker>
+          )
+          )}
