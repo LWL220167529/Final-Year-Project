@@ -157,15 +157,15 @@ def getAllPlace():
         return jsonify({'message': e}), 500
 
 
-@app.route('/getPlaceByID', methods=["GET", "POST"])
+@app.route('/searchPlace', methods=["GET", "POST"])
 def getPlaceByID():
     try:
         if request.method == "GET":  # get request from url
-            getPlace = request.args.get('getPlace')
+            searchPlace = request.args.get('searchPlace')
         else:  # post request from body
             data = request.get_json()
-            getPlace = data.get('getPlace')
-        return place.get_by_input(getPlace)
+            searchPlace = data.get('searchPlace')
+        return place.get_by_input(searchPlace)
     except Exception as e:
         print(e)
         return jsonify({'message': 'Internal server error'}), 500

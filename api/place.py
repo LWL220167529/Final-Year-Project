@@ -121,6 +121,9 @@ def get_by_input(input: str):
             )
         ).all()
 
+        if not cities_places:
+            return jsonify({'message': "Can't find any matching cities places."}), 404
+
         cities_places_data = []
         for city_place in cities_places:
             city_place_data = {key: getattr(city_place, key)
