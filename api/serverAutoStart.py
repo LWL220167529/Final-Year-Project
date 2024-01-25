@@ -1,14 +1,16 @@
 import subprocess
 import time
 
-# Restart command
-command = "pm2 restart api"
+while True:
+    
+    # Restart command
+    command = "pm2 restart api"
 
-# Delay for 1 hour (3600 seconds)
-delay = 3600
+    # Delay for 1 hour (3600 seconds)
+    delay = 3600
 
-# Sleep for the specified delay
-time.sleep(delay)
+    # Sleep for the specified delay
+    time.sleep(delay)
 
-# Restart the server
-subprocess.run(command, shell=True)
+    # Restart the server
+    subprocess.run(command, shell=True)

@@ -173,9 +173,9 @@ def getPlaceByID():
 
 @app.route('/AIPlan', methods=["GET", "POST"])
 def AIPlan():
-    # data = request.get_json()
-    with open(r'C:\Users\User\Downloads\TransferData.json', 'r') as f:
-        data = json.load(f)
+    data = request.get_json()
+    # with open(r'C:\Users\User\Downloads\TransferData.json', 'r') as f:
+    #     data = json.load(f)
     response = place.getRandomPlan(data)
     return jsonify(response), 200
 
