@@ -144,9 +144,7 @@ export default function LoginScreen() {
   return (< NativeBaseProvider>
     <ScrollView style={{ flex: 1, backgroundColor: '#ffffff' }}
       showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={handleSavePlan}>
-          <View style={{backgroundColor:'red', padding:10}}></View>
-        </TouchableOpacity>
+
       <ImageBackground source={require('../image/view.jpg')}
         style={{ height: Dimensions.get('window').height / 2.5 }}>
 

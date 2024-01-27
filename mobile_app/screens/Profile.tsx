@@ -7,6 +7,8 @@ import {
   View,
   Text,
   ImageBackground,
+  Touchable,
+  TouchableOpacity,
 } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
@@ -32,16 +34,7 @@ const Profile = () => {
         contentContainerStyle={styles.profileSectionScrollViewContent}
       >
         <View style={[styles.header, styles.headerSpaceBlock]}>
-          <Pressable
-            style={[styles.iconBackWrapper, styles.wrapperShadowBox]}
-            onPress={() => navigation.goBack()}
-          >
-            <Image
-              style={styles.iconBack}
-              resizeMode="cover"
-              source={require("../assets/icon--back2.png")}
-            />
-          </Pressable>
+
           <View
             style={[styles.fluentedit48RegularWrapper, styles.wrapperShadowBox]}
           >
@@ -80,10 +73,11 @@ const Profile = () => {
                       source={require("../assets/humbleiconsuserasking.png")}
                     />
                   </View>
+                  <TouchableOpacity onPress={() => navigation.navigate("ProfileDetail")}>
                   <View style={styles.referralCodeParent}>
-                    <Text style={styles.referralCodeTypo}>Edit your details</Text>
-
+                    <Text style={styles.referralCodeTypo}>Show your details</Text>
                   </View>
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.questionsFlexBox}>
                   <View style={styles.rate}>
@@ -93,11 +87,13 @@ const Profile = () => {
                       source={require("../assets/majesticonslogouthalfcircleline.png")}
                     />
                   </View>
+                  <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                   <Text
                     style={[styles.paymentDetails, styles.referralCodeTypo]}
                   >
                     Logout
                   </Text>
+                  </TouchableOpacity>
                 </View>
                 <View style={[styles.questions, styles.questionsFlexBox]}>
                   <Image

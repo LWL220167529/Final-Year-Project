@@ -28,7 +28,9 @@ import Navigation from "./screens/Navigation";
 import GenPlanLoading from './screens/GenPlanLoading';
 import TestScreen from './screens/Test';
 import PlanGenerationTest from './screens/PlanGenerationTest';
-import itneraryMedal from './components/itneraryMedal';
+import PlanListNav from './screens/PlaanListNav';
+import ProfileDetail from './screens/ProfileDetail';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -66,12 +68,14 @@ export default function App() {
   return (
     <NavigationContainer >
       {hideSplashScreen ? (
-        <Stack.Navigator initialRouteName='PlanTest'>
+        <Stack.Navigator initialRouteName='Welcome'>
           <Stack.Screen name="PlanGeneration" component={PlanGeneration} options={{ headerShown: false }} />
           <Stack.Screen name="GenPlanLoading" component={GenPlanLoading} options={{ headerShown: false }} />
+          <Stack.Screen name="ProfileDetail" component={ProfileDetail} />
+
           
           <Stack.Screen name="PlanTest" component={PlanGenerationTest} options={{ headerShown: false }}/>
-          <Stack.Screen name="itneraryMedal" component={itneraryMedal} />
+          <Stack.Screen name="PlanListNav" component={PlanListNav} />
 
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="SelectHotel" component={SelectHotel} />

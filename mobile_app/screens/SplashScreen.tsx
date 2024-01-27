@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, ImageBackground } from "react-native";
+import { Image, StyleSheet, View, ImageBackground, Text } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
 const SplashScreen = () => {
@@ -22,6 +22,7 @@ const SplashScreen = () => {
             resizeMode="cover"
             source={require("../image/logo.png")}
           />
+          <View style={{position:'absolute', bottom: -90, left: 15}}><Text style={{fontSize:30, color:'white'}}>Travel Go</Text></View>
         </View>
         <View style={styles.vectorContainer}>
           <Image
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     height: 100,
     zIndex: 0,
     position: "absolute",
-    top: "50%",
+    top: "30%",
     left: "50%",
     transform: [
       { translateX: -50 },

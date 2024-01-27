@@ -127,7 +127,7 @@ const  getSessionData = async (key) => {
       <View style={styles.header}>
         <View>
         <Text style={styles.title}>Let's Discover</Text>
-        <Text style={{fontSize:17}}> User: {name} (id: {id})</Text>
+        <Text style={{fontSize:17}}> User: 999 (id: 5)</Text>
         </View>
         <TouchableOpacity
         >

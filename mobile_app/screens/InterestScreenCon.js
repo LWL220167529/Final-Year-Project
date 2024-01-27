@@ -195,11 +195,13 @@ console.log(CityString);
       </View>
       {isFormValid() && (
         <Button title="Next" onPress={()=> navigation.navigate("InterestCon2", {
-          destination: [bl_lat, bl_lng, tr_lat, tr_lng],
-          name: description,
-          date: date,
+          userID: 5,
+          destination: {bl_lat, bl_lng, tr_lat, tr_lng},
+          Country: description,
+          TravelDate: date.toString(),
           numberOfDays: numberOfDays,
-          AllDates: AllDates
+          AllTravelDates: AllDates.map(date => date.toString()),
+
         })} />
       )}
 

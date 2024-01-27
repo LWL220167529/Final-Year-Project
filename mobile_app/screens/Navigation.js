@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useInsertionEffect, useState } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useNavigation } from '@react-navigation/native';
 export default function Navigation() {
     const [name, setName] = useState('');
-  
+    const navigation = useNavigation();
     useEffect(() => {
       const fetchName = async () => {
         try {
@@ -19,6 +19,12 @@ export default function Navigation() {
       };
   
       fetchName();
+    }, []);
+
+    useEffect(() => {
+      setTimeout(() => {
+        navigation.navigate('Interest');
+      }, 2000);
     }, []);
   
     return (

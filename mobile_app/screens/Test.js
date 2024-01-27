@@ -1,94 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions,StyleSheet, View, TouchableOpacity, Text, Modal, SafeAreaView, Image } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Carousel from "pinar";
 import { destinationData } from '../constants';
 import {TransferData} from '../TestData';
+import { useRoute } from '@react-navigation/native';
 
 export default function TestScreen() {
-  const [visible, setVisible] = useState(false);
+  const route = useRoute();
+  const { HollyData } = route.params;
+  const [bl_lat, setbl_lat] = useState(HollyData?.initial_input?.destination?.bl_lat);
+  const [bl_lng, setbl_lng] = useState(HollyData?.initial_input?.destination?.bl_lng);
+  const [tr_lat, settr_lat] = useState(HollyData?.initial_input?.destination?.tr_lat);
+  const [tr_lng, settr_lng] = useState(HollyData?.initial_input?.destination?.tr_lng);
 
-  const showModal = () => {
-    setVisible(true);
-  };
+  console.log("the page has been passs"+JSON.stringify(HollyData));
 
-  const hideModal = () => {
-    setVisible(false);
-  };
+  console.log("the page has been passbllat"+HollyData?.initial_input?.destination?.bl_lat+",   "+HollyData?.initial_input?.destination?.bl_lng);
 
-  const height = Dimensions.get('window').height;
-
-  const TestingAPI = () => {
-    var url = "http://127.0.0.1:5000/AIPlan";
-    
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(responseData => {
-        // Process the response data
-        console.log(JSON.stringify(responseData));
-      })
-      .catch(error => {
-        // Handle errors
-        console.error(error);
-      });
-  }
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-   <TouchableOpacity onPress={TestingAPI}>
-        <View>
-
-          <Text style={{ color: '#424769', fontWeight: '700' }}>TestAPI</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.WordContainer} onPress={showModal}>
-        <View>
-          <View style={{ alignSelf: 'center' }}>
-            <MaterialCommunityIcon name='book-marker' size={30} color='#3D3B40' />
-          </View>
-          <Text style={{ color: '#424769', fontWeight: '700' }}>Itinerary</Text>
-        </View>
-      </TouchableOpacity>
-
-        <Modal visible={visible} onRequestClose={hideModal} animationType='fade' transparent>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-
-    <TouchableOpacity style={{ marginTop:20,justifyContent:'center',alignItems:'center',alignSelf:'center',height:50,width: 50,backgroundColor: '#D8D9DA', borderRadius:999, }} onPress={hideModal}>
-      <View >
-    <MaterialCommunityIcon name='close-thick' size={30} color='#3D3B40' />
-
-      </View>
-    </TouchableOpacity>
-          <Carousel style={styles.carousel}
-          dotStyle={styles.dotStyle}
-          activeDotStyle={styles.activeDotStyle}
-          showsControls={false}
-          >
-      {destinationData.map((item, index) => (
-        <View key={item.id} style={styles.slide1}>
-<Image
-  style={styles.medalImg}
-  source={require('../image/forest.png')}
-/> 
-<View>
-         <Text style={styles.text}>{item.title}</Text>
-          <Text>{item.shortDescription}</Text>
-          </View>
-        </View>
-      ))}
-    <View style={styles.slide2}>
-      <Text style={styles.text}>2</Text>
-    </View>
-    <View style={styles.slide3}>
-      <Text style={styles.text}>3</Text>
-    </View>
-  </Carousel>
-          </View>
-        </Modal>
+      <Text>Test Screen</Text>
     </View>
   );
 }

@@ -7,7 +7,13 @@ export default function InterestCon3() {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const navigation = useNavigation();
   const route = useRoute();
-  const { destination, name, date, numberOfDays, AllDates, budget } = route.params;
+  const { userID,
+    destination,
+    Country,
+    TravelDate,
+    numberOfDays,
+    AllTravelDates,
+    budget } = route.params;
   const handleOptionPress = (option) => {
     if (selectedOptions.includes(option)) {
       setSelectedOptions(selectedOptions.filter((selectedOption) => selectedOption !== option));
@@ -67,10 +73,9 @@ export default function InterestCon3() {
     >
       <SafeAreaView style={{ flex: 1, width: '100%' }}>
         <View style={styles.container}>
-          <Text>{destination[0]}</Text>
           <Text style={{ fontSize: 30, fontWeight: '700' }}>What do you plan on traveling with on your next adventure?</Text>
           <View style={styles.genderBox}>
-          {activityData.map((activity) => (
+            {activityData.map((activity) => (
               <TouchableOpacity
                 key={activity.id}
                 style={[
@@ -85,13 +90,14 @@ export default function InterestCon3() {
             ))}
           </View>
           {selectedOptions.length > 0 && (
-            <Button title="Continue" onPress={() => navigation.navigate("PlanGeneration", {
-              destination: destination,
-              name: name,
-              date: date,
-              numberOfDays: numberOfDays,
-              AllDates: AllDates,
-              budget: budget,
+            <Button title="Continue" onPress={() => navigation.navigate("SelectHotel", {
+              userID,
+              destination,
+              Country,
+              TravelDate,
+              numberOfDays,
+              AllTravelDates,
+              budget,
               activity: selectedOptions,
             })} />
           )}

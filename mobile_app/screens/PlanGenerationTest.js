@@ -20,12 +20,12 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import MapViewScreen from './MapView';
 import SelectList from 'react-native-dropdown-select-list'
 import EhotelContent from '../components/EhotelContent';
-import { HollyData } from '../TestData';
 import Carousel from "pinar";
 
 const PlanGenerationTest = () => {
+  const route = useRoute();
   const navigation = useNavigation();
-
+  const { HollyData } = route.params;
   {/* worditernaray button */ }
   const [visible, setVisible] = useState(false);
   const showModal = () => {
@@ -34,6 +34,8 @@ const PlanGenerationTest = () => {
   const hideModal = () => {
     setVisible(false);
   };
+
+  console.log(JSON.stringify(HollyData));
 
   const [showPlanBtn, setshowPlanBtn] = useState(false); // Changed to string to simplify validation
   const [SveBtnColor, setSveBtnColor] = useState('#D8D9DA'); // Changed to string to simplify validation
@@ -44,8 +46,9 @@ const PlanGenerationTest = () => {
   const [dayIndex, setDayIndex] = useState(1);
   const [DataDay, setDataDay] = useState(HollyData);
   const [initial_input, setinitial_input] = useState(HollyData?.initial_input);
+  const [cityData, setCityData] = useState(HollyData?.initial_input?.CityData[0]?.result_object);
 
-
+  console.log("the page has been cityData" + cityData?.photo?.images?.original?.url);
   {/* Data set */ }
   const [placeData, setPlaceData] = useState(
     HollyData?.itinerary
@@ -78,6 +81,28 @@ const PlanGenerationTest = () => {
 
   };
 
+  const handleSavePlan = () => {
+    fetch('http://127.0.0.1:5000/saveAIPlan', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: HollyData,
+        plan: HollyData?.planID,
+        userID: HollyData?.initial_input?.userID,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data
+        console.log(data);
+        // Navigate to the home screen (replace 'Home' with the actual screen name)
+        navigation.navigate('Home');
+      });
+  };
+
+
   useEffect(() => {
     if (showPlanBtn) {
       setSveBtnColor('#FFC542');
@@ -86,7 +111,7 @@ const PlanGenerationTest = () => {
     }
   }, [showPlanBtn]);
 
-console.log(placeData?.places)
+  console.log(placeData?.places)
 
 
   return (
@@ -104,12 +129,11 @@ console.log(placeData?.places)
       <ScrollView>
         <View style={{ marginTop: 1, backgroundColor: 'white', shadowColor: 'black', shadowOpacity: 0.7, shadowRadius: 30, elevation: 5, paddingBottom: 20 }}>
           <View style={{ position: 'relative' }}>
-            <Image
-              source={{
-                uri: 'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png'
-              }}
-              style={[styles.image, { shadowColor: 'black', shadowOpacity: 0.7, shadowRadius: 9 }]}
-            />
+
+              <Image
+                source={{ uri: cityData?.photo?.images?.original?.url ||'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png'}}
+                style={[styles.image, { shadowColor: 'black', shadowOpacity: 0.7, shadowRadius: 9 }]}
+              />
 
             <LinearGradient
               colors={['transparent', 'rgba(0, 0, 0, 0.8)']}
@@ -144,15 +168,12 @@ console.log(placeData?.places)
           </View>
           <View style={{ marginTop: 280, mnpmarginLeft: 10, }}>
             <Text style={{ fontSize: 30, fontWeight: 'bold', }}>Description</Text>
-
-            <Text>
-              This is a good Place For visiting
-            </Text>
+              <Text>
+                {cityData?.geo_description || 'This is a good Place For visiting'}
+              </Text>
 
           </View>
-
         </View>
-
         <View style={styles.ScheduleBox}>
           <Text style={{ fontSize: 30, fontWeight: 'bold', }}>Schedule</Text>
           <View style={{ flexDirection: 'row' }}>
@@ -262,7 +283,7 @@ console.log(placeData?.places)
       {showPlanBtn && (
         <View style={{ width: '95%', alignSelf: 'center' }}>
           <View style={{ position: 'absolute', justifyContent: 'flex-end', bottom: 180, width: '100%', paddingHorizontal: 10, paddingBottom: 10 }}>
-            <TouchableOpacity style={{ backgroundColor: '#272829', padding: 10, borderRadius: 10, marginTop: 10 }}
+            <TouchableOpacity onPress={handleSavePlan} style={{ backgroundColor: '#272829', padding: 10, borderRadius: 10, marginTop: 10 }}
             >
               <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: '#FFF6E0' }}>Save as Plan</Text>
             </TouchableOpacity>

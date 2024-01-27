@@ -34,12 +34,8 @@ export default function EveryDayContent({ title, rating, imageSrc, index, type, 
             <Text style={{maxWidth: 150,}}  numberOfLines={1} ellipsizeMode="tail"> {currentData?.location_string}</Text>
           </View>
           <View style={{flexDirection: 'row', gap: 5}}>
-            <TouchableOpacity onPress={HandledataChange}>
-              <View style={{ backgroundColor: '#FF9843', padding: 8, borderRadius: 15, width: 40, alignContent:'center' }}>
-                <Foundation  name="refresh" size={18} color="black" style={{alignSelf:'center'}} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("ItemScreen", { param: currentData })}>
+
+            <TouchableOpacity onPress={() => navigation.navigate("ItemScreen", { param: mainData })}>
               <View style={{ backgroundColor: '#3468C0', padding: 8, borderRadius: 15, width: 40, alignContent:'center' }}>
                 <Foundation  name="eye" size={18} color="white" style={{alignSelf:'center'}} />
               </View>

@@ -9,7 +9,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 export default function InterestCon2() {
     const navigation = useNavigation();
     const route = useRoute();
-    const { destination, name, date, numberOfDays, AllDates } = route.params;
+    const {userID, destination,Country,TravelDate, numberOfDays, AllTravelDates } = route.params;
     const budgetData = [
         {
             id: 1,
@@ -30,11 +30,12 @@ export default function InterestCon2() {
     const handlePassData = (name) => {
         setBudget(name);
         navigation.navigate("InterestCon3", {
-            destination: destination,
-            name: name,
-            date: date,
-            numberOfDays: numberOfDays,
-            AllDates: AllDates,
+            userID, 
+            destination,
+            Country,
+            TravelDate, 
+            numberOfDays, 
+            AllTravelDates,
             budget: name,
         });
     }
@@ -42,8 +43,7 @@ export default function InterestCon2() {
     const [budget, setBudget] = useState('');
 
 
-
-
+console.log(route.params);
     return (
         <LinearGradient
             colors={['rgba(58, 131, 244, 0.4)', 'rgba(9, 181, 211, 0.4)']}
@@ -51,9 +51,6 @@ export default function InterestCon2() {
         >
             <SafeAreaView style={{ flex: 1, width: '100%' }}>
                 <View style={styles.container}>
-                    <Text>  {AllDates && AllDates.length > 0 ?
-                        `${AllDates[0].toLocaleDateString('en-US')} - ${AllDates[AllDates.length - 1].toLocaleDateString('en-US')}` :
-                        ''}</Text>
                     <Text style={{ fontSize: 30, fontWeight: 700, }}>What is Your Budget?</Text>
                     <Text style={{ fontSize: 15 }}>The budget is exclusively allocated </Text>
                     <Text style={{ fontSize: 15 }}>for activities and dining purposes.</Text>

@@ -9,11 +9,18 @@ import { Hotels } from '../constants';
 const SelectHotel = () => {
     const navigation = useNavigation();
     const route = useRoute();
-    const { destination, name, date, numberOfDays, AllDates } = route.params;
-    const [bl_lat, setbl_lat] = useState(destination[0]);
-    const [bl_lng, setbl_lng] = useState(destination[1]);
-    const [tr_lat, settr_lat] = useState(destination[2]);
-    const [tr_lng, settr_lng] = useState(destination[3]);
+    const { userID,
+        destination,
+        Country,
+        TravelDate,
+        numberOfDays,
+        AllTravelDates,
+        budget,
+        activity } = route.params;
+    const [bl_lat, setbl_lat] = useState(destination?.bl_lat);
+    const [bl_lng, setbl_lng] = useState(destination?.bl_lng);
+    const [tr_lat, settr_lat] = useState(destination?.tr_lat);
+    const [tr_lng, settr_lng] = useState(destination?.tr_lng);
     const [displayedHotels, setDisplayedHotels] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [SelectedHotel, setSelectedHotel] = useState(null);
@@ -77,8 +84,19 @@ const SelectHotel = () => {
     const handleHotelPress = (item) => {
         console.log('Selected hotel from SelectHotelScreen:', item);
         setSelectedHotel(item);
-       
-      };
+        navigation.navigate('GenPlanLoading', {
+            userID,
+            destination,
+            Country,
+            TravelDate,
+            numberOfDays,
+            AllTravelDates,
+            budget,
+            activity,
+            HotelData: item,
+        });
+
+    };
 
 
     return (
@@ -111,11 +129,11 @@ const SelectHotel = () => {
                                         </View>
                                         <View style={{ backgroundColor: '#3559E0', padding: 5, borderRadius: 5, color: 'white', paaddingBottom: 10, position: 'absolute', bottom: 10, right: 10 }}>
                                             <TouchableOpacity
-                                            onPress={() => {
-                                                handleHotelPress(item);
-                                                
-                                            }
-                                            }
+                                                onPress={() => {
+                                                    handleHotelPress(item);
+
+                                                }
+                                                }
                                             >
                                                 <Text style={{ color: 'white' }}>Select</Text>
                                             </TouchableOpacity>
