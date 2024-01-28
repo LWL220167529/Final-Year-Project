@@ -215,6 +215,8 @@ class UserSavePlan(Base):
     id = Column(Integer, primary_key=True)
     plan_ID = Column(Integer, ForeignKey('save_plan.id'))
     user_ID = Column(Integer)
+    imageURL = Column(String(512))
+    title = Column(String(255))
 
 class User(Base):
     __tablename__ = 'user'
@@ -388,9 +390,9 @@ def getRandomPlan(data: dict):
     return final_response
 
 
-def savePlan(userID: int, planID: int):
+def savePlan(userID: int, planID: int, title: str, imageURL: str):
     try:
-        newPlan = UserSavePlan(plan_ID=planID, user_ID=userID)
+        newPlan = UserSavePlan(plan_ID=planID, user_ID=userID, title=title, imageURL=imageURL)
 
         session.add(newPlan)
         session.commit()

@@ -188,7 +188,9 @@ def saveAIPlan():
         data = request.get_json()
         userID = data.get('userID')
         plan = data.get('plan')
-    response = place.savePlan(userID, plan)
+        title = data.get('title')
+        imageURL = data.get('imageURL')
+    response = place.savePlan(userID, plan, title, imageURL)
     return response
 
 
