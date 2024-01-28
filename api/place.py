@@ -409,7 +409,9 @@ def getSavedPlanByUserID(userID: int):
             {
                 'id': plan.id,
                 'plan_ID': plan.plan_ID,
-                'user_ID': plan.user_ID
+                'user_ID': plan.user_ID,
+                'imageURL': plan.imageURL,
+                'title': plan.title
             }
             for plan in plans
         ]
