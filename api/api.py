@@ -6,6 +6,8 @@ import place
 import collect
 import userSchedule
 import json
+import pandas as pd
+import csv
 # connect database
 app = Flask(__name__)
 CORS(app)
@@ -281,6 +283,25 @@ def updateSchedule():
 #     response = gpt.gpt_plan_trip(data)
     
 #     return jsonify(response), 200
+
+@app.route('/get-recommendations', methods=['POST'])
+def get_recommendations():
+    # latitude = 35.4973138
+    # longitude = 138.7551994
+    # user_location = (latitude, longitude)
+    # user_input_types = ['Shopping','Traveler Resources']
+    data = request.json
+    attraction_types = data['attraction_types']
+    input_latitude = float(data['latitude'])
+    input_longitude = float(data['longitude'])
+    user_location  = (input_latitude,input_longitude)
+    df = place.df.copy()
+    recommendations = place.get_recommendations_by_types(attraction_types, df, user_location, 50)
+    final_recommendationsByTypes = place.apply_demographic_filtering(recommendations)
+    selected_columns = final_recommendationsByTypes[['name', 'rating', 'reviews', 'score', 'type','sub_type']]
+    recommendations_json = selected_columns.to_dict(orient='records')
+    print(recommendations_json)
+    return jsonify(recommendations_json)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

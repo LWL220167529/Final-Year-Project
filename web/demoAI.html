@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Attraction Recommendations</title>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb4iE2zwfaw7lxIavF6cTt4sjoiM4cDGc&libraries=places"></script>
+</head>
+
+<body>
+    <h1>Find Attraction Recommendations</h1>
+    <input id="autocomplete" type="text" placeholder="Enter a location" style="width: 300px;">
+
+    <div id="location-details">
+        <p>Top Right Latitude: <span id="tr_latitude"></span></p>
+        <p>Top Right Longitude: <span id="tr_longitude"></span></p>
+        <p>Bottom Left Latitude: <span id="bl_latitude"></span></p>
+        <p>Bottom Left Longitude: <span id="bl_longitude"></span></p>
+        <hr>
+        <p>Latitude: <span id="latitude"></span></p>
+        <p>Longitude: <span id="longitude"></span></p>
+    </div>
+    <form id="attractionForm">
+        <!-- 动态生成复选框 -->
+        <script>
+            // 假设这是从服务器获取的类型列表
+            const types = ['Shopping', 'Traveler Resources', 'Sights & Landmarks', 'Spas & Wellness',
+                'Nature & Parks', 'Museums', 'Classes & Workshops', 'Nightlife',
+                'Fun & Games', 'Food & Drink', 'Outdoor Activities', 'Zoos & Aquariums',
+                'Events', 'Water & Amusement Parks', 'Other', 'Concerts & Shows', 'Tours'];
+
+            window.onload = function () {
+                const form = document.getElementById('attractionForm');
+                types.forEach(type => {
+                    // 创建复选框
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = type;
+                    checkbox.name = 'attraction_type';
+                    checkbox.value = type;
+
+                    // 创建标签
+                    const label = document.createElement('label');
+                    label.htmlFor = type;
+                    label.appendChild(document.createTextNode(type));
+
+                    // 添加复选框和标签到表单
+                    form.appendChild(checkbox);
+                    form.appendChild(label);
+                    form.appendChild(document.createElement('br')); // 换行
+                });
+            }
+        </script>
+    </form>
+    <button onclick="fetchRecommendations()">Get Recommendations</button>
+
+    <div id="recommendations"></div>
+
+    <script>
+        function fetchRecommendations() {
+            const form = document.getElementById('attractionForm');
+            const formData = new FormData(form);
+            const selectedTypes = formData.getAll('attraction_type');
+
+            fetch('http://127.0.0.1:5000/get-recommendations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ attraction_types: selectedTypes, latitude: document.getElementById('latitude').textContent, longitude: document.getElementById('longitude').textContent}),
+            })
+                .then(response => response.json())
+                .then(recommendations => {
+                    const recommendationsDiv = document.getElementById('recommendations');
+                    recommendationsDiv.innerHTML = ''; // 清空之前的推荐结果
+
+                    // 创建表格
+                    const table = document.createElement('table');
+                    table.setAttribute('border', '1');
+
+                    // 创建表头
+                    const thead = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    const headers = ['Name', 'Rating', 'Reviews', 'Score', 'Type','Sub_Type'];
+                    headers.forEach(headerText => {
+                        const header = document.createElement('th');
+                        header.textContent = headerText;
+                        headerRow.appendChild(header);
+                    });
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+
+                    // 创建表格体
+                    const tbody = document.createElement('tbody');
+                    recommendations.forEach(rec => {
+                        const tr = document.createElement('tr');
+                        headers.forEach(header => {
+                            const td = document.createElement('td');
+                            td.textContent = rec[header.toLowerCase()]; // 使用 header 的小写作为键
+                            tr.appendChild(td);
+                        });
+                        tbody.appendChild(tr);
+                    });
+                    table.appendChild(tbody);
+
+                    // 将表格添加到页面上
+                    recommendationsDiv.appendChild(table);
+                });
+        }
+
+        function initAutocomplete() {
+            var autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('autocomplete'), { types: ['geocode'] }
+            );
+
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var location = place.geometry.location;
+                var viewport = place.geometry.viewport;
+                var ne = viewport.getNorthEast(); // northeast corner of the viewport
+                var sw = viewport.getSouthWest(); // southwest corner of the viewport
+
+                // Assuming you want to display these in the HTML
+                document.getElementById('tr_latitude').textContent = ne.lat();
+                document.getElementById('tr_longitude').textContent = ne.lng();
+                document.getElementById('bl_latitude').textContent = sw.lat();
+                document.getElementById('bl_longitude').textContent = sw.lng();
+                document.getElementById('latitude').textContent = location.lat();
+                document.getElementById('longitude').textContent = location.lng();
+            });
+        }
+
+
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+    </script>
+</body>
+
+</html>

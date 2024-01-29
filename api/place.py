@@ -7,11 +7,15 @@ from datetime import datetime
 from rapidfuzz import process, fuzz
 from typing import Optional
 import pandas as pd
+import numpy as np
 import gpt
 import json
 import math
+from math import radians
 import requests
 import random
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import haversine_distances
 
 # Remote database configuration
 db_port = 3306  # Change the port to an integer
@@ -246,11 +250,63 @@ def weighted_rating(x: pd.Series, m: float = m, C: float = C) -> float:
     # Calculation based on the IMDB formula
     return (v / (v + m) * R) + (m / (m + v) * C)
 
-
 # Define a new feature 'score' and calculate its value with `weighted_rating()`
 q_attractions['score'] = q_attractions.apply(weighted_rating, axis=1)
 
 attractions = q_attractions.sort_values('score', ascending=False)
+
+
+#demo AI part
+def weighted_rating2(x, m=m, C=C):
+    v = x['rating']
+    R = x['reviews']
+    # Calculation based on the IMDB formula
+    return (v/(v+m) * R) + (m/(m+v) * C)
+
+def haversine_distance(row, user_location):
+    attraction_location = (radians(row['latitude']), radians(row['longitude']))
+    user_location_in_radians = (radians(user_location[0]), radians(user_location[1]))
+    result = haversine_distances([attraction_location, user_location_in_radians])
+    distance_km = result[0][1] * 6371  # Convert from radians to kilometers
+    return distance_km
+
+def get_recommendations_by_types(input_types, df, user_location, num_recommendations=10):
+    # Calculate distances for all attractions in the DataFrame
+    df['distance'] = df.apply(haversine_distance, axis=1, user_location=user_location)
+    
+    # Normalize the distance (optional, depending on how you want to factor this in)
+    max_distance = df['distance'].max()
+    df['distance_normalized'] = 1 - (df['distance'] / max_distance)
+    
+    # Continue with your existing filtering
+    main_type_encoded = pd.get_dummies(df['type'], prefix='main')
+    sub_type_encoded = pd.get_dummies(df['sub_type'], prefix='sub')
+
+    encoded_features = pd.concat([main_type_encoded, sub_type_encoded], axis=1)
+    input_encoded = pd.DataFrame(0, index=[0], columns=encoded_features.columns)
+
+    for t in input_types:
+        col_name = 'main_' + t  # Assume your main type prefix is 'main_'
+        if col_name in input_encoded.columns:
+            input_encoded.at[0, col_name] = 1
+
+    sim_scores = cosine_similarity(input_encoded, encoded_features)[0]
+
+    # Combine similarity score with the normalized distance
+    df['similarity'] = sim_scores
+    df['combined_score'] = df['similarity'] * df['distance_normalized']
+
+    # Sort by the combined score
+    df = df.sort_values('combined_score', ascending=False)
+    
+    return df.head(num_recommendations)
+
+def apply_demographic_filtering(recommendations, num_top=10):
+    recommendations_copy = recommendations.copy()
+    recommendations_copy['score'] = recommendations.apply(weighted_rating2, axis=1)
+    top_recommendations = recommendations_copy.sort_values('score', ascending=False).head(num_top)
+    return top_recommendations
+
 
 
 def getRandomPlan(data: dict):
