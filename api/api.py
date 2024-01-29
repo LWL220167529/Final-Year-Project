@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, abort
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import gpt
 import user
 import place  
@@ -172,6 +172,7 @@ def getPlaceByID():
 
 
 @app.route('/AIPlan', methods=["GET", "POST"])
+@cross_origin()
 def AIPlan():
     data = request.get_json()
     # with open(r'C:\Users\User\Downloads\TransferData.json', 'r') as f:
