@@ -1,0 +1,43 @@
+<!-- FILEPATH: /d:/test/attaction.html -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Attractions</title>
+        <style>
+            .attraction {
+                border: 1px solid black;
+                width: 350px;
+                margin: 10px;
+                padding: 10px;
+            }
+        </style>
+        <script>
+            // Fetch data from API endpoint
+            fetch('http://127.0.0.1:5000/getAttraction')
+                .then(response => response.json())
+                .then(data => {
+                    // Create HTML elements to display data
+                    const attractionsDiv = document.getElementById('attractions');
+                    data.forEach(attraction => {
+                        console.log(attraction);
+                        const attractionDiv = document.createElement('div');
+                        attractionDiv.setAttribute('id', 'attraction');
+                        attractionDiv.setAttribute('class', 'attraction');
+                        attractionDiv.innerHTML = `
+                            <h2>${attraction.name}</h2>
+                            <img src="${attraction.image}" width="300" height="300">
+                            <p>Location: ${attraction.location}</p>
+                            <button value="${attraction.id}">View more</button>
+                        `;
+                        attractionsDiv.appendChild(attractionDiv);
+                    });
+                })
+                .catch(error => console.error(error));
+        </script>
+    </head>
+    <body><center>
+        <h1>Attractions</h1>
+        <div id="attractions"></div>
+    </center></body>
+</html>
