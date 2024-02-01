@@ -1,0 +1,53 @@
+[
+    {
+      "_id": "6580167c8f4a7dac63dc0fd2",
+      "title": "London City Westminster Borough, London",
+      "price": 2898,
+      "image": "assets/img/hotels/hotel02.jpg",
+      "category": "bacteria",
+      "organism": "Eiusmod qui",
+      "strain": "Jul 03 2022",
+      "application": "Aliquip anim sint sunt labore eiusmod aliqua adipisicing in aliqua ex esse nisi laboris voluptate."
+    },
+    {
+      "_id": "6580167c353cba002d07f354",
+      "title": "Ciutat Vella, Barcelona",
+      "price": 3322,
+      "image": "assets/img/hotels/hotel03.jpg",
+      "category": "archaea",
+      "organism": "Sunt eu ",
+      "strain": "Apr 26 2021",
+      "application": "Cupidatat dolore est culpa consectetur laborum Lorem consequat aliquip."
+    },
+    {
+      "_id": "6580167c2a354449de5ed052",
+      "title": "Golden Tulip The Grandmark Dhaka",
+      "price": 2100,
+      "image": "assets/img/hotels/hotel01.jpg",
+      "category": "bacteria",
+      "organism": "Minim ipsum ",
+      "strain": "Jan 02 2006",
+      "application": "Nisi tempor non est Lorem velit sint deserunt officia consequat aliqua commodo pariatur do."
+    },
+    {
+      "_id": "6580167cab268af39549ac0c",
+      "title": "Manhattan, New York",
+      "price": 4700,
+      "image": "assets/img/hotels/hotel02.jpg",
+      "category": "archaea",
+      "organism": "Nisi in ",
+      "strain": "Oct 09 1989",
+      "application": "Et mollit voluptate nostrud irure consectetur laborum."
+    },
+    {
+      "_id": "6580167c682352b1ce7a5244",
+      "title": "Vaticano Prati, Rome",
+      "price": 2898,
+      "image": "assets/img/hotels/hotel03.jpg",
+      "category": "bacteria",
+      "organism": "Commodo cillum",
+      "strain": "Jul 12 2010",
+      "application": "Sint laborum ut incididunt qui voluptate veniam incididunt culpa incididunt tempor veniam."
+    }
+  ]
+  
