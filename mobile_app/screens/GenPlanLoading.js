@@ -5,6 +5,7 @@ import { getResData, getPlacesData } from '../api';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { Attractions } from '../constants';
 import { getBigCityData } from '../api';
+import LottieView from 'lottie-react-native';
 
 
 export default function GenPlanLoading() {
@@ -89,7 +90,12 @@ export default function GenPlanLoading() {
         </Text>
       ) : (
         <>
-          <ActivityIndicator size={100} color="#00ff00" />
+                <LottieView
+        source={require('../image/loadingGen.json')}
+        autoPlay
+        loop={true}
+        speed={1.5}
+        style={{ width: 200, height: 200 }} />
           <Text style={{ fontSize: 20 }}>Now we help you generate a Plan.</Text>
           <Text style={{ fontSize: 20 }}>Please wait for a moment.</Text>
         </>

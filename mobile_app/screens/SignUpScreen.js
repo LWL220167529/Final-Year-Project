@@ -41,16 +41,19 @@ export default function LoginScreen () {
   const [password, setPassword] = useState('');
   const [userID, setUserID] = useState('');
 
-  const handleSignup = async () => {
-    const url = 'http://159.223.94.246:5000/register';
+  const handleSignup = () => {
+    navigation.navigate('emailVertification');
+  };
+
+    {/*  const handleSignup = async () => {
+          const url = 'http://159.223.94.246:5000/register';
     const data = {
       userName: 'google',
       password: 'google1',
       email: 'google@google.com',
       phone: 43223222,
-    };
-  
-    try {
+    }; 
+      try {
       const response = await axios.post(url, data);
       console.log(response.data);
       Alert.alert('Success', 'You have successfully registered an account', [
@@ -64,6 +67,9 @@ export default function LoginScreen () {
       Alert.alert('Error', 'Something went wrong!', [{ text: 'OK' }]);
     }
   };
+*/}
+  
+
 
   return (
     <NativeBaseProvider>
@@ -111,89 +117,6 @@ export default function LoginScreen () {
       </ScrollView>
     </NativeBaseProvider>
   );
-
-
-
-
-
-    return (< NativeBaseProvider>
-      <ScrollView style={{ flex: 1, backgroundColor: '#ffffff' }}
-        showsVerticalScrollIndicator={false}>
-          <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.brandView}>
-              <Text style={{fontSize: 25, fontWeight: 500}}>Create Account</Text>
-              <Text>Planning your schedule by your own!</Text>
-
-      <View style={{margin:10}}>
-      <Text>Email Address:</Text>
-      <View style= {{borderRadius:15, marginTop:5}}>
-        <Input
-          placeholder="Enter your email address"
-          onChangeText={setEmail}
-
-        />
-      </View>
-      </View>
-      <View style={{margin:10}}>
-      <Text>Mobile Number:</Text>
-      <View style= {{borderRadius:15, marginTop:5}}>
-        <Input
-          placeholder="Enter your mobile number"
-          onChangeText={setMobileNumber}
-
-        />
-      </View>
-      </View>
-      <View style={{margin:10}}>
-      <Text>User ID:</Text>
-      <View style= {{borderRadius:15, marginTop:5}}>
-        <Input
-          placeholder="Enter your UserID"
-          onChangeText={setUserID}
-
-        />
-      </View>
-      </View>
-      <View style={{margin:10}}>
-      <Text>User Name:</Text>
-      <View style= {{borderRadius:15, marginTop:5}}>
-        <Input
-          placeholder="Enter your Username"
-          onChangeText={setUserName}
-
-        />
-      </View>
-      </View>
-      <View style={{margin:10}}>
-      <Text>Password:</Text>
-
-      <View style= {{borderRadius:15, marginTop:5}}>
-        <Input
-          placeholder="Enter your password"
-          onChangeText={setPassword}
-          secureTextEntry={!isPasswordVisible}
-          InputRightElement={
-            <View style={{marginRight: 15}}>
-<Entypo
-          name={isPasswordVisible ? 'eye-with-line' : 'eye'}
-          size={20}
-          onPress={() => setIsPasswordVisible(!isPasswordVisible)}/>
-          </View>
-          }
-        />
-        
-      </View>
-      </View>
-<TouchableOpacity>
-  <View style={{backgroundColor:'grey', fontSize:15, fontWeight:'bold', textAlign:'center'}}>
-  <Text  onPress={handleSignup}  style={{color:'white', fontSize:15, fontWeight:'bold', textAlign:'center'}}>Create Account</Text>
-  </View>
-</TouchableOpacity>
-            </View>
-          </SafeAreaView>
-      </ScrollView>
-    </NativeBaseProvider>
-    );
   }
 
 const styles = StyleSheet.create({

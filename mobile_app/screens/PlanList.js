@@ -51,10 +51,10 @@ const navigation = useNavigation();
         {planList?.plans &&
           planList.plans.map((item, index) => (
             <TouchableOpacity key={index} style={styles.card} onPress={() => handleStoreID(item.plan_ID)}>
-              <Image style={styles.cardImage} source={require('../image/beach.png')} />
+              <Image style={styles.cardImage} source={{uri : item.imageURL}} />
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={[styles.cardID, { flex: 0.5 }]}>id: {item.plan_ID}</Text>
-                <Text style={styles.cardText}>Travel Plan {index + 1}</Text>
+                <Text style={styles.cardText}>Trip to {item.title}</Text>
               </View>
             </TouchableOpacity>
           ))}

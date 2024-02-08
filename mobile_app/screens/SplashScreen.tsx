@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Image, StyleSheet, View, ImageBackground, Text } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import LottieView from 'lottie-react-native';
 
 const SplashScreen = () => {
   return (
@@ -11,18 +12,19 @@ const SplashScreen = () => {
       useAngle={true}
       angle={180}
     >
-      <ImageBackground
+      <ImageBackground  
         style={styles.icon}
         resizeMode="cover"
         source={require('../image/splashscreen.png')}
       >
-        <View style={styles.logoSection}>
-          <Image
-            style={[styles.logoIcon, styles.iconLayout]}
-            resizeMode="cover"
-            source={require("../image/logo.png")}
-          />
-          <View style={{position:'absolute', bottom: -90, left: 15}}><Text style={{fontSize:30, color:'white'}}>Travel Go</Text></View>
+        <View style={{position:'absolute', top: 180}}>
+        <LottieView
+        source={require('../image/logo.json')}
+        autoPlay
+        loop={true}
+        speed={1.2}
+        style={{ width: 200, height: 200 }} />
+          <View style={{}}><Text style={{fontSize:30, color:'white', alignSelf:'center'}}>Travel Go</Text></View>
         </View>
         <View style={styles.vectorContainer}>
           <Image
@@ -51,18 +53,7 @@ const styles = StyleSheet.create({
     left: "-0.32%",
     maxHeight: "100%",
   },
-  logoSection: {
-    width: 100,
-    height: 100,
-    zIndex: 0,
-    position: "absolute",
-    top: "30%",
-    left: "50%",
-    transform: [
-      { translateX: -50 },
-      { translateY: -50 },
-    ],
-  },
+
   cloudsGraphicsIcon: {
     width: "100%",
     height: "100%",

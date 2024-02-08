@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef,useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import { Plcaelat } from '../constants/index';
@@ -9,12 +9,23 @@ import { GOOGLE_MAPS_APIKEY } from '../constants/index';
 export default MapViewScreen = ({ placeData, lat, lng, dayIndex }) => {
   const navigation = useNavigation();
   const mapRef = useRef(null);
+  const [coords, setCoords] = useState(placeData && placeData[dayIndex-1]?.places && placeData[dayIndex-1].places.map((place, index) => (
+    place?.latitude && place?.longitude  && ({
+    latitude: parseFloat(place.latitude),
+    longitude: parseFloat(place.longitude),
+  })
+)));
+  console.log('Tttttt'+coords);
+
 
   useEffect(() => {
-    navigation.setOptions({
-
-    });
-  }, []);
+    setCoords(placeData && placeData[dayIndex-1]?.places && placeData[dayIndex-1].places.map((place, index) => (
+      place?.latitude && place?.longitude  && ({
+      latitude: parseFloat(place.latitude),
+      longitude: parseFloat(place.longitude),
+    })
+  )));
+  }, [dayIndex]);
 
   const focus = () => {
     const originalRegion = {
@@ -23,13 +34,26 @@ export default MapViewScreen = ({ placeData, lat, lng, dayIndex }) => {
       latitudeDelta: 0.1,
       longitudeDelta: 0.1,
     };
-
-    mapRef.current?.animateCamera({ center: originalRegion, zoom: 10 }, { duration: 1000 });
+  
+    mapRef.current?.animateCamera({ center: originalRegion, zoom: 8 }, { duration: 1000 });
+  
+    setTimeout(() => {
+      mapRef.current?.fitToCoordinates(coords, {
+        edgePadding: {
+          top: 10,
+          right: 10,
+          bottom: 10,
+          left: 10,
+        },
+      });
+    }, 1000);
   };
+
 
   onRegionChange = (region) => {
     console.log(region);
   }
+
 
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>

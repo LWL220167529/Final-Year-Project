@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, View, Text, StyleSheet, Image, ScrollView, SectionList, TouchableOpacity, SafeAreaView, ImageBackground } from 'react-native';
+import { Alert, ActivityIndicator, View, Text, StyleSheet, Image, ScrollView, SectionList, TouchableOpacity, SafeAreaView, ImageBackground } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -35,7 +35,7 @@ const PlanGeneration = () => {
     setVisible(false);
   };
 
-  console.log(HollyData);
+  console.log(JSON.stringify(HollyData));
 
   const [showPlanBtn, setshowPlanBtn] = useState(false); // Changed to string to simplify validation
   const [SveBtnColor, setSveBtnColor] = useState('#D8D9DA'); // Changed to string to simplify validation
@@ -112,7 +112,38 @@ const PlanGeneration = () => {
   }, [showPlanBtn]);
 
   console.log(placeData?.places)
+ 
+  
+  const HandleDelPlace = (index) => {
+    // Perform any required logic here
+  
+    // Display an alert message
+    Alert.alert(
+      'Delete Place',
+      'Are you sure you want to delete this place?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            // Perform the delete operation here
+            placeData[dayIndex - 1].places.forEach((place, placeIndex) => {
+              if (place?.activity_info?.id === index) {
+                console.log(place?.activity_info?.id);
+              }
 
+                // Perform any additional delete logic here
+            });
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
 
@@ -121,7 +152,7 @@ const PlanGeneration = () => {
 
       <ItneraryMedal placeData={placeData} />
       <ImageBackground source={require('../image/headerbackground.jpg')} style={styles.Header}>
-      <TouchableOpacity style={styles.back} onPress={() => navigation.navigate("PlanList")}>
+      <TouchableOpacity style={styles.back} onPress={() => navigation.navigate("Home")}>
       <MaterialCommunityIcon  name='arrow-left-thick' size={30} color='black' />
       </TouchableOpacity>
         <MaterialCommunityIcon style={styles.HeaderIcon} name='star-face' size={30} color='gold' />
@@ -233,7 +264,8 @@ const PlanGeneration = () => {
                 location_string={place?.location_string}
                 type={place?.subcategory?.name}
                 mainData={place}
-              />
+                HandleDelPlace={() => HandleDelPlace(place?.activity_info?.id)}
+                />
             ))
           ) : (
             <Text>No Data shown</Text>
@@ -251,6 +283,8 @@ const PlanGeneration = () => {
                 location_string={place?.location_string}
                 type={place?.subcategory?.name}
                 mainData={place}
+                HandleDelPlace={() => HandleDelPlace(place?.activity_info?.id)}
+
               />
             ))
           ) : (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, View, Text, StyleSheet, Image, ScrollView, SectionList, TouchableOpacity, SafeAreaView, ImageBackground } from 'react-native';
+import { Alert, ActivityIndicator, View, Text, StyleSheet, Image, ScrollView, SectionList, TouchableOpacity, SafeAreaView, ImageBackground } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -91,6 +91,8 @@ const PlanGenerationTest = () => {
         data: HollyData,
         plan: HollyData?.planID,
         userID: HollyData?.initial_input?.userID,
+        title: initial_input?.Country,
+        imageURL: cityData?.photo?.images?.original?.url ||'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png',
       }),
     })
       .then(response => response.json())
@@ -113,6 +115,30 @@ const PlanGenerationTest = () => {
 
   console.log(placeData?.places)
 
+  const HandleDelPlace = (index) => {
+    // Perform any required logic here
+    
+    // Display an alert message
+    Alert.alert(
+      'Delete Place',
+      'Are you sure you want to delete this place?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            // Perform the delete operation here
+            console.log('Place deleted');
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
 
@@ -249,6 +275,7 @@ const PlanGenerationTest = () => {
                 location_string={place?.location_string}
                 type={place?.subcategory?.name}
                 mainData={place}
+                HandleDelPlace={() => HandleDelPlace(index)}
               />
             ))
           ) : (
@@ -297,6 +324,13 @@ const PlanGenerationTest = () => {
         </View>
       )}
       <View style={{ position: 'absolute', justifyContent: 'flex-end', bottom: 70, width: '100%', backgroundColor: 'white', paddingHorizontal: 10, paddingBottom: 10 }}>
+        <TouchableOpacity
+          onPress={togglePlan}
+          style={{ backgroundColor: SveBtnColor, padding: 10, borderRadius: 10, marginTop: 10 }}
+        >
+          {showPlanBtn ? <View style={{ alignItems: 'center' }}><MaterialCommunityIcon name='close-thick' size={26} color='black' /></View>
+            : <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: '#FFF6E0' }}>Save Plan</Text>}
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={togglePlan}
           style={{ backgroundColor: SveBtnColor, padding: 10, borderRadius: 10, marginTop: 10 }}

@@ -30,7 +30,8 @@ import TestScreen from './screens/Test';
 import PlanGenerationTest from './screens/PlanGenerationTest';
 import PlanListNav from './screens/PlaanListNav';
 import ProfileDetail from './screens/ProfileDetail';
-
+import emailVertification from './screens/emailVertification';
+import EmailNav from './screens/EmailNav';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -68,12 +69,14 @@ export default function App() {
   return (
     <NavigationContainer >
       {hideSplashScreen ? (
-        <Stack.Navigator initialRouteName='Welcome'>
+        <Stack.Navigator initialRouteName='PlanList'>
           <Stack.Screen name="PlanGeneration" component={PlanGeneration} options={{ headerShown: false }} />
           <Stack.Screen name="GenPlanLoading" component={GenPlanLoading} options={{ headerShown: false }} />
           <Stack.Screen name="ProfileDetail" component={ProfileDetail} />
+          <Stack.Screen name="emailVertification" component={emailVertification} />
+          <Stack.Screen name="EmailNav" component={EmailNav} />
 
-          
+
           <Stack.Screen name="PlanTest" component={PlanGenerationTest} options={{ headerShown: false }}/>
           <Stack.Screen name="PlanListNav" component={PlanListNav} />
 

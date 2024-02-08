@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Foundation from 'react-native-vector-icons/Foundation';
 import { useNavigation } from '@react-navigation/native';
 
-export default function EveryDayContent({ title, rating, imageSrc, index, type,  data, daylength, mainData}) {
+export default function EveryDayContent({ HandleDelPlace,title, rating, imageSrc, index, type,  data, daylength, mainData}) {
   const navigation = useNavigation();
   const [currentData, setCurrentData] = useState(mainData);
   const [count, setCount] = useState(0);  
@@ -34,12 +34,18 @@ export default function EveryDayContent({ title, rating, imageSrc, index, type, 
             <Text style={{maxWidth: 150,}}  numberOfLines={1} ellipsizeMode="tail"> {currentData?.location_string}</Text>
           </View>
           <View style={{flexDirection: 'row', gap: 5}}>
-
+          
             <TouchableOpacity onPress={() => navigation.navigate("ItemScreen", { param: mainData })}>
+             
               <View style={{ backgroundColor: '#3468C0', padding: 8, borderRadius: 15, width: 40, alignContent:'center' }}>
-                <Foundation  name="eye" size={18} color="white" style={{alignSelf:'center'}} />
+                <FontAwesome5  name="eye" size={18} color="white" style={{alignSelf:'center'}} />
               </View>
             </TouchableOpacity>
+            <TouchableOpacity onPress={HandleDelPlace}>
+             <View style={{ backgroundColor: '#3468C0', padding: 8, borderRadius: 15, width: 40, alignContent:'center' }}>
+               <Foundation  name="trash" size={18} color="#FF6868" style={{alignSelf:'center'}} />
+             </View>
+           </TouchableOpacity>
           </View>
         </View>
         <Image style={styles.image} source={{ uri: imageSrc }} />

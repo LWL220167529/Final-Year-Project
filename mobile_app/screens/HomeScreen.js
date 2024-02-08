@@ -72,7 +72,7 @@ export default function HomeScreen() {
 
   const getUserData = async () => {
     try {
-      const url = 'http://159.223.94.246:5000/getUserByID';
+      const url = 'http://127.0.0.1:5000/getUserByID';
       const data = {
         userID: 5,
       };
@@ -87,7 +87,6 @@ export default function HomeScreen() {
   
       const json = await response.json();
   
-      Alert.alert(json.message);
       const stringValue = JSON.stringify(json);
       console.log(stringValue);
       storeSessionData('userData', stringValue);
