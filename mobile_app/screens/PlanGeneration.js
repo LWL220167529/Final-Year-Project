@@ -47,7 +47,7 @@ const PlanGeneration = () => {
   const [DataDay, setDataDay] = useState(HollyData);
   const [initial_input, setinitial_input] = useState(HollyData?.initial_input);
   const [cityData, setCityData] = useState(HollyData?.initial_input?.CityData[0]?.result_object);
-
+  const [editData, setEditData] = useState(HollyData);
 
   {/* Data set */ }
   const [placeData, setPlaceData] = useState(
@@ -131,13 +131,13 @@ const PlanGeneration = () => {
           style: 'destructive',
           onPress: () => {
             // Perform the delete operation here
-            placeData[dayIndex - 1].places.forEach((place, placeIndex) => {
-              if (place?.activity_info?.id === index) {
-                console.log(place?.activity_info?.id);
-              }
-
-                // Perform any additional delete logic here
+            const updatedItinerary = placeData[dayIndex - 1].places.filter((place) => {
+              return place.activity_info.id !== index;
             });
+          
+            placeData[dayIndex - 1].places = updatedItinerary;
+            editData.itinerary = placeData;
+            console.log("hello delete"+JSON.stringify(editData));
           },
         },
       ],

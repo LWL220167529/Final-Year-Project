@@ -1,13 +1,266 @@
-{CityData && CityData.length > 0 ? (
-  <Image
-    source={{
-      uri: CityData[0]?.result_object?.photo?.images?.original?.url || 'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png'
-    }}
-    style={[styles.image, { shadowColor: 'black', shadowOpacity: 0.7, shadowRadius: 9 }]}
-  />
-) : (
-  <Image
-    source={{ uri: 'https://cdn2.iconfinder.com/data/icons/building-vol-2/512/restaurant-512.png' }}
-    style={[styles.image, { shadowColor: 'black', shadowOpacity: 0.7, shadowRadius: 9 }]}
-  />
-)}
+[
+   {
+      "activity_info":{
+         "activities_content_description":"Relax and enjoy the serene surroundings at Saiko Shinkan",
+         "activity_name":"Relaxation",
+         "id":6,
+         "place_name":"Saiko Shinkan",
+         "sequence":0,
+         "transportation":{
+            "details":"Train from the shrine to Saiko Shinkan area",
+            "type":"train"
+         }
+      },
+      "address":"192 Yamashitacho, Naka-Ku, Yokohama 231-0023 Kanagawa Prefecture",
+      "address_obj":{
+         "city":"Yokohama",
+         "country":"Japan",
+         "postalcode":"231-0023",
+         "state":"Kanagawa Prefecture",
+         "street1":"192 Yamashitacho, Naka-Ku",
+         "street2":""
+      },
+      "ancestors":[
+         {
+            "abbrv":null,
+            "location_id":"298173",
+            "name":"Yokohama",
+            "subcategory":[
+               {
+                  "key":"municipality",
+                  "name":"Municipality"
+               }
+            ]
+         },
+         {
+            "abbrv":null,
+            "location_id":"298168",
+            "name":"Kanagawa Prefecture",
+            "subcategory":[
+               {
+                  "key":"state",
+                  "name":"State"
+               }
+            ]
+         },
+         {
+            "abbrv":null,
+            "location_id":"298156",
+            "name":"Kanto",
+            "subcategory":[
+               {
+                  "key":"region",
+                  "name":"Region"
+               }
+            ]
+         },
+         {
+            "abbrv":null,
+            "location_id":"294232",
+            "name":"Japan",
+            "subcategory":[
+               {
+                  "key":"country",
+                  "name":"Country"
+               }
+            ]
+         }
+      ],
+      "awards":[
+         
+      ],
+      "bearing":"southwest",
+      "category":{
+         "key":"restaurant",
+         "name":"Restaurant"
+      },
+      "cuisine":[
+         {
+            "key":"5379",
+            "name":"Chinese"
+         },
+         {
+            "key":"10659",
+            "name":"Asian"
+         },
+         {
+            "key":"10665",
+            "name":"Vegetarian Friendly"
+         }
+      ],
+      "description":"",
+      "dietary_restrictions":[
+         {
+            "key":"10665",
+            "name":"Vegetarian Friendly"
+         }
+      ],
+      "distance":"13.35063662178161",
+      "distance_string":"13.4 km",
+      "doubleclick_zone":"as.japan.kanto",
+      "establishment_types":[
+         {
+            "key":"10591",
+            "name":"Restaurants"
+         }
+      ],
+      "hours":{
+         "timezone":"Asia/Tokyo",
+         "week_ranges":[
+            [
+               {
+                  "close_time":1260,
+                  "open_time":660
+               }
+            ],
+            [
+               {
+                  "close_time":930,
+                  "open_time":690
+               },
+               {
+                  "close_time":1260,
+                  "open_time":1020
+               }
+            ],
+            [
+               {
+                  "close_time":930,
+                  "open_time":690
+               },
+               {
+                  "close_time":1260,
+                  "open_time":1020
+               }
+            ],
+            [
+               {
+                  "close_time":930,
+                  "open_time":690
+               },
+               {
+                  "close_time":1260,
+                  "open_time":1020
+               }
+            ],
+            [
+               {
+                  "close_time":930,
+                  "open_time":690
+               },
+               {
+                  "close_time":1260,
+                  "open_time":1020
+               }
+            ],
+            [
+               {
+                  "close_time":930,
+                  "open_time":690
+               },
+               {
+                  "close_time":1260,
+                  "open_time":1020
+               }
+            ],
+            [
+               {
+                  "close_time":1260,
+                  "open_time":660
+               }
+            ]
+         ]
+      },
+      "id":6,
+      "is_candidate_for_contact_info_suppression":false,
+      "is_closed":false,
+      "is_jfy_enabled":false,
+      "is_long_closed":false,
+      "latitude":"35.44318",
+      "location_id":"1382596",
+      "location_string":"Yokohama, Kanagawa Prefecture, Kanto",
+      "longitude":"139.64685",
+      "name":"Saiko Shinkan",
+      "nearest_metro_station":[
+         
+      ],
+      "neighborhood_info":[
+         {
+            "location_id":"20932025",
+            "name":"Naka-ku"
+         },
+         {
+            "location_id":"20932024",
+            "name":"Kannai"
+         }
+      ],
+      "num_reviews":"326",
+      "open_now_text":"Open Now",
+      "parent_display_name":"Yokohama",
+      "phone":"+81 50-3196-2794",
+      "photo":{
+         "caption":"外観",
+         "helpful_votes":"0",
+         "id":"453131140",
+         "images":{
+            "large":{
+               "height":"413",
+               "url":"https://media-cdn.tripadvisor.com/media/photo-s/1b/02/3b/84/caption.jpg",
+               "width":"550"
+            },
+            "medium":{
+               "height":"188",
+               "url":"https://media-cdn.tripadvisor.com/media/photo-f/1b/02/3b/84/caption.jpg",
+               "width":"250"
+            },
+            "original":{
+               "height":"600",
+               "url":"https://media-cdn.tripadvisor.com/media/photo-o/1b/02/3b/84/caption.jpg",
+               "width":"800"
+            },
+            "small":{
+               "height":"150",
+               "url":"https://media-cdn.tripadvisor.com/media/photo-l/1b/02/3b/84/caption.jpg",
+               "width":"150"
+            },
+            "thumbnail":{
+               "height":"50",
+               "url":"https://media-cdn.tripadvisor.com/media/photo-t/1b/02/3b/84/caption.jpg",
+               "width":"50"
+            }
+         },
+         "is_blessed":true,
+         "published_date":"2020-02-25T19:47:50-0500",
+         "uploaded_date":"2020-02-25T19:47:50-0500",
+         "user":{
+            "member_id":"0",
+            "type":"user",
+            "user_id":null
+         }
+      },
+      "preferred_map_engine":"default",
+      "price_level":"$$ - $$$",
+      "ranking":"#1 of 16,600 Restaurants in Yokohama",
+      "ranking_category":"restaurant",
+      "ranking_denominator":"9832",
+      "ranking_geo":"Yokohama",
+      "ranking_geo_id":"298173",
+      "ranking_position":"1",
+      "rating":"4.5",
+      "raw_ranking":"4.187134265899658",
+      "sequence":0,
+      "subcategory":[
+         {
+            "key":"sit_down",
+            "name":"Sit down"
+         }
+      ],
+      "timezone":"Asia/Tokyo",
+      "web_url":"https://www.tripadvisor.com/Restaurant_Review-g298173-d1382596-Reviews-Saiko_Shinkan-Yokohama_Kanagawa_Prefecture_Kanto.html",
+      "website":"http://www.saikoh-shinkan.com/",
+      "write_review":"https://www.tripadvisor.com/UserReview-g298173-d1382596-Saiko_Shinkan-Yokohama_Kanagawa_Prefecture_Kanto.html"
+   }
+]
+
+
+delete from components where id = 1;
