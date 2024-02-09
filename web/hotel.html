@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Choose your hotel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/hotel.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="js/bootstrap.bundle.js"></script>
     <script src="https://kit.fontawesome.com/298191de6e.js" crossorigin="anonymous"></script>
    
@@ -23,9 +24,8 @@
        <ul class = "nav_links">
            <li><a href = "index.html">Home</a></li>
            <li><a href = "planForm.html">Start Planning</a></li>
-           <li><a href = "blog.html">Blog</a></li>
-           <li><a href = "contactUS.html">Contact Us</a></li>
-           <a class = "cta" href = "login.html"><button>Login</button></a>
+           <li><a href = "savedPlan.html">Saved Plan</a></li>
+           <a class = "cta" href = "index.html"><button>Logout</button></a>
     </nav>
  </header>
 
@@ -39,7 +39,7 @@
                 <div class="col-md-4 filter-part">
                     <h5>Search by property name</h5>
                     <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="e.g. Marriott">
+                    <input type="text" id="searchInput" class="form-control" placeholder="e.g. Marriott">
                     </div>
                 <h3>Filter by</h3>
                 <!-- Popular Filters -->
@@ -70,76 +70,42 @@
                 <br>
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="guestRating" id="ratingAny" value="any" checked>
+                        <input class="form-check-input" type="radio" name="guestRating" id="ratingAny" value="0" checked>
                         <label class="form-check-label" for="ratingAny">
                             Any
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="guestRating" id="ratingWonderful" value="wonderful">
+                        <input class="form-check-input" type="radio" name="guestRating" id="ratingWonderful" value="9">
                         <label class="form-check-label" for="ratingWonderful">
                             Wonderful 9+
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="guestRating" id="ratingVeryGood" value="verygood">
+                        <input class="form-check-input" type="radio" name="guestRating" id="ratingVeryGood" value="8">
                         <label class="form-check-label" for="ratingVeryGood">
                             Very good 8+
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="guestRating" id="ratingVeryGood" value="verygood">
-                        <label class="form-check-label" for="ratingVeryGood">
+                        <input class="form-check-input" type="radio" name="guestRating" id="ratingGood" value="7">
+                        <label class="form-check-label" for="ratingGood">
                             Good 7+
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="guestRating" id="ratingVeryGood" value="verygood">
-                        <label class="form-check-label" for="ratingVeryGood">
+                        <input class="form-check-input" type="radio" name="guestRating" id="ratingPleasant" value="6">
+                        <label class="form-check-label" for="ratingPleasant">
                             Pleasant 6+
                         </label>
                     </div>
                 </div>
+                
     
-                <small>Star rating</small>
                 <div class="mb-3">
                     <!-- Star Rating Checkboxes -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="2stars">
-                        <label class="form-check-label" for="2stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="3stars">
-                        <label class="form-check-label" for="2stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="4stars">
-                        <label class="form-check-label" for="2stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="5stars">
-                        <label class="form-check-label" for="2stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </label>
-                    </div>
                     <br>
-                    <a href="result.html">
+                    <a href="results.html">
                         <button type="button" class="btn btn-primary">Next</button>
                     </a>
                 </div>
@@ -151,7 +117,7 @@
 
     <script>
 
-    function selectCard() {
+/*function selectCard() {
      $('.hotel-select').on('click', function() {
          // Toggle the visibility of other cards
         $(this).closest('.card').toggleClass('selected');
@@ -159,13 +125,18 @@
             // If the card is selected, hide others
             $('.card').not('.selected').hide();
             $(this).text('Deselect');
+
+             // Log the selected hotel's data
+             var hotelData = $(this).closest('.card').data('hotel');
+            console.log('Selected Hotel:', hotelData);
+
         } else {
             // If deselected, show all cards
             $('.card').show();
             $(this).text('Select');
         }
       });
-}
+   }*/
 
 
 $(document).ready(function() {
@@ -176,66 +147,107 @@ $(document).ready(function() {
     var minPriceInput = $('#minPriceInput');
     var maxPriceInput = $('#maxPriceInput');
 
-    // Load and display all hotels initially
-    $.getJSON('response.json', function(data) {
-        allHotels = data['data']['propertySearch']['properties'];
-        filteredHotels = allHotels;
-        createBootstrapCards(filteredHotels);
-        selectCard();
+    $('#hotel_items').on('click', '.hotel-select', function() {
+        var card = $(this).closest('.card');
+        card.toggleClass('selected');
+        if (card.hasClass('selected')) {
+            // If the card is selected, hide others
+            $('.card').not('.selected').hide();
+            $(this).text('Deselect');
+            // Log the selected hotel's data
+            var hotelData = card.data('hotel');
+            console.log('Selected Hotel:', hotelData);
+        } else {
+            // If deselected, show all cards
+            $('.card').show();
+            $(this).text('Select');
+        }
     });
 
-     // const url = "https://hotels4.p.rapidapi.com/properties/v2/list";
-            // const options = {
-            //     method: 'POST',
-            //     headers: {
-            //         'content-type': 'application/json',
-            //         'X-RapidAPI-Key': '',
-            //         'X-RapidAPI-Host': 'hotels4.p.rapidapi.com'
-            //     },
-            //     body: JSON.stringify({
-            //         currency: 'USD',
-            //         locale: 'en_US',
-            //         destination: {
-            //             coordinates: {
-            //                 latitude: 35.48933,
-            //                 longitude: 138.68832
-            //             }
-            //         },
-            //         checkInDate: {
-            //             day: 28,
-            //             month: 1,
-            //             year: 2024
-            //         },
-            //         checkOutDate: {
-            //             day: 29,
-            //             month: 1,
-            //             year: 2024
-            //         },
-            //         rooms: [{ adults: 2 }],
-            //         resultsStartingIndex: 0,
-            //         resultsSize: 50,
-            //         sort: 'RECOMMENDED',
-            //         filters: { 
-            //             guestRating: 45 
-            //         }
-            //     })
-            // };
+// Retrieve stored data from session storage
+   /* var storedData = sessionStorage.getItem('tripData');
+    var tripData = storedData ? JSON.parse(storedData) : null;
 
-            // fetch(url, options)
-            //     .then(response => response.json())
-            //     .then(result => {
-            //         console.log(result);
-            //         items = result['data']['propertySearch']['properties'];
-            //         createBootstrapCards(items);
-            //     })
-            //     .catch(error => {
-            //         console.error('Error:', error);
-            //     });
+    console.log('Stored Data:', storedData);
+    console.log('Trip Data:', tripData);*/
+
+    function loadHotels() {
+      // Use jQuery's getJSON method to load the data from the local JSON file
+            $.getJSON('assets/api/hotel.json', function(data) {
+                allHotels = data['data']['propertySearch']['properties'];
+                filteredHotels = allHotels;
+                createBootstrapCards(filteredHotels);
+                selectCard();
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.error('Error loading hotel ' + textStatus);
+                // Handle errors here
+            });
+         }
+                /* if(tripData) {
+                        const options = {
+                            method: 'POST',
+                            url: 'https://hotels4.p.rapidapi.com/properties/v2/list',
+                            headers: {
+                                'content-type': 'application/json',
+                                'X-RapidAPI-Key': '9dd4a43e57msh580d6989141c77ep1f6a87jsn0b698a38873f',
+                                'X-RapidAPI-Host': 'hotels4.p.rapidapi.com'
+                            },
+                            data: {
+                                currency: 'USD',
+                                locale: 'en_US',
+                                destination: {
+                                    coordinates: {
+                                        latitude: tripData.destinationlattitude,
+                                        longitude: tripData.destinationllongttitude
+                                    }
+                                },
+                                checkInDate: calculateDate(tripData.travelDate),
+                                checkOutDate: calculateDate(tripData.travelDate, parseInt(tripData.numOfDays)),
+                                rooms: [
+                                    {
+                                        adults: parseInt(tripData.numOfPeople)
+                                    }
+                                ],
+                                resultsStartingIndex: 0,
+                                resultsSize: 12,
+                                sort: 'RECOMMENDED',
+                                filters: {
+                                    guestRating: 45
+                                }
+                            }
+                        };
+
+        axios.request(options).then(function(response) {
+            allHotels = response.data.data.propertySearch.properties;
+            filteredHotels = allHotels;
+            createBootstrapCards(filteredHotels);
+            selectCard();
+        }).catch(function(error) {
+            console.error(error);
+            // Handle errors here
+        });
+     }
+    }*/
+
+    // Function to calculate date based on a start date and an offset of days
+     /*   function calculateDate(startDate, offsetDays = 0) {
+        var date = new Date(startDate);
+        date.setDate(date.getDate() + offsetDays);
+        return {
+            day: date.getDate(),
+            month: date.getMonth() + 1, // JavaScript months are 0-indexed
+            year: date.getFullYear()
+        };
+      }*/
+
+    // Call loadHotels function to fetch and display hotels
+    loadHotels();
 
     function createBootstrapCards(responseData) {
         let cardsHtml = '';
 
         responseData.forEach(property => {
+            const hotelId = property.id; 
             const imageUrl = property.propertyImage?.image?.url || 'default-image-path.jpg';
             const imageDescription = property.propertyImage?.image?.description || 'No description available';
             const neighborhoodName = property.neighborhood?.name || 'Unknown neighborhood';
@@ -247,7 +259,7 @@ $(document).ready(function() {
             const reviewCount = property.reviews?.total || 'No';
 
             cardsHtml += `
-                <div class="card mb-3 h-100 hotelCar" style="max-width: 700px;">
+                <div class="card mb-3 h-100 hotelCard" style="max-width: 700px; data-hotel-id="${hotelId}>
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="${imageUrl}" class="img-fluid rounded-start h-100" alt="${imageDescription}">
@@ -277,46 +289,50 @@ $(document).ready(function() {
             `;
         });
 
-        const cardsContainer = $('#hotel_items');
-        cardsContainer.html(cardsHtml);
+        $('#hotel_items').html(cardsHtml);
     }
 
-    function filterByPrice(minValue, maxValue) {
-        filteredHotels = allHotels.filter(property => {
-            const price = parseInt(property.mapMarker?.label?.replace(/^\D+/g, '')) || 0;
-            return price >= minValue && price <= maxValue;
+    // Function to apply filters
+    function applyFilters() {
+        const priceFilter = {
+            min: parseInt(minPriceRange.val()),
+            max: parseInt(maxPriceRange.val())
+        };
+        const ratingFilter = parseFloat($('input[name="guestRating"]:checked').val());
+        const searchText = $('#searchInput').val().toLowerCase();
+
+        var filteredHotels = allHotels.filter(hotel => {
+            const price = parseInt(hotel.mapMarker?.label?.replace(/^\D+/g, '')) || 0;
+            const rating = hotel.reviews?.score || 0;
+            const name = hotel.name.toLowerCase();
+            return name.includes(searchText) && rating >= ratingFilter && price >= priceFilter.min && price <= priceFilter.max;
         });
 
         createBootstrapCards(filteredHotels);
     }
 
+    // Event listener for rating filter change
+    $('input[name="guestRating"]').on('change', function() {
+        applyFilters();
+    });
+
+    // Event listeners for price range changes
     minPriceRange.on('input', function() {
-        const minValue = parseInt(minPriceRange.val());
-        const maxValue = parseInt(maxPriceRange.val());
-
-        if (minValue > maxValue) {
-            minPriceRange.val(maxValue);
-            filterByPrice(minValue, maxValue);
-            return;
-        }
-
-        minPriceInput.val('Min $' + minValue);
-        filterByPrice(minValue, maxValue);
+        minPriceInput.val('Min $' + $(this).val());
+        applyFilters();
     });
 
     maxPriceRange.on('input', function() {
-        const maxValue = parseInt(maxPriceRange.val());
-        const minValue = parseInt(minPriceRange.val());
-
-        if (maxValue < minValue) {
-            maxPriceRange.val(minValue);
-            filterByPrice(minValue, maxValue);
-            return;
-        }
-
-        maxPriceInput.val('Max $' + maxValue);
-        filterByPrice(minValue, maxValue);
+        maxPriceInput.val('Max $' + $(this).val());
+        applyFilters();
     });
+
+    // Event listener for the property name search
+        $('#searchInput').on('input', function() {
+        applyFilters();
+    });
+
+   
 });
 
 </script>

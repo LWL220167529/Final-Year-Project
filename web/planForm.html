@@ -18,9 +18,8 @@
        <ul class = "nav_links">
            <li><a href = "index.html">Home</a></li>
            <li><a href = "planForm.html">Start Planning</a></li>
-           <li><a href = "blog.html">Blog</a></li>
-           <li><a href = "contactUS.html">Contact Us</a></li>
-           <a class = "cta" href = "login.html"><button>Login</button></a>
+           <li><a href = "savedPlan.html">Saved Plan</a></li>
+           <a class = "cta" href = "index.html"><button>Logout</button></a>
     </nav>
    
 </header>
@@ -32,14 +31,14 @@
  <div class="container my-10">
     <div class="">
         <div class="w-55 mx-auto">
-            <form class=""  action="hotel.html" method="post">
+            <form class="" >
                 <div>
                     <div class="my-5">
                         <h4>What is your destination of choice?</h4> <!-- Corrected the closing tag -->
                     </div>
                     <div>
                         <input class="shadow-sm form-control form-control-lg w-100" list="placeList" type="text"
-                            id="input_place" name="city" placeholder="City" />
+                            id="input_place" name="city" placeholder="Input a city" />
                         <datalist id="placeList">
                         </datalist>
                     </div>
@@ -68,11 +67,11 @@
       </div>
       <div class="mb-5">
        <label for="selectBudget" class="form-label">How much do you plan on spending during the trip?</label>
-      <select class="form-select form-select-sm">
+      <select class="form-select form-select-sm" id="budgetSelect">
         <option selected>Select a budget ($USD)</option>
-        <option value="Low">Below $1000</option>
-        <option value="Medium">$1000 - $2500</option>
-        <option value="High">Above $2500 </option>
+        <option value="Low">Below $1000 (Low)</option>
+        <option value="Medium">$1000 - $2500 (Mid)</option>
+        <option value="High">Above $2500 (High)</option>
       </select>
      </div>
      <div class="container mt-3 mb-5">
@@ -119,56 +118,118 @@
           </div>
         </div> <!-- Closing the second row -->
       </div>
-      <button type="submit" class="btn btn-primary">Create New Trip</button>
     </form>
+    <div >
+      <button class="btn btn-primary" onclick="handleSubmit()">Create New Trip</button>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-   document.getElementById("startDate").min = new Date().toISOString().split("T")[0];
+       var destinationlattitude, destinationllongttitude;
+       var neLatitude, neLongitude, swLatitude, swLongitude;
 
-   
-        function initAutocomplete() {
-            var autocomplete = new google.maps.places.Autocomplete(
-                document.getElementById('input_place'), { types: ['geocode'] }
-            );
 
-            autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
-                    return;
+       document.getElementById("startDate").min = new Date().toISOString().split("T")[0];
+
+        
+              function initAutocomplete() {
+                  var autocomplete = new google.maps.places.Autocomplete(
+                      document.getElementById('input_place'), { types: ['geocode'] }
+                  );
+
+                  autocomplete.addListener('place_changed', function () {
+                      var place = autocomplete.getPlace();
+                      if (!place.geometry) {
+                          console.log("Returned place contains no geometry");
+                          return;
+                      }
+                      var location = place.geometry.location;
+                      var viewport = place.geometry.viewport;
+                      var ne = viewport.getNorthEast(); // northeast corner of the viewport
+                      var sw = viewport.getSouthWest(); // southwest corner of the viewport
+
+                      neLatitude = ne.lat();
+                      neLongitude = ne.lng();
+                      swLatitude = sw.lat();
+                      swLongitude = sw.lng();
+                      destinationlattitude = location.lat();
+                      destinationllongttitude = location.lng();
+
+                      // Assuming you want to display these in the HTML
+                    // document.getElementById('tr_latitude').textContent = ne.lat();
+                    // document.getElementById('tr_longitude').textContent = ne.lng();
+                    // document.getElementById('bl_latitude').textContent = sw.lat();
+                    // document.getElementById('bl_longitude').textContent = sw.lng();
+                    // document.getElementById('latitude').textContent = location.lat();
+                    // document.getElementById('longitude').textContent = location.lng()
+                    });
+              }
+
+
+                google.maps.event.addDomListener(window, 'load', initAutocomplete);    
+          
+                $(document).ready(function() {
+                    $('.activity-box').click(function() {
+                      // This will toggle the 'selected' class on and off when user click on an activity box
+                      $(this).toggleClass('selected');
+            });
+
+            $(document).ready(function() {
+              var today = new Date().toISOString().substring(0, 10);
+              $('#startDate').val(today);
+         });
+      });
+
+
+        function addDays(date, days) {
+                  var result = new Date(date);
+                  result.setDate(result.getDate() + days);
+                  return result.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
                 }
-                var location = place.geometry.location;
-                var viewport = place.geometry.viewport;
-                var ne = viewport.getNorthEast(); // northeast corner of the viewport
-                var sw = viewport.getSouthWest(); // southwest corner of the viewport
 
 
 
-                // Assuming you want to display these in the HTML
-               // document.getElementById('tr_latitude').textContent = ne.lat();
-               // document.getElementById('tr_longitude').textContent = ne.lng();
-               // document.getElementById('bl_latitude').textContent = sw.lat();
-               // document.getElementById('bl_longitude').textContent = sw.lng();
-               // document.getElementById('latitude').textContent = location.lat();
-               // document.getElementById('longitude').textContent = location.lng()
-              });
-        }
+         function handleSubmit() {
+                        // Capture form data
+             var country = document.getElementById('input_place').value;
+            var travelDate = document.getElementById('startDate').value;
+            var numOfDays = document.getElementById('numDays').value;
+            var numOfPeople = document.getElementById('peopleCount').value;
+            var budget = document.getElementById('budgetSelect').value;
+            var selectedActivities = Array.from(document.querySelectorAll('.activity-box.selected'))
+                                        .map(box => box.getAttribute('data-activity'));
 
 
-        google.maps.event.addDomListener(window, 'load', initAutocomplete);    
-   
-        $(document).ready(function() {
-            $('.activity-box').click(function() {
-              // This will toggle the 'selected' class on and off when you click on an activity box
-              $(this).toggleClass('selected');
-    });
+            // Create AllTravelDates array
+              var AllTravelDates = [travelDate];
+              for (var i = 1; i < numOfDays; i++) {
+                  AllTravelDates.push(addDays(travelDate, i));
+              }
+                                   
+                  // Create destination object
+              var destination = {
+                bl_lat: swLatitude,
+                bl_lng: swLongitude,
+                tr_lat: neLatitude,
+                tr_lng: neLongitude
+              };
 
-    $(document).ready(function() {
-    var today = new Date().toISOString().substring(0, 10);
-     $('#startDate').val(today);
-  });
-  });
+            // Store data in session storage
+            sessionStorage.setItem('tripData', JSON.stringify({
+              "userID":18,
+              destination,
+              country,
+              travelDate,
+              numOfDays,
+              AllTravelDates, 
+              selectedActivities,
+              budget,
+              numOfPeople,
+              destinationlattitude: destinationlattitude,
+              destinationllongttitude: destinationllongttitude
+            }));
+
+            window.location.href = 'hotel.html';
+          }
  </script>
 </body>
 </html>
