@@ -76,7 +76,7 @@ h1 {
 	position:relative;
 }
 
-#progress-bar-container li .step-inner {
+#progress-bar-container li .attraction-inner {
 	position:absolute;
 	width:100%;
 	bottom:0;
@@ -143,8 +143,7 @@ h1 {
 }
 
 #progress-content-section .section-content {
-	padding:30px 
-	;
+	padding:30px;
 }
 
 #progress-content-section .section-content h2 {
@@ -182,7 +181,7 @@ h1 {
 }
 
 .section-content img.even {
-    float: right; /* Float the image to the left */
+    float: right; /* Float the image to the right */
 
 }
 

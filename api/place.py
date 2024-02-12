@@ -209,6 +209,18 @@ class SavePlan(Base):
     id = Column(Integer, primary_key=True)
     plan = Column(JSON)
     user_ID = Column(Integer)
+    name = Column(String(255))
+    price = Column(String(255))
+    rating = Column(Float)
+    category = Column(String(255))
+    currency = Column(String(255))
+    imageSrc = Column(String(255))
+    latitude = Column(Float)
+    longitude = Column(Float)
+    reviewCount = Column(Integer)
+    distanceFromDestination = Column(String(255))
+    activity_info = Column(JSON)
+    description = Column(String(255))
 
 class UserSavePlan(Base):
     __tablename__ = 'user_save_plan'
@@ -227,56 +239,57 @@ class User(Base):
     phoneNumber = Column(String(20), nullable=False)
     createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
 
+if __name__ == "__main__":
 
-rows = session.query(CitiesPlace).filter(
-    CitiesPlace.state_id == 852).order_by(CitiesPlace.cities_id.asc()).all()
+    rows = session.query(CitiesPlace).filter(
+        CitiesPlace.state_id == 852).order_by(CitiesPlace.cities_id.asc()).all()
 
-data = {
-    'id': [row.id for row in rows],
-    'name': [row.name for row in rows],
-    'state_id': [row.state_id for row in rows],
-    'state_code': [row.state_code for row in rows],
-    'country_id': [row.country_id for row in rows],
-    'country_code': [row.country_code for row in rows],
-    'cities_id': [row.cities_id for row in rows],
-    'type': [row.type for row in rows],
-    'sub_type': [row.sub_type for row in rows],
-    'rating': [row.rating for row in rows],
-    'price_level': [row.price_level for row in rows],
-    'reviews': [row.reviews for row in rows],
-    'description': [row.description for row in rows],
-    'address': [row.address for row in rows],
-    'pictures': [row.pictures for row in rows],
-    'websiteUri': [row.websiteUri for row in rows],
-    'phone': [row.phone for row in rows],
-    'latitude': [row.latitude for row in rows],
-    'longitude': [row.longitude for row in rows],
-    'created_at': [row.created_at for row in rows],
-    'updated_at': [row.updated_at for row in rows]
-}
+    data = {
+        'id': [row.id for row in rows],
+        'name': [row.name for row in rows],
+        'state_id': [row.state_id for row in rows],
+        'state_code': [row.state_code for row in rows],
+        'country_id': [row.country_id for row in rows],
+        'country_code': [row.country_code for row in rows],
+        'cities_id': [row.cities_id for row in rows],
+        'type': [row.type for row in rows],
+        'sub_type': [row.sub_type for row in rows],
+        'rating': [row.rating for row in rows],
+        'price_level': [row.price_level for row in rows],
+        'reviews': [row.reviews for row in rows],
+        'description': [row.description for row in rows],
+        'address': [row.address for row in rows],
+        'pictures': [row.pictures for row in rows],
+        'websiteUri': [row.websiteUri for row in rows],
+        'phone': [row.phone for row in rows],
+        'latitude': [row.latitude for row in rows],
+        'longitude': [row.longitude for row in rows],
+        'created_at': [row.created_at for row in rows],
+        'updated_at': [row.updated_at for row in rows]
+    }
 
-df = pd.DataFrame(data)
+    df = pd.DataFrame(data)
 
-df2 = df.copy()
+    df2 = df.copy()
 
-C = df2['reviews'].mean()
+    C = df2['reviews'].mean()
 
-m = df2['rating'].quantile(0.4)
+    m = df2['rating'].quantile(0.4)
 
-q_attractions = df2.copy().loc[df2['rating'] >= m]
-
-
-def weighted_rating(x: pd.Series, m: float = m, C: float = C) -> float:
-    v = x['rating']
-    R = x['reviews']
-    # Calculation based on the IMDB formula
-    return (v / (v + m) * R) + (m / (m + v) * C)
+    q_attractions = df2.copy().loc[df2['rating'] >= m]
 
 
-# Define a new feature 'score' and calculate its value with `weighted_rating()`
-q_attractions['score'] = q_attractions.apply(weighted_rating, axis=1)
+    def weighted_rating(x: pd.Series, m: float = m, C: float = C) -> float:
+        v = x['rating']
+        R = x['reviews']
+        # Calculation based on the IMDB formula
+        return (v / (v + m) * R) + (m / (m + v) * C)
 
-attractions = q_attractions.sort_values('score', ascending=False)
+
+    # Define a new feature 'score' and calculate its value with `weighted_rating()`
+    q_attractions['score'] = q_attractions.apply(weighted_rating, axis=1)
+
+    attractions = q_attractions.sort_values('score', ascending=False)
 
 
 def getRandomPlan(data: dict):
