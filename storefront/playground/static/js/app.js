@@ -181,7 +181,7 @@ function dataFunction(perpage, pagenumber) {
   $.ajax
     ({
       type: "GET",
-      url: "{% static 'api/products.json' %}",
+      url: "api/products.json",
       dataType: 'json',
       success: function (data) {
         // Handle the successful response here
