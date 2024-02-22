@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'storefront.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bolgDB',
+        'NAME': 'bolgdb',
         'USER': 'fyp',
         'PASSWORD': '!1Fypproject',
         'HOST': 'localhost',
