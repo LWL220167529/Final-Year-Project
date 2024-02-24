@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, render_template, redirect, url_for, session
 from flask_cors import CORS, cross_origin
 import gpt
 import user
@@ -7,13 +7,20 @@ import collect
 import userSchedule
 import json
 # connect database
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 CORS(app)
 
 
 @app.route('/')
+def indexUrl():
+    return redirect(url_for('index'))
+
+
+@app.route('/travel', methods=["GET", "POST"])
 def index():
-    return 'Hello World'
+    return render_template('index.html')
+
+#api part
 # account api
 # login
 
@@ -34,7 +41,6 @@ def login():
         abort(500)
 
 # sign up user
-
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
