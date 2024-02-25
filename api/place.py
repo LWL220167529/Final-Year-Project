@@ -85,22 +85,50 @@ def update_cities_place(place_id: int, data: dict):
         # Commit the changes to the database
         session.commit()
 
-        return jsonify({'message': 'Cities place updated successfully'}), 200
+        return jsonify({'message': 'Cities place updated successfully'})
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
 
 def get_all_cities_place():
     try:
-        cities_places = session.query(CitiesPlace).all()
+        cities_places = session.query(CitiesPlace, Cities.name.label('city_name'), States.name.label('state_name'), Countries.name.label('countries_name'))\
+            .join(Cities, Cities.id == CitiesPlace.cities_id)\
+            .join(States, States.id == CitiesPlace.state_id)\
+            .join(Countries, Countries.id == CitiesPlace.country_id)\
+            .all()
 
         cities_places_data = []
         for city_place in cities_places:
-            city_place_data = city_place.__dict__
-            city_place_data.pop('_sa_instance_state', None)
+            city_place_data = {
+                'id': city_place.CitiesPlace.id,
+                'name': city_place.CitiesPlace.name,
+                'state_id': city_place.CitiesPlace.state_id,
+                'state_code': city_place.CitiesPlace.state_code,
+                'country_id': city_place.CitiesPlace.country_id,
+                'country_code': city_place.CitiesPlace.country_code,
+                'cities_id': city_place.CitiesPlace.cities_id,
+                'type': city_place.CitiesPlace.type,
+                'sub_type': city_place.CitiesPlace.sub_type,
+                'rating': city_place.CitiesPlace.rating,
+                'price_level': city_place.CitiesPlace.price_level,
+                'reviews': city_place.CitiesPlace.reviews,
+                'description': city_place.CitiesPlace.description,
+                'address': city_place.CitiesPlace.address,
+                'pictures': city_place.CitiesPlace.pictures,
+                'websiteUri': city_place.CitiesPlace.websiteUri,
+                'phone': city_place.CitiesPlace.phone,
+                'latitude': city_place.CitiesPlace.latitude,
+                'longitude': city_place.CitiesPlace.longitude,
+                'created_at': city_place.CitiesPlace.created_at,
+                'updated_at': city_place.CitiesPlace.updated_at,
+                'city_name': city_place.city_name,
+                'state_name': city_place.state_name,
+                'country_name': city_place.countries_name
+            }
             cities_places_data.append(city_place_data)
 
-        return jsonify(cities_places_data), 200
+        return jsonify(cities_places_data)
     except Exception as e:
         print(e)
         return jsonify({'message': 'Error occurred while retrieving cities places.', 'error': str(e)}), 500
@@ -131,7 +159,7 @@ def get_by_input(input: str):
             city_place_data.pop('_sa_instance_state', None)
             cities_places_data.append(city_place_data)
 
-        return cities_places_data, 200
+        return cities_places_data
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
@@ -429,7 +457,7 @@ def getSavedPlanByUserID(userID: int):
             for plan in plans
         ]
 
-        return jsonify({'plans': plan_list}), 200
+        return jsonify({'plans': plan_list})
     except Exception as e:
         print(e)
         return jsonify({'message': 'Error occurred while retrieving plans.', 'error': str(e)}), 500
@@ -444,9 +472,9 @@ def getSavedPlanByID(planID: int):
                 'plan': plan.plan,
                 'user_ID': plan.user_ID
             }
-            return jsonify({'plan': plan_data}), 200
+            return jsonify({'plan': plan_data})
         else:
-            return jsonify({'message': 'Plan not found'}), 404
+            return jsonify({'message': 'Plan not found'})
     except Exception as e:
         print(e)
         return jsonify({'message': str(e)}), 500

@@ -1,27 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends "base.html" %}
 
+{% block title %}
 <!-- page title -->
 <title>Sign-in</title>
+{% endblock %}
 
-<!-- bootstrap core CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+{% block css %}
 <!-- custom styles for this template -->
-<link href="assets/css/signInsignUP.css" rel="stylesheet">
+<link href="{{url_for('static', filename='css/signInsignUP.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='css/helper.css')}}" rel="stylesheet">
+{% endblock %}
 
-<link href="assets/css/helper.css" rel="stylesheet">
-</head>
-
-<body>
-
-
+{% block js %}
+{% endblock %}
 
 
+
+{% block body %}
 <!-- ================ Sign in page ================ -->
 <div class="sign-in-page pt-70 pb-70">
   <div class="container">
@@ -30,12 +25,12 @@
         <!-- sign in up box -->
         <div class="sign-in-up-box text-center">
           <h4 class="mb-8">Sign in your account</h4>
-          <form class="mt-30" id ="loginForm">
+          <form class="mt-30" id ="loginForm" method="post" action="/travel/sign-in">
             <div class="mb-3">
-              <input type="email" class="form-control" placeholder="Email / Username*" required>
+              <input type="text" class="form-control" placeholder="Email / Username*" name="id" id="id" required>
             </div>
             <div class="mb-3">
-              <input type="password" class="form-control" placeholder="Password*" required>
+              <input type="password" class="form-control" placeholder="Password*" name="password" id="password" required>
             </div>
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-6">
@@ -48,6 +43,11 @@
                 <div class="mb-3"> <a href="#" class="forgot-password">Forgot Password?</a> </div>
               </div>
             </div>
+            {% if message %}
+            <div class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
+            {% endif %}
             <button class="btn-style-2 w-100 font-size-18 mt-20" type="submit">Sign In</button>
            
           </form>
@@ -58,35 +58,4 @@
     </div>
   </div>
 </div>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-      var loginForm = document.getElementById('loginForm');
-  
-      loginForm.addEventListener('submit', function (e) {
-          e.preventDefault();
-  
-          var email = document.querySelector('input[type="email"]').value;
-          var password = document.querySelector('input[type="password"]').value;
-  
-          // Constructing the URL with query parameters
-          var apiURL = 'http://159.223.94.246:5000/login?userName=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password);
-  
-          fetch(apiURL)
-          .then(response => response.json())
-          .then(data => {
-              console.log('Success:', data);
-              alert("login sucessful!");
-              sessionStorage.setItem('isLoggedIn', 'true'); // Setting the flag in sessionStorage
-              window.location.href = 'index.html'; 
-          })
-          .catch((error) => {
-              console.error('Error:', error);
-              alert("incorrect username or password, please try again!")
-          });
-      });
-  });
-  </script>
-  
-
-</body>
-</html>
+{% endblock %}

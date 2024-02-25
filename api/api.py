@@ -1,12 +1,23 @@
-from flask import Flask, request, jsonify, abort, render_template, redirect, url_for, session
+from flask import Flask, request, jsonify, abort, render_template, redirect, url_for, session, make_response
 from flask_cors import CORS, cross_origin
+# from flask_sqlalchemy import SQLAlchemy
+import random
 import gpt
 import user
 import place  
 import collect
 import userSchedule
 import json
+
 # connect database
+# Remote database configuration
+db_port = 3306  # Change the port to an integer
+db_host = '159.223.94.246'
+db_username = 'root'
+db_password = 'fypproject'
+db_name = 'FYP'
+
+
 app = Flask(__name__, template_folder='templates', static_folder='static')
 CORS(app)
 
@@ -18,8 +29,42 @@ def indexUrl():
 
 @app.route('/travel', methods=["GET", "POST"])
 def index():
-    return render_template('index.html')
+    if 'userID' in request.cookies:
+        response = request.cookies.get('userID')
+        isLoggedIn = True
+    else:
+        # Handle the case when the 'userID' cookie does not exist
+        response = None
+        isLoggedIn = False
+    destinations = place.get_all_cities_place().json
+    filtered_destinations = [destination for destination in destinations if 'rating' in destination and destination['rating'] and int(destination['rating']) > 4]
+    random_destinations = random.sample(filtered_destinations, k=10)
+    return render_template('index.html', isLoggedIn=isLoggedIn, userID=response, destinations=random_destinations)
 
+@app.route('/travel/sign-in', methods=["GET", "POST"])
+def loginPage():
+    if request.method == "POST":
+        userName = request.form['id']
+        password = request.form['password']
+        remember_me = request.form.get('rememberMe')  # Check if "Remember Me" is selected
+
+        response = user.check_login(userName, password)
+        if response.json['login'] == True:
+            redirect_url = url_for('index')
+            # Set a cookie to remember the user
+            resp = make_response(redirect(redirect_url))
+            resp.set_cookie('userID', value=str(response.json['userID']), max_age=60*60*24*30)  # Cookie expires in 30 days
+            return resp
+        else:
+            return render_template('sign-in.html', message=response.json['message'])
+    else:
+        return render_template('sign-in.html')
+
+@app.route('/travel/sign-out', methods=["GET"])
+def sign_out():
+    response = make_response(redirect(url_for('index')))
+    response.set_cookie('userID', '', expires=0)
+    return response
 #api part
 # account api
 # login
