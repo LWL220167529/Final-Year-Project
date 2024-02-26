@@ -1,111 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+{% extends 'base.html' %} {% block title %}
     <title>Recommended Trip</title>
-    <link rel="icon" href="assets/images/fav.ico" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <!-- Link Swiper's CSS -->
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-      integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <!--Plugin CSS file with desired skin-->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"
-    />
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="assets/css/responsive.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  </head>
-  <body>
-    <div id="toTop"><i class="fa-solid fa-arrow-up"></i></div>
-    <header class="top-menu">
-      <div>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12 px-0 position-relative">
-              <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid ps-0">
-                  <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <i class="fa-solid fa-bars text-white"></i>
-                  </button>
-                  <div
-                    class="collapse navbar-collapse"
-                    id="navbarSupportedContent"
-                  >
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                      <li class="nav-item">
-                        <a
-                          class="nav-link active"
-                          aria-current="page"
-                          href="index.html"
-                          >Home</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          aria-current="page"
-                          href="planForm.html"
-                          >Start planning</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          aria-current="page"
-                          href="savedPlan.html"
-                          >Saved Plan</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          aria-current="page"
-                          href="index.html"
-                          >Log out</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+{% endblock %} {% block css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/responsive.css')}}" />
+{% endblock %} {% block js %}
+    <script src="{{url_for('static', filename='js/results.js')}}"></script>
+    <script src="{{url_for('static', filename='js/zoom.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.filterizr.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
+{% endblock %} {% block body %}
     <main>
       <section class="page-menu">
         <div class="blur-ovelay">
@@ -142,12 +45,12 @@
                       </a>
                     </div>
                     <div class="swiper-slide">
-                      <a href="./assets/images/slider/tokyoTower.jpg">
+                      <a href="{{url_for('static', filename='images/slider/tokyoTower.jpg')}}">
                         <img
-                          src="./assets/images/slider/tokyoTower.jpg"
+                          src="{{url_for('static', filename='images/slider/tokyoTower.jpg')}}"
                           alt=""
                           class="hotel_photo xzoom-gallery"
-                          xpreview="./assets/images/slider/tokyoTower.jpg"
+                          xpreview="{{url_for('static', filename='images/slider/tokyoTower.jpg')}}"
                         />
                       </a>
                     </div>
@@ -843,77 +746,4 @@
         </div>
       </section>
     </main>
-    <footer></footer>
-    <script>  
-        $(document).ready(function() {
-            $('#refreshTripButton').click(function(event) {
-                event.preventDefault(); // Prevent the default anchor action
-
-                // Fetch new trip data
-                $.getJSON('assets/api/refreshTrip.json', function(data) {
-                    // Update the itinerary for each day
-                    updateItineraryContent(data);
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    console.error('Error loading new trip data: ' + textStatus);
-                });
-            });
-
-            function updateItineraryContent(data) {
-                // Iterate over each day
-                $.each(data, function(dayKey, dayActivities) {
-                    var dayNumber = dayKey.replace('Day', ''); // Extract the day number (e.g., '1' from 'Day1')
-
-                    // Update morning, afternoon, and evening activities
-                    $.each(dayActivities, function(timeOfDay, activity) {
-                        // Determine the index based on the time of day
-                        var index = timeOfDay === 'Morning' ? '1' : (timeOfDay === 'Afternoon' ? '2' : '3');
-                        
-                        // Construct the IDs for button and tab content
-                        var buttonId = '#day' + dayNumber + 'Location' + index;
-                        var tabId = '#day' + dayNumber + 'Location' + index + 'deatils';
-
-                        // Update the button text with the location name
-                        $(buttonId).text(activity.Name);
-
-                        // Update the content for each activity
-                        var tabContent = $(tabId);
-                        tabContent.find('.card-img-top').attr('src', activity.Image);
-                        tabContent.find('#day' + dayNumber + 'location' + index + 'description').html('<i class="fa-regular fa-clipboard"></i> &nbsp;' + activity.Description);
-                        tabContent.find('#day' + dayNumber + 'location' + index + 'transport').html('<i class="fa-solid fa-train-subway"></i>&nbsp; ' + activity.Transport);
-                    });
-                });
-            }
-        });
-
-
-    </script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"
-    ></script>
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <!--Plugin JavaScript file-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
-      integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="assets/js/zoom.js"></script>
-    <script src="assets/js/jquery.filterizr.min.js"></script>
-    <script src="assets/js/app.js"></script>
-  </body>
-</html>
+{% endblock %}

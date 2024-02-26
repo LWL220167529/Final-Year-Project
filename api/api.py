@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify, abort, render_template, redirect, url_for, session, make_response
 from flask_cors import CORS, cross_origin
-from flask_sqlalchemy import SQLAlchemy
+from flask_caching import Cache
 import random
 import user
 import place  
 import collect
 import userSchedule
+import serverAutoStart
 import json
 
 # connect database
@@ -19,6 +20,32 @@ db_name = 'FYP'
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 CORS(app)
+
+# Configure caching
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+
+# Load destinations data and cache it
+def load_destinations():
+    return place.get_all_cities_place().json
+
+# Access destinations from cache
+def get_destinations():
+    destinations = cache.get('destinations')
+    if destinations is None:
+        destinations = load_destinations()
+        cache.set('destinations', destinations, timeout=3600)
+    return destinations
+
+def load_destinations_filter_by_rating():
+    return place.filter_cities_place("rating", 4).json
+
+# Access destinations from cache
+def get_destinations_filter_by_rating():
+    destinations = cache.get('destinations_by_rating')
+    if destinations is None:
+        destinations = load_destinations_filter_by_rating()
+        cache.set('destinations_by_rating', destinations, timeout=3600)
+    return destinations
 
 @app.route('/')
 def indexUrl():
@@ -34,10 +61,11 @@ def index():
         # Handle the case when the 'userID' cookie does not exist
         response = None
         isLoggedIn = False
-    destinations = place.get_all_cities_place().json
-    filtered_destinations = [destination for destination in destinations if 'rating' in destination and destination['rating'] and int(destination['rating']) > 4]
-    random_destinations = random.sample(filtered_destinations, k=10)
-    return render_template('index.html', isLoggedIn=isLoggedIn, userID=response, destinations=random_destinations)
+    attractions = get_destinations()[:24]
+    filtered_destinations = get_destinations_filter_by_rating()
+    test = place.filter_cities_place("rating", 4).json
+    top_destinations = random.sample(filtered_destinations, k=10)
+    return render_template('index.html', isLoggedIn=isLoggedIn, userID=response, top_destinations=top_destinations, attractions=attractions, count=len(attractions))
 
 @app.route('/travel/sign-in', methods=["GET", "POST"])
 def loginPage():
@@ -63,6 +91,18 @@ def sign_out():
     response = make_response(redirect(url_for('index')))
     response.set_cookie('userID', '', expires=0)
     return response
+
+@app.route('/travel/planForm', methods=["GET"])
+def planForm():
+    return render_template('planForm.html')
+
+@app.route('/travel/hotel', methods=["GET"])
+def hotel():
+    return render_template('hotel.html')
+
+@app.route('/travel/results', methods=["GET"])
+def results():
+    return render_template('results.html')
 #api part
 # account api
 # login

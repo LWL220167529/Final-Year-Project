@@ -89,6 +89,38 @@ def update_cities_place(place_id: int, data: dict):
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
+def append_cities_place(cities_places: dict):
+    cities_places_data = []
+    for city_place in cities_places:
+        city_place_data = {
+            'id': city_place.CitiesPlace.id,
+            'name': city_place.CitiesPlace.name,
+            'state_id': city_place.CitiesPlace.state_id,
+            'state_code': city_place.CitiesPlace.state_code,
+            'country_id': city_place.CitiesPlace.country_id,
+            'country_code': city_place.CitiesPlace.country_code,
+            'cities_id': city_place.CitiesPlace.cities_id,
+            'type': city_place.CitiesPlace.type,
+            'sub_type': city_place.CitiesPlace.sub_type,
+            'rating': city_place.CitiesPlace.rating,
+            'price_level': city_place.CitiesPlace.price_level,
+            'reviews': city_place.CitiesPlace.reviews,
+            'description': city_place.CitiesPlace.description,
+            'address': city_place.CitiesPlace.address,
+            'pictures': city_place.CitiesPlace.pictures,
+            'websiteUri': city_place.CitiesPlace.websiteUri,
+            'phone': city_place.CitiesPlace.phone,
+            'latitude': city_place.CitiesPlace.latitude,
+            'longitude': city_place.CitiesPlace.longitude,
+            'created_at': city_place.CitiesPlace.created_at,
+            'updated_at': city_place.CitiesPlace.updated_at,
+            'city_name': city_place.city_name,
+            'state_name': city_place.state_name,
+            'country_name': city_place.countries_name
+        }
+        cities_places_data.append(city_place_data)
+
+    return jsonify(cities_places_data)
 
 def get_all_cities_place():
     try:
@@ -97,42 +129,64 @@ def get_all_cities_place():
             .join(States, States.id == CitiesPlace.state_id)\
             .join(Countries, Countries.id == CitiesPlace.country_id)\
             .all()
-
-        cities_places_data = []
-        for city_place in cities_places:
-            city_place_data = {
-                'id': city_place.CitiesPlace.id,
-                'name': city_place.CitiesPlace.name,
-                'state_id': city_place.CitiesPlace.state_id,
-                'state_code': city_place.CitiesPlace.state_code,
-                'country_id': city_place.CitiesPlace.country_id,
-                'country_code': city_place.CitiesPlace.country_code,
-                'cities_id': city_place.CitiesPlace.cities_id,
-                'type': city_place.CitiesPlace.type,
-                'sub_type': city_place.CitiesPlace.sub_type,
-                'rating': city_place.CitiesPlace.rating,
-                'price_level': city_place.CitiesPlace.price_level,
-                'reviews': city_place.CitiesPlace.reviews,
-                'description': city_place.CitiesPlace.description,
-                'address': city_place.CitiesPlace.address,
-                'pictures': city_place.CitiesPlace.pictures,
-                'websiteUri': city_place.CitiesPlace.websiteUri,
-                'phone': city_place.CitiesPlace.phone,
-                'latitude': city_place.CitiesPlace.latitude,
-                'longitude': city_place.CitiesPlace.longitude,
-                'created_at': city_place.CitiesPlace.created_at,
-                'updated_at': city_place.CitiesPlace.updated_at,
-                'city_name': city_place.city_name,
-                'state_name': city_place.state_name,
-                'country_name': city_place.countries_name
-            }
-            cities_places_data.append(city_place_data)
-
-        return jsonify(cities_places_data)
+        
+        return append_cities_place(cities_places)
     except Exception as e:
         print(e)
         return jsonify({'message': 'Error occurred while retrieving cities places.', 'error': str(e)}), 500
 
+def filter_cities_place(search: str, value):
+    try:
+        filter_options = {
+            'id': CitiesPlace.id,
+            'name': CitiesPlace.name,
+            'state_id': CitiesPlace.state_id,
+            'state_code': CitiesPlace.state_code,
+            'country_id': CitiesPlace.country_id,
+            'country_code': CitiesPlace.country_code,
+            'cities_id': CitiesPlace.cities_id,
+            'type': CitiesPlace.type,
+            'sub_type': CitiesPlace.sub_type,
+            'rating': CitiesPlace.rating,
+            'price_level': CitiesPlace.price_level,
+            'reviews': CitiesPlace.reviews,
+            'description': CitiesPlace.description,
+            'address': CitiesPlace.address,
+            'pictures': CitiesPlace.pictures,
+            'websiteUri': CitiesPlace.websiteUri,
+            'phone': CitiesPlace.phone,
+            'latitude': CitiesPlace.latitude,
+            'longitude': CitiesPlace.longitude,
+            'created_at': CitiesPlace.created_at,
+            'updated_at': CitiesPlace.updated_at,
+        }
+
+        filter_column = filter_options.get(search, CitiesPlace.id)
+
+        if search == 'name':
+            filter_condition = filter_column.ilike(f"%{value}%")
+        else:
+            filter_condition = filter_column > value
+
+        cities_places = session.query(
+            CitiesPlace,
+            Cities.name.label('city_name'),
+            States.name.label('state_name'),
+            Countries.name.label('countries_name')
+        ).filter(
+            filter_condition
+        ).join(
+            Cities, Cities.id == CitiesPlace.cities_id
+        ).join(
+            States, States.id == CitiesPlace.state_id
+        ).join(
+            Countries, Countries.id == CitiesPlace.country_id
+        ).all()
+        
+        return append_cities_place(cities_places)
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Error occurred while retrieving cities places.', 'error': str(e)}), 500
 
 def get_by_input(input: str):
     try:
@@ -152,12 +206,10 @@ def get_by_input(input: str):
         if not cities_places:
             return jsonify({'message': "Can't find any matching cities places."}), 404
 
-        cities_places_data = []
-        for city_place in cities_places:
-            city_place_data = {key: getattr(city_place, key)
-                               for key in city_place.__table__.columns.keys()}
-            city_place_data.pop('_sa_instance_state', None)
-            cities_places_data.append(city_place_data)
+        cities_places_data = [
+            {key: getattr(city_place, key) for key in city_place.__table__.columns.keys() if key != '_sa_instance_state'}
+            for city_place in cities_places
+        ]
 
         return cities_places_data
     except Exception as e:
@@ -543,6 +595,7 @@ def estimate_place(city_input: int) -> list:
         # Handle the exception here
         print(f"An error occurred: {e}")
         return []
+
 
 
 session.close()

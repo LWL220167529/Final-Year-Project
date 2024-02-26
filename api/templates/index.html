@@ -1,178 +1,240 @@
-{% extends 'base.html' %}
-
-{% block title %}
-    <title>Travel GO</title>
-{% endblock %}
-
-{% block css %}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
-    <link rel="stylesheet" href="{{url_for('static', filename='css/responsive.css')}}" />
-{% endblock %}
-
-{% block js %}
+{% extends 'base.html' %} {% block title %}
+<title>Travel GO</title>
+{% endblock %} {% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='css/responsive.css')}}"
+/>
+{% endblock %} {% block js %}
 <script>
-  $(document).ready(function() {
-      var isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+  $(document).ready(function () {
+    var isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
 
-      if (isLoggedIn) {
-          // Define the Saved Plan link element
-          var savedPlanLink = $('<li class="nav-item"><a class="nav-link" aria-current="page" href="savedPlan.html">Saved Plan</a></li>');
+    if (isLoggedIn) {
+      // Define the Saved Plan link element
+      var savedPlanLink = $(
+        '<li class="nav-item"><a class="nav-link" aria-current="page" href="savedPlan.html">Saved Plan</a></li>'
+      );
 
-          // Insert the Saved Plan link before the Sign Up/Log Out link
-          var signUpLink = $('a[href="sign-up.html"]');
-          if (signUpLink.length) {
-              signUpLink.closest('li').before(savedPlanLink);
+      // Insert the Saved Plan link before the Sign Up/Log Out link
+      var signUpLink = $('a[href="sign-up.html"]');
+      if (signUpLink.length) {
+        signUpLink.closest("li").before(savedPlanLink);
 
-              // Update the Sign Up link to Log Out
-              signUpLink.attr('href', '#');
-              signUpLink.text('Log Out');
-              signUpLink.on('click', function(e) {
-                  e.preventDefault();
-                  // Handle logout logic here
-                  sessionStorage.removeItem('isLoggedIn'); // Clear the flag
+        // Update the Sign Up link to Log Out
+        signUpLink.attr("href", "#");
+        signUpLink.text("Log Out");
+        signUpLink.on("click", function (e) {
+          e.preventDefault();
+          // Handle logout logic here
+          sessionStorage.removeItem("isLoggedIn"); // Clear the flag
 
-                  // Redirect to the home page
-                  window.location.href = 'index.html';
-              });
-          }
+          // Redirect to the home page
+          window.location.href = "index.html";
+        });
       }
+    }
   });
 </script>
 <script src="{{url_for('static', filename='js/zoom.js')}}"></script>
 <script src="{{url_for('static', filename='js/jquery.filterizr')}}.min.js"></script>
 <script src="{{url_for('static', filename='js/app.js')}}"></script>
-{% endblock %}
-
-{% block body %}
-    <main>
-      <section id="header">
-        <video autoplay muted loop id="myVideo">
-          <source src="{{url_for('static', filename='video/background.mp4')}}" type="video/mp4" />
-        </video>
-        <div class="blur-ovelay">
-          <div class="container">
-            <div class="row banner-container">
-              <div class="col-md-6">
-                <h1 class="main-title">It's Time to Adventure</h1>
-                <p class="banner-text">
-                  Embark on an unforgettable journey, tailored by artificial
-                  intelligence to fit your desires.
+{% endblock %} {% block body %}
+<main>
+  <section id="header">
+    <video autoplay muted loop id="myVideo">
+      <source
+        src="{{url_for('static', filename='video/background.mp4')}}"
+        type="video/mp4"
+      />
+    </video>
+    <div class="blur-ovelay">
+      <div class="container">
+        <div class="row banner-container">
+          <div class="col-md-6">
+            <h1 class="main-title">It's Time to Adventure</h1>
+            <p class="banner-text">
+              Embark on an unforgettable journey, tailored by artificial
+              intelligence to fit your desires.
+            </p>
+            <a href="planForm.html" class="btn btnAi">
+              <span>Plan your trip with AI</span>
+              <i class="fa-solid fa-arrow-right btn-icon"></i>
+            </a>
+          </div>
+          <div class="col-md-6">
+            <div class="swiper mySwiper">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <a href="">
+                    <img
+                      src="{{url_for('static', filename='images/slider/slide01')}}.jpg"
+                      alt=""
+                      class="slide-img"
+                    />
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a href="">
+                    <img
+                      src="{{url_for('static', filename='images/slider/himejiCastle')}}.jpg"
+                      alt=""
+                      class="slide-img"
+                    />
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a href="">
+                    <img
+                      src="{{url_for('static', filename='images/slider/slide02')}}.jpg"
+                      alt=""
+                      class="slide-img"
+                    />
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a href="">
+                    <img
+                      src="{{url_for('static', filename='images/slider/banaffNationalPark')}}.jpg"
+                      alt=""
+                      class="slide-img"
+                    />
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a href="">
+                    <img
+                      src="{{url_for('static', filename='images/slider/slide03')}}.jpg"
+                      alt=""
+                      class="slide-img"
+                    />
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a href="">
+                    <img
+                      src="{{url_for('static', filename='images/slider/slide04')}}.jpg"
+                      alt=""
+                      class="slide-img"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="top-destination">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <h3 class="section-heading">Top Destinations</h3>
+          <p class="section-sub-heading">
+            Dive into the most recommended places by our AI, based on travelers'
+            preferences worldwide.
+          </p>
+        </div>
+        <div class="col-md-12">
+          <!-- Swiper -->
+          <div class="swiper swiper2">
+            <div class="swiper-wrapper">
+              {% for top_destination in top_destinations %}
+              <div class="swiper-slide">
+                <div class="top-dest-card">
+                  {% if top_destination.pictures %}
+                  <img
+                    src="{{top_destination.pictures}}"
+                    alt="{{top_destination.name}}"
+                  />
+                  {% else %}
+                  <img
+                    src="{{url_for('static', filename='images/404.png')}}"
+                    alt="404 not found"
+                  />
+                  {% endif %}
+                  <h4>{{top_destination.name}}</h4>
+                  <p>
+                    <i class="fa-solid fa-location-dot"></i>
+                    {{top_destination.city_name}},
+                    {{top_destination.country_name}}
+                  </p>
+                  <div
+                    class="ratings d-flex justify-content-between align-content-center"
+                  >
+                    <div class="d-flex align-items-center start-rating">
+                      <i class="fa-solid fa-star"></i>
+                      <span>{{top_destination.rating}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="destinations">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-start">
+          <h3 class="section-heading">Attractions</h3>
+          <p class="section-sub-heading">
+            Explore the most popular Attractions around the world.
+          </p>
+        </div>
+        <div class="col-md-12">
+          <div class="container row">
+            {% for attraction in attractions %}
+            <div class="item top-dest-card col-3 d-flex flex-column mb-3 justify-content-lg-between">
+              {% if attraction.pictures %}
+              <img src="{{attraction.pictures}}" alt="{{attraction.name}}" />
+              {% else %}
+              <img
+                src="{{url_for('static', filename='images/404.png')}}"
+                alt="404 not found"
+              />
+              {% endif %}
+              <div class="item-content">
+                <h4>{{attraction.name}}</h4>
+                <p>
+                  <i class="fa-solid fa-location-dot"></i>
+                  {{attraction.city_name}}, {{attraction.country_name}}
                 </p>
-                <a href="planForm.html" class="btn">
-                  <span>Plan your trip with AI</span>
-                  <i class="fa-solid fa-arrow-right btn-icon"></i>
-                </a>
-              </div>
-              <div class="col-md-6">
-                <div class="swiper mySwiper">
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                      <a href="">
-                        <img
-                          src="{{url_for('static', filename='images/slider/slide01')}}.jpg"
-                          alt=""
-                          class="slide-img"
-                        />
-                      </a>
-                    </div>
-                    <div class="swiper-slide">
-                      <a href="">
-                        <img
-                          src="{{url_for('static', filename='images/slider/himejiCastle')}}.jpg"
-                          alt=""
-                          class="slide-img"
-                        />
-                      </a>
-                    </div>
-                    <div class="swiper-slide">
-                      <a href="">
-                        <img
-                          src="{{url_for('static', filename='images/slider/slide02')}}.jpg"
-                          alt=""
-                          class="slide-img"
-                        />
-                      </a>
-                    </div>
-                    <div class="swiper-slide">
-                      <a href="">
-                        <img
-                          src="{{url_for('static', filename='images/slider/banaffNationalPark')}}.jpg"
-                          alt=""
-                          class="slide-img"
-                        />
-                      </a>
-                    </div>
-                    <div class="swiper-slide">
-                      <a href="">
-                        <img
-                          src="{{url_for('static', filename='images/slider/slide03')}}.jpg"
-                          alt=""
-                          class="slide-img"
-                        />
-                      </a>
-                    </div>
-                    <div class="swiper-slide">
-                      <a href="">
-                        <img
-                          src="{{url_for('static', filename='images/slider/slide04')}}.jpg"
-                          alt=""
-                          class="slide-img"
-                        />
-                      </a>
-                    </div>
+                <div
+                  class="ratings d-flex justify-content-between align-content-center"
+                >
+                  <div class="d-flex align-items-center start-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <span>{{attraction.rating}}</span>
                   </div>
-                  <div class="swiper-pagination"></div>
                 </div>
               </div>
+                <div class="button-container align-self-end">
+                  <a href="#" class="btn flex-container viewMore">
+                    <span
+                      >View More <i class="fa-solid fa-arrow-right btn-icon"></i
+                    ></span>
+                  </a>
+                </div>
             </div>
+            {% endfor %}
           </div>
         </div>
-      </section>
-      <section id="top-destination">
         <div class="container">
-          <div class="row">
-            <div class="col-md-12 text-start">
-              <h3 class="section-heading">Top Destinations</h3>
-              <p class="section-sub-heading">
-                Dive into the most recommended places by our AI, based on
-                travelers' preferences worldwide.
-              </p>
-            </div>
-            <div class="col-md-12">
-              <!-- Swiper -->
-              <div class="swiper swiper2">
-                <div class="swiper-wrapper">
-                  {% for destination in destinations %}
-                  <div class="swiper-slide">
-                    <div class="top-dest-card">
-                      {% if destination.pictures %}
-                      <img src="{{destination.pictures}}" alt="{{destination.name}}" />
-                      {% else %}
-                      <img src="{{url_for('static', filename='images/404.png')}}" alt="404 not found" />
-                      {% endif %}
-                      <h4>{{destination.name}}</h4>
-                      <p>
-                        <i class="fa-solid fa-location-dot"></i> {{destination.city_name}}, {{destination.country_name}}
-                      </p>
-                      <div
-                        class="ratings d-flex justify-content-between align-content-center"
-                      >
-                        <div class="d-flex align-items-center start-rating">
-                          <i class="fa-solid fa-star"></i>
-                          <span>{{destination.rating}}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {% endfor %}
-                </div>
-              </div>
-            </div>
+          <div class="btn-group buttonGroup">
+            {% for page in range(2, count + 1) %}
+            <button type="button" class="btn btn-primary">{{page}}</button>
+            {% endfor %}
           </div>
         </div>
-      </section>
-    </main>
-{% endblock %}
-
-{% block footer %}
-{% endblock %}
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %} {% block footer %} {% endblock %}
