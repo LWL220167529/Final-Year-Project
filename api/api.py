@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify, abort, render_template, redirect, url_for, session, make_response
 from flask_cors import CORS, cross_origin
-# from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 import random
-import gpt
 import user
 import place  
 import collect
@@ -20,7 +19,6 @@ db_name = 'FYP'
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 CORS(app)
-
 
 @app.route('/')
 def indexUrl():
