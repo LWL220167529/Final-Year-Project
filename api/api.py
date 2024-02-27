@@ -52,7 +52,7 @@ def indexUrl():
     return redirect(url_for('index'))
 
 
-@app.route('/travel', methods=["GET", "POST"])
+@app.route('/travel', methods=["GET"])
 def index():
     if 'userID' in request.cookies:
         response = request.cookies.get('userID')
@@ -61,12 +61,45 @@ def index():
         # Handle the case when the 'userID' cookie does not exist
         response = None
         isLoggedIn = False
+    total_pages = len(get_destinations()) // 24 + 1
     attractions = get_destinations()[:24]
     filtered_destinations = get_destinations_filter_by_rating()
-    test = place.filter_cities_place("rating", 4).json
     top_destinations = random.sample(filtered_destinations, k=10)
-    return render_template('index.html', isLoggedIn=isLoggedIn, userID=response, top_destinations=top_destinations, attractions=attractions, count=len(attractions))
+    maxPage = min(total_pages, 1 + 5)
+    minPage = 2
+    return render_template('index.html', isLoggedIn=isLoggedIn,userID=response,
+                            top_destinations=top_destinations, attractions=attractions, 
+                            count=int(total_pages), max=maxPage, min=minPage)
 
+@app.route('/travel/<int:current_page>', methods=["GET"])
+def indexPage(current_page):
+    if current_page < 1:
+        return redirect(url_for('index'))
+    # Check if current_page is out of bounds
+    total_pages = len(get_destinations()) // 24 + 1
+    if current_page > total_pages:
+        return jsonify({'message': 'Page not found'}), 404
+
+    # Calculate the start and end indices for attractions
+    start_index = 24 * (current_page - 1)
+    end_index = min(24 * current_page, len(get_destinations()))
+
+    maxPage = min(total_pages, current_page + 5)
+    minPage = max(1, current_page - 5)
+
+    attractions = get_destinations()[start_index:end_index]
+    filtered_destinations = get_destinations_filter_by_rating()
+
+    response = {
+        'attractions': attractions,
+        'count': total_pages,
+        'current_page': current_page,
+        'max': maxPage,
+        'min': minPage
+    }
+
+    return jsonify(response)
+    
 @app.route('/travel/sign-in', methods=["GET", "POST"])
 def loginPage():
     if request.method == "POST":
@@ -103,6 +136,10 @@ def hotel():
 @app.route('/travel/results', methods=["GET"])
 def results():
     return render_template('results.html')
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 #api part
 # account api
 # login

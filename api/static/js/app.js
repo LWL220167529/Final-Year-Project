@@ -8,6 +8,69 @@ var maxPriceInput = $('#maxPriceInput');
 
 
 $(document).ready(function () {
+  console.log('Document is ready');
+  $('#buttonPageGroup').on('click', '#buttonPage', function () {
+    const pageValue = $(this).text();
+    console.log(pageValue);
+    $.ajax({
+      cache: false,
+      url: `/travel/${pageValue}`,
+      method: 'GET',
+      dataType: 'json',
+      success: (response) => {
+        const { attractions, count, current_page: currentPage, max, min } = response;
+        $('#attractions').text('');
+        // Render attractions
+        attractions.forEach((attraction) => {
+          const item = `
+            <div class="item top-dest-card col-3 d-flex flex-column mb-3 justify-content-lg-between">
+              ${attraction.pictures ? `<img src="${attraction.pictures}" alt="${attraction.name}" />` : `<img src="{{url_for('static', filename='images/404.png')}}" alt="404 not found" />`}
+              <div class="item-content">
+                <h4>${attraction.name}</h4>
+                <p>
+                  <i class="fa-solid fa-location-dot"></i>
+                  ${attraction.city_name}, ${attraction.country_name}
+                </p>
+                <div class="ratings d-flex justify-content-between align-content-center">
+                  <div class="d-flex align-items-center start-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <span>${attraction.rating}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="button-container align-self-end">
+                <a href="#" class="btn flex-container viewMore">
+                  <span>View More <i class="fa-solid fa-arrow-right btn-icon"></i></span>
+                </a>
+              </div>
+            </div>
+          `;
+          $('#attractions').append(item);
+        });
+
+        let pageContent = '';
+        if (currentPage !== 1) {
+          pageContent += `<a id="buttonPage" class="btn btn-primary">1</a>`;
+        }
+        for (let page = min; page <= max; page++) {
+          if (page !== currentPage && page !== count && page !== 1) {
+            pageContent += `<a id="buttonPage" class="btn btn-primary">${page}</a>`;
+          }
+        }
+        pageContent += `<a id="buttonPage" class="btn btn-primary">${count}</a>`;
+        $('#buttonPageGroup').html(pageContent);
+      },
+      error: (error) => {
+        // Handle the error here
+        console.error(error);
+      }
+    });
+  });
+
+
+
+
+
   dataFunction(defaultNum, pageNum);
   $('select').niceSelect();
   var swiper = new Swiper(".mySwiper", {

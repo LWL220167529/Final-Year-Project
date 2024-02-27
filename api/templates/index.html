@@ -58,7 +58,7 @@
               Embark on an unforgettable journey, tailored by artificial
               intelligence to fit your desires.
             </p>
-            <a href="planForm.html" class="btn btnAi">
+            <a href="/travel/planForm" class="btn btnAi">
               <span>Plan your trip with AI</span>
               <i class="fa-solid fa-arrow-right btn-icon"></i>
             </a>
@@ -189,7 +189,7 @@
           </p>
         </div>
         <div class="col-md-12">
-          <div class="container row">
+          <div id="attractions" class="container row">
             {% for attraction in attractions %}
             <div class="item top-dest-card col-3 d-flex flex-column mb-3 justify-content-lg-between">
               {% if attraction.pictures %}
@@ -227,10 +227,14 @@
           </div>
         </div>
         <div class="container">
-          <div class="btn-group buttonGroup">
-            {% for page in range(2, count + 1) %}
-            <button type="button" class="btn btn-primary">{{page}}</button>
+          <div id="buttonPageGroup" class="btn-group buttonGroup">
+            {% for page in range(min, max) %}
+              {% if page != current_page %}
+                <a id="buttonPage" class="btn btn-primary">{{page}}</a>
+              {% endif %}
             {% endfor %}
+
+            <a class="btn btn-primary">{{count}}</a>
           </div>
         </div>
       </div>
