@@ -24,7 +24,7 @@ $(document).ready(function () {
         attractions.forEach((attraction) => {
           const item = `
             <div class="item top-dest-card col-3 d-flex flex-column mb-3 justify-content-lg-between">
-              ${attraction.pictures ? `<img src="${attraction.pictures}" alt="${attraction.name}" />` : `<img src="{{url_for('static', filename='images/404.png')}}" alt="404 not found" />`}
+              ${attraction.pictures ? `<img src="${attraction.pictures}" alt="${attraction.name}" />` : `<img src="static/images/404.png" alt="404 not found" />`}
               <div class="item-content">
                 <h4>${attraction.name}</h4>
                 <p>
