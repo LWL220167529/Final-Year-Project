@@ -443,4 +443,9 @@ def updateSchedule():
 #     return jsonify(response), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    try:
+        app.run(debug=True, host='0.0.0.0', port=5000)
+    except Exception as e:
+        print(e)
+        print("Server is exited unexpectedly. Please check the error and restart the server.")
+        serverAutoStart.restartServer()
