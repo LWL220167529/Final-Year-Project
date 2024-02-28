@@ -58,7 +58,7 @@
               Embark on an unforgettable journey, tailored by artificial
               intelligence to fit your desires.
             </p>
-            <a href="/travel/planForm" class="btn btnAi">
+            <a href="{{ url_for('planForm') }}" class="btn btnAi">
               <span>Plan your trip with AI</span>
               <i class="fa-solid fa-arrow-right btn-icon"></i>
             </a>
@@ -179,66 +179,6 @@
       </div>
     </div>
   </section>
-  <section id="destinations">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 text-start">
-          <h3 class="section-heading">Attractions</h3>
-          <p class="section-sub-heading">
-            Explore the most popular Attractions around the world.
-          </p>
-        </div>
-        <div class="col-md-12">
-          <div id="attractions" class="container row">
-            {% for attraction in attractions %}
-            <div class="item top-dest-card col-3 d-flex flex-column mb-3 justify-content-lg-between">
-              {% if attraction.pictures %}
-              <img src="{{attraction.pictures}}" alt="{{attraction.name}}" />
-              {% else %}
-              <img
-                src="{{url_for('static', filename='images/404.png')}}"
-                alt="404 not found"
-              />
-              {% endif %}
-              <div class="item-content">
-                <h4>{{attraction.name}}</h4>
-                <p>
-                  <i class="fa-solid fa-location-dot"></i>
-                  {{attraction.city_name}}, {{attraction.country_name}}
-                </p>
-                <div
-                  class="ratings d-flex justify-content-between align-content-center"
-                >
-                  <div class="d-flex align-items-center start-rating">
-                    <i class="fa-solid fa-star"></i>
-                    <span>{{attraction.rating}}</span>
-                  </div>
-                </div>
-              </div>
-                <div class="button-container align-self-end">
-                  <a href="#" class="btn flex-container viewMore">
-                    <span
-                      >View More <i class="fa-solid fa-arrow-right btn-icon"></i
-                    ></span>
-                  </a>
-                </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="container">
-          <div id="buttonPageGroup" class="btn-group buttonGroup">
-            {% for page in range(min, max) %}
-              {% if page != current_page %}
-                <a id="buttonPage" class="btn btn-primary">{{page}}</a>
-              {% endif %}
-            {% endfor %}
-
-            <a class="btn btn-primary">{{count}}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {% block content %}{% endblock %}
 </main>
 {% endblock %} {% block footer %} {% endblock %}

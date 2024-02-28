@@ -61,13 +61,27 @@ def index():
         # Handle the case when the 'userID' cookie does not exist
         response = None
         isLoggedIn = False
+    filtered_destinations = get_destinations_filter_by_rating()
+    top_destinations = random.sample(filtered_destinations, k=10)
+    return render_template('index.html', isLoggedIn=isLoggedIn,userID=response,
+                            top_destinations=top_destinations)
+
+@app.route('/travel/view', methods=["GET"])
+def indexView():
+    if 'userID' in request.cookies:
+        response = request.cookies.get('userID')
+        isLoggedIn = True
+    else:
+        # Handle the case when the 'userID' cookie does not exist
+        response = None
+        isLoggedIn = False
     total_pages = len(get_destinations()) // 24 + 1
     attractions = get_destinations()[:24]
     filtered_destinations = get_destinations_filter_by_rating()
     top_destinations = random.sample(filtered_destinations, k=10)
     maxPage = min(total_pages, 1 + 5)
     minPage = 2
-    return render_template('index.html', isLoggedIn=isLoggedIn,userID=response,
+    return render_template('view.html', isLoggedIn=isLoggedIn,userID=response,
                             top_destinations=top_destinations, attractions=attractions, 
                             count=int(total_pages), max=maxPage, min=minPage)
 
@@ -125,6 +139,10 @@ def sign_out():
     response.set_cookie('userID', '', expires=0)
     return response
 
+@app.route('/travel/sign-up', methods=["GET"])
+def sign_up():
+    return render_template('sign-up.html')
+
 @app.route('/travel/planForm', methods=["GET"])
 def planForm():
     return render_template('planForm.html')
@@ -164,19 +182,24 @@ def login():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    if request.method == "GET":  # get request from url
-        userName = request.args.get('userName')
-        password = request.args.get('password')
-        email = request.args.get('email')
-        phone = request.args.get('phone')
-    else:  # post request from body
+    if request.method == "GET":
+      userName = request.args.get('userName')
+      password = request.args.get('password')
+      email = request.args.get('email')
+      phone = request.args.get('phone')
+    elif request.method == "POST":
+      if request.is_json:
         data = request.get_json()
         userName = data.get('userName')
         password = data.get('password')
         email = data.get('email')
         phone = data.get('phone')
-    # check if user exists
-    return user.register(userName, password, email, phone)
+      else:
+        userName = request.form.get('userName')
+        password = request.form.get('password')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+    return user.register(userName, password, email, phone), 200
 
 # update user
 

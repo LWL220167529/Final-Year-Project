@@ -70,10 +70,10 @@ def register(userName: str, password: str, email: str, phoneNumber: str):
         session.add(new_user)
         session.commit()
 
-        return jsonify({'message': 'Sign Up successfully', 'signUp': True}), 201
+        return jsonify({'message': 'Sign Up successfully', 'signUp': True})
     except Exception as e:
         print(e)
-        return jsonify({'message': 'Error occurred during sign up.', 'error': str(e)}), 500
+        return jsonify({'message': 'Error occurred during sign up.', 'error': str(e)})
 
 
 def update_user(id: Optional[int or str], userName, email, phoneNumber):

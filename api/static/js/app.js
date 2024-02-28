@@ -11,7 +11,6 @@ $(document).ready(function () {
   console.log('Document is ready');
   $('#buttonPageGroup').on('click', '#buttonPage', function () {
     const pageValue = $(this).text();
-    console.log(pageValue);
     $.ajax({
       cache: false,
       url: `/travel/${pageValue}`,

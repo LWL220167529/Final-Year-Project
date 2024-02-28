@@ -50,17 +50,27 @@
     />
 
     <!-- plan form CSS -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap"
+      rel="stylesheet"
+    />
 
-    <script src="https://kit.fontawesome.com/298191de6e.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb4iE2zwfaw7lxIavF6cTt4sjoiM4cDGc&libraries=places"></script>
+      src="https://kit.fontawesome.com/298191de6e.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb4iE2zwfaw7lxIavF6cTt4sjoiM4cDGc&libraries=places"></script>
 
     <!-- hotel css -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
 
     {% block css %}{% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -108,7 +118,7 @@
               <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid ps-0">
                   <button
-                    class="navbar-toggler"
+                    class="navbar-toggler mt-3"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
@@ -122,26 +132,37 @@
                     class="collapse navbar-collapse"
                     id="navbarSupportedContent"
                   >
+                    <div class="navbar-nav">
+                      <a
+                        class="nav-link active"
+                        aria-current="page"
+                        href="{{ url_for('index') }}"
+                        >Home</a
+                      >
+                    </div>
+                    <div class="navbar-nav">
+                      <a
+                        class="nav-link"
+                        aria-current="page"
+                        href="{{ url_for('planForm') }}"
+                        >Start Planning</a
+                      >
+                    </div>
+                    <div class="navbar-nav">
+                      <a
+                        class="nav-link"
+                        aria-current="page"
+                        href="{{ url_for('indexView') }}"
+                        >View Attractions</a
+                      >
+                    </div>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/"
-                          >Home</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          aria-current="page"
-                          href="/travel/planForm"
-                          >Start Planning</a
-                        >
-                      </li>
                       {% if not isLoggedIn %}
                       <li class="nav-item">
                         <a
                           class="nav-link"
                           aria-current="page"
-                          href="/travel/sign-in"
+                          href="{{ url_for('loginPage') }}"
                           >Sign In</a
                         >
                       </li>
@@ -149,7 +170,7 @@
                         <a
                           class="nav-link"
                           aria-current="page"
-                          href="/travel/sign-up"
+                          href="{{ url_for('sign_up') }}"
                           >Sign Up</a
                         >
                       </li>
@@ -158,7 +179,7 @@
                         <a
                           class="nav-link"
                           aria-current="page"
-                          href="/travel/sign-out"
+                          href="{{ url_for('sign-out') }}"
                           >Sign Out</a
                         >
                       </li>
@@ -195,10 +216,12 @@
             <div class="col-md-6 item text">
               <h3>Abstract</h3>
               <p>
-                Our project goal is that based on the ideas provided by the user, 
-                we can improve the plan he or she has in mind or provide travel information that may be of interest to different users. 
-                In this initial report, we will briefly illustrate our project ideas, 
-                such as introducing why we are started to develop the software, etc.
+                Our project goal is that based on the ideas provided by the
+                user, we can improve the plan he or she has in mind or provide
+                travel information that may be of interest to different users.
+                In this initial report, we will briefly illustrate our project
+                ideas, such as introducing why we are started to develop the
+                software, etc.
               </p>
             </div>
             <div class="col item social">
