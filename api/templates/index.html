@@ -7,36 +7,6 @@
   href="{{url_for('static', filename='css/responsive.css')}}"
 />
 {% endblock %} {% block js %}
-<script>
-  $(document).ready(function () {
-    var isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
-
-    if (isLoggedIn) {
-      // Define the Saved Plan link element
-      var savedPlanLink = $(
-        '<li class="nav-item"><a class="nav-link" aria-current="page" href="savedPlan.html">Saved Plan</a></li>'
-      );
-
-      // Insert the Saved Plan link before the Sign Up/Log Out link
-      var signUpLink = $('a[href="sign-up.html"]');
-      if (signUpLink.length) {
-        signUpLink.closest("li").before(savedPlanLink);
-
-        // Update the Sign Up link to Log Out
-        signUpLink.attr("href", "#");
-        signUpLink.text("Log Out");
-        signUpLink.on("click", function (e) {
-          e.preventDefault();
-          // Handle logout logic here
-          sessionStorage.removeItem("isLoggedIn"); // Clear the flag
-
-          // Redirect to the home page
-          window.location.href = "index.html";
-        });
-      }
-    }
-  });
-</script>
 <script src="{{url_for('static', filename='js/zoom.js')}}"></script>
 <script src="{{url_for('static', filename='js/jquery.filterizr')}}.min.js"></script>
 <script src="{{url_for('static', filename='js/app.js')}}"></script>

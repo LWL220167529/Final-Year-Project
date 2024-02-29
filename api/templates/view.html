@@ -1,65 +1,139 @@
+{% extends 'index.html' %} {% block js %}
 
-{% extends 'index.html' %}
-{% block content %}
-<section id="destinations">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 text-start">
-          <h3 class="section-heading">Attractions</h3>
-          <p class="section-sub-heading">
-            Explore the most popular Attractions around the world.
-          </p>
-        </div>
-        <div class="col-md-12">
-          <div id="attractions" class="container row">
-            {% for attraction in attractions %}
+<script src="{{url_for('static', filename='js/zoom.js')}}"></script>
+<script src="{{url_for('static', filename='js/jquery.filterizr')}}.min.js"></script>
+<script src="{{url_for('static', filename='js/app.js')}}"></script>
+<script>
+  $(document).ready(function () {
+    $("#buttonPageGroup").on("click", "#buttonPage", function () {
+      const pageValue = $(this).text();
+      $.ajax({
+        cache: false,
+        url: `/travel/${pageValue}`,
+        method: "GET",
+        dataType: "json",
+        success: (response) => {
+          const {
+            attractions,
+            count,
+            current_page: currentPage,
+            max,
+            min,
+          } = response;
+          $("#attractions").text("");
+          // Render attractions
+          attractions.forEach((attraction) => {
+            const item = `
             <div class="item top-dest-card col-3 d-flex flex-column mb-3 justify-content-lg-between">
-              {% if attraction.pictures %}
-              <img src="{{attraction.pictures}}" alt="{{attraction.name}}" />
-              {% else %}
-              <img
-                src="{{url_for('static', filename='images/404.png')}}"
-                alt="404 not found"
-              />
-              {% endif %}
+              ${
+                attraction.pictures
+                  ? `<img src="${attraction.pictures}" alt="${attraction.name}" />`
+                  : `<img src="{{url_for('static', filename='images/404.png')}}" alt="404 not found" />`
+              }
               <div class="item-content">
-                <h4>{{attraction.name}}</h4>
+                <h4>${attraction.name}</h4>
                 <p>
                   <i class="fa-solid fa-location-dot"></i>
-                  {{attraction.city_name}}, {{attraction.country_name}}
+                  ${attraction.city_name}, ${attraction.country_name}
                 </p>
-                <div
-                  class="ratings d-flex justify-content-between align-content-center"
-                >
+                <div class="ratings d-flex justify-content-between align-content-center">
                   <div class="d-flex align-items-center start-rating">
                     <i class="fa-solid fa-star"></i>
-                    <span>{{attraction.rating}}</span>
+                    <span>${attraction.rating}</span>
                   </div>
                 </div>
               </div>
-                <div class="button-container align-self-end">
-                  <a href="#" class="btn flex-container viewMore">
-                    <span
-                      >View More <i class="fa-solid fa-arrow-right btn-icon"></i
-                    ></span>
-                  </a>
-                </div>
+              <div class="button-container align-self-end">
+                <a href="#" class="btn flex-container viewMore">
+                  <span>View More <i class="fa-solid fa-arrow-right btn-icon"></i></span>
+                </a>
+              </div>
             </div>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="container">
-          <div id="buttonPageGroup" class="btn-group buttonGroup">
-            {% for page in range(min, max) %}
-              {% if page != current_page %}
-                <a id="buttonPage" class="btn btn-primary">{{page}}</a>
-              {% endif %}
-            {% endfor %}
+          `;
+            $("#attractions").append(item);
+          });
 
-            <a class="btn btn-primary">{{count}}</a>
+          let pageContent = "";
+          if (currentPage !== 1) {
+            pageContent += `<a id="buttonPage" class="btn btn-primary">1</a>`;
+          }
+          for (let page = min; page <= max; page++) {
+            if (page !== currentPage && page !== count && page !== 1) {
+              pageContent += `<a id="buttonPage" class="btn btn-primary">${page}</a>`;
+            }
+          }
+          pageContent += `<a id="buttonPage" class="btn btn-primary">${count}</a>`;
+          $("#buttonPageGroup").html(pageContent);
+        },
+        error: (error) => {
+          // Handle the error here
+          console.error(error);
+        },
+      });
+    });
+  });
+</script>
+{% endblock %}
+{% block content %}
+<section id="destinations">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-start">
+        <h3 class="section-heading">Attractions</h3>
+        <p class="section-sub-heading">
+          Explore the most popular Attractions around the world.
+        </p>
+      </div>
+      <div class="col-md-12">
+        <div id="attractions" class="container row">
+          {% for attraction in attractions %}
+          <div
+            class="item top-dest-card col-3 d-flex flex-column mb-3 justify-content-lg-between"
+          >
+            {% if attraction.pictures %}
+            <img src="{{attraction.pictures}}" alt="{{attraction.name}}" />
+            {% else %}
+            <img
+              src="{{url_for('static', filename='images/404.png')}}"
+              alt="404 not found"
+            />
+            {% endif %}
+            <div class="item-content">
+              <h4>{{attraction.name}}</h4>
+              <p>
+                <i class="fa-solid fa-location-dot"></i>
+                {{attraction.city_name}}, {{attraction.country_name}}
+              </p>
+              <div
+                class="ratings d-flex justify-content-between align-content-center"
+              >
+                <div class="d-flex align-items-center start-rating">
+                  <i class="fa-solid fa-star"></i>
+                  <span>{{attraction.rating}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="button-container align-self-end">
+              <a href="#" class="btn flex-container viewMore">
+                <span
+                  >View More <i class="fa-solid fa-arrow-right btn-icon"></i
+                ></span>
+              </a>
+            </div>
           </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="container">
+        <div id="buttonPageGroup" class="btn-group buttonGroup">
+          {% for page in range(min, max) %} {% if page != current_page %}
+          <a id="buttonPage" class="btn btn-primary">{{page}}</a>
+          {% endif %} {% endfor %}
+
+          <a class="btn btn-primary">{{count}}</a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 {% endblock %}
