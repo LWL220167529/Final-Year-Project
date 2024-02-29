@@ -2,9 +2,45 @@
 var destinationlattitude, destinationllongttitude;
 var neLatitude, neLongitude, swLatitude, swLongitude;
 
+document.addEventListener("DOMContentLoaded", function() {
+    var startDateInput = document.getElementById("startDate");
+    if (startDateInput) {
+        startDateInput.min = new Date().toISOString().split("T")[0];
+    }
+});
 
-document.getElementById("startDate").min = new Date().toISOString().split("T")[0];
+const input_place = document.getElementById("input_place");
 
+$(document).ready(function () {
+    var inputTimeout;
+
+    $('#input_place').on("input", function () {
+        clearTimeout(inputTimeout); // Clear any previous timeout
+
+        inputTimeout = setTimeout(function () {
+            console.log($('#input_place').val());
+            $.ajax({
+                cache: false,
+                url: `/estimatePlace`,
+                method: "GET",
+                dataType: "json",
+                data: {
+                    city: $('#input_place').val()
+                },
+                success: function(response) {
+                    console.log(response);
+                    $('#placeList').html('');
+                    response.forEach(function(element) {
+                        $('#placeList').append(`<option value="${element.message}">`);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }, 1000); // Delay the execution by 1 second (1000 milliseconds)
+    });
+});
 
 function initAutocomplete() {
     var autocomplete = new google.maps.places.Autocomplete(
@@ -40,7 +76,7 @@ function initAutocomplete() {
 }
 
 
-google.maps.event.addDomListener(window, 'load', initAutocomplete);
+// google.maps.event.addDomListener(window, 'load', initAutocomplete);
 
 $(document).ready(function () {
     $('.activity-box').click(function () {

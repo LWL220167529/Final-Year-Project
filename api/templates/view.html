@@ -23,7 +23,32 @@
           $("#attractions").text("");
           // Render attractions
           attractions.forEach((attraction) => {
-            const item = `
+            const item = attractionContent(attraction);
+            $("#attractions").append(item);
+          });
+
+          let pageContent = "";
+          if (currentPage !== 1) {
+            pageContent += `<a id="buttonPage" class="btn btn-primary">1</a>`;
+          }
+          for (let page = min; page <= max; page++) {
+            if (page !== currentPage && page !== count && page !== 1) {
+              pageContent += `<a id="buttonPage" class="btn btn-primary">${page}</a>`;
+            }
+          }
+          pageContent += `<a id="buttonPage" class="btn btn-primary">${count}</a>`;
+          $("#buttonPageGroup").html(pageContent);
+        },
+        error: (error) => {
+          // Handle the error here
+          console.error(error);
+        },
+      });
+    });
+  });
+
+  const attractionContent = function (attraction) {
+    return  `
             <div class="item top-dest-card col-3 d-flex flex-column mb-3 justify-content-lg-between">
               ${
                 attraction.pictures
@@ -50,28 +75,7 @@
               </div>
             </div>
           `;
-            $("#attractions").append(item);
-          });
-
-          let pageContent = "";
-          if (currentPage !== 1) {
-            pageContent += `<a id="buttonPage" class="btn btn-primary">1</a>`;
-          }
-          for (let page = min; page <= max; page++) {
-            if (page !== currentPage && page !== count && page !== 1) {
-              pageContent += `<a id="buttonPage" class="btn btn-primary">${page}</a>`;
-            }
-          }
-          pageContent += `<a id="buttonPage" class="btn btn-primary">${count}</a>`;
-          $("#buttonPageGroup").html(pageContent);
-        },
-        error: (error) => {
-          // Handle the error here
-          console.error(error);
-        },
-      });
-    });
-  });
+  }
 </script>
 {% endblock %}
 {% block content %}

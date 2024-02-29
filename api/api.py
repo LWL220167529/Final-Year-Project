@@ -8,6 +8,8 @@ import collect
 import userSchedule
 import serverAutoStart
 import json
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 # connect database
 # Remote database configuration
@@ -19,6 +21,8 @@ db_name = 'FYP'
 
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
+limiter = Limiter(get_remote_address,
+    app=app,)
 CORS(app)
 
 # Configure caching
@@ -365,10 +369,11 @@ def getAIPlanByID():
     return response
 
 @app.route('/estimatePlace', methods=["GET", "POST"])
+@limiter.limit("1/second")  # Limit to 1 request per second
 def estimatePlace():
-    if request.method == "GET":  # get request from url
+    if request.method == "GET":
         city = request.args.get('city')
-    else:  # post request from body
+    else:
         data = request.get_json()
         city = data.get('city')
     response = place.estimate_place(city)
