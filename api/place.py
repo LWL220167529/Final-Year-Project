@@ -270,9 +270,14 @@ def haversine_distance(row, user_location):
     distance_km = result[0][1] * 6371  # Convert from radians to kilometers
     return distance_km
 
-def get_recommendations_by_types(input_types, df, user_location, num_recommendations=10):
+from sklearn.metrics.pairwise import cosine_similarity
+from math import radians
+from sklearn.metrics.pairwise import haversine_distances
+import pandas as pd
+
+def get_recommendations_by_types(input_types, df, user_location, type_weights, num_recommendations=10):
     # Calculate distances for all attractions in the DataFrame
-    df['distance'] = df.apply(haversine_distance, axis=1, user_location=user_location)
+    df['distance'] = df.apply(lambda row: haversine_distance(row, user_location), axis=1)
     
     # Normalize the distance (optional, depending on how you want to factor this in)
     max_distance = df['distance'].max()
@@ -285,21 +290,30 @@ def get_recommendations_by_types(input_types, df, user_location, num_recommendat
     encoded_features = pd.concat([main_type_encoded, sub_type_encoded], axis=1)
     input_encoded = pd.DataFrame(0, index=[0], columns=encoded_features.columns)
 
-    for t in input_types:
-        col_name = 'main_' + t  # Assume your main type prefix is 'main_'
-        if col_name in input_encoded.columns:
-            input_encoded.at[0, col_name] = 1
+    # Normalize the weights
+    weight_sum = sum(type_weights.values())
+    normalized_weights = {type_: weight / weight_sum for type_, weight in type_weights.items()}
 
+    # Apply normalized weights to the input vector for similarity calculation
+    for type_ in input_types:
+        col_name = 'main_' + type_
+        if col_name in input_encoded.columns:
+            input_encoded.at[0, col_name] = normalized_weights.get(type_, 0)
+
+    # Calculate similarity
     sim_scores = cosine_similarity(input_encoded, encoded_features)[0]
 
-    # Combine similarity score with the normalized distance
-    df['similarity'] = sim_scores
-    df['combined_score'] = df['similarity'] * df['distance_normalized']
+    # Apply normalized weights to the similarity scores for each attraction
+    df['weighted_similarity'] = df['type'].apply(lambda x: sim_scores[encoded_features.index[encoded_features['main_' + x] == 1][0]] * normalized_weights.get(x, 0))
 
-    # Sort by the combined score
-    df = df.sort_values('combined_score', ascending=False)
-    
-    return df.head(num_recommendations)
+    # Combine weighted similarity score with normalized distance and ratings
+    df['combined_score'] = (df['weighted_similarity'] + df['distance_normalized']) * df['rating'] / df['rating'].max()
+
+    # Sort by the combined score and return the top recommendations
+    print(df[['name', 'type', 'weighted_similarity', 'combined_score']])
+    return df.sort_values('combined_score', ascending=False).head(num_recommendations)
+
+
 
 def apply_demographic_filtering(recommendations, num_top=10):
     recommendations_copy = recommendations.copy()

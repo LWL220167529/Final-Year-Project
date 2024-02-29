@@ -24,7 +24,9 @@
     <form id="attractionForm">
         <!-- 动态生成复选框 -->
         <script>
-            // 假设这是从服务器获取的类型列表
+            let selectionOrder = []; // 用于存储用户选择的类型顺序
+
+            // 假设这是从服务器获取的类型列表，或者直接在脚本中定义
             const types = ['Shopping', 'Traveler Resources', 'Sights & Landmarks', 'Spas & Wellness',
                 'Nature & Parks', 'Museums', 'Classes & Workshops', 'Nightlife',
                 'Fun & Games', 'Food & Drink', 'Outdoor Activities', 'Zoos & Aquariums',
@@ -33,25 +35,38 @@
             window.onload = function () {
                 const form = document.getElementById('attractionForm');
                 types.forEach(type => {
-                    // 创建复选框
+                    // Create checkbox
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.id = type;
                     checkbox.name = 'attraction_type';
                     checkbox.value = type;
 
-                    // 创建标签
+                    // Event listener to update the selection order
+                    checkbox.addEventListener('change', function () {
+                        if (this.checked) {
+                            // Add to the end of the selection order
+                            selectionOrder.push(this.value);
+                        } else {
+                            // Remove from the selection order
+                            selectionOrder = selectionOrder.filter(item => item !== this.value);
+                        }
+                        console.log('Current selection order:', selectionOrder);
+                    });
+
+                    // Create label
                     const label = document.createElement('label');
                     label.htmlFor = type;
                     label.appendChild(document.createTextNode(type));
 
-                    // 添加复选框和标签到表单
+                    // Append checkbox and label to the form
                     form.appendChild(checkbox);
                     form.appendChild(label);
-                    form.appendChild(document.createElement('br')); // 换行
+                    form.appendChild(document.createElement('br')); // Add a new line
                 });
             }
         </script>
+
     </form>
     <br>
     <button onclick="fetchRecommendations()">Get Recommendations</button>
@@ -69,7 +84,11 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ attraction_types: selectedTypes, latitude: document.getElementById('latitude').textContent, longitude: document.getElementById('longitude').textContent}),
+                body: JSON.stringify({
+                    attraction_types: selectionOrder,
+                    latitude: document.getElementById('latitude').textContent,
+                    longitude: document.getElementById('longitude').textContent
+                }),
             })
                 .then(response => response.json())
                 .then(recommendations => {
@@ -83,7 +102,7 @@
                     // 创建表头
                     const thead = document.createElement('thead');
                     const headerRow = document.createElement('tr');
-                    const headers = ['Name', 'Rating', 'Reviews', 'Score', 'Type','Sub_Type'];
+                    const headers = ['Name', 'Rating', 'Reviews', 'Score', 'Type', 'Sub_Type'];
                     headers.forEach(headerText => {
                         const header = document.createElement('th');
                         header.textContent = headerText;
