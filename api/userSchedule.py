@@ -105,6 +105,7 @@ def add_schedule(userID: str, title: str, description: str, startTime: str, plac
         session.commit()
         return jsonify({'message': 'Schedule added successfully', 'addSchedule': True}), 201
     except Exception as e:
+        session.rollback()
         return jsonify({'message': 'Error occurred during add schedule.', 'error': str(e)}), 500
 
 
@@ -133,6 +134,7 @@ def update_schedule(userID: str, title: str, scheduleID: int, description: str, 
         session.commit()
         return jsonify({'message': 'Schedule updated successfully', 'updateSchedule': True}), 200
     except Exception as e:
+        session.rollback()
         return jsonify({'message': 'Error occurred during update schedule.', 'error': str(e)}), 500
 
 
@@ -165,5 +167,5 @@ def update_user_schedule(schedule: UserSchedule, place: dict):
     schedule.place_ID = place['place_ID']
     schedule.editTime = datetime.utcnow()
 
-    
+
 session.close()

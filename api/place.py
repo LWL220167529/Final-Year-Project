@@ -70,6 +70,7 @@ def add_new_cities_place(data: dict):
 
         return jsonify({'message': 'New cities place created successfully.'}), 201
     except Exception as e:
+        session.rollback()  # Rollback the database changes in case of an exception
         return jsonify({'message': str(e)}), 500
 
 
@@ -87,40 +88,45 @@ def update_cities_place(place_id: int, data: dict):
 
         return jsonify({'message': 'Cities place updated successfully'})
     except Exception as e:
+        session.rollback()
         return jsonify({'message': str(e)}), 500
 
 def append_cities_place(cities_places: dict):
     cities_places_data = []
-    for city_place in cities_places:
-        city_place_data = {
-            'id': city_place.CitiesPlace.id,
-            'name': city_place.CitiesPlace.name,
-            'state_id': city_place.CitiesPlace.state_id,
-            'state_code': city_place.CitiesPlace.state_code,
-            'country_id': city_place.CitiesPlace.country_id,
-            'country_code': city_place.CitiesPlace.country_code,
-            'cities_id': city_place.CitiesPlace.cities_id,
-            'type': city_place.CitiesPlace.type,
-            'sub_type': city_place.CitiesPlace.sub_type,
-            'rating': city_place.CitiesPlace.rating,
-            'price_level': city_place.CitiesPlace.price_level,
-            'reviews': city_place.CitiesPlace.reviews,
-            'description': city_place.CitiesPlace.description,
-            'address': city_place.CitiesPlace.address,
-            'pictures': city_place.CitiesPlace.pictures,
-            'websiteUri': city_place.CitiesPlace.websiteUri,
-            'phone': city_place.CitiesPlace.phone,
-            'latitude': city_place.CitiesPlace.latitude,
-            'longitude': city_place.CitiesPlace.longitude,
-            'created_at': city_place.CitiesPlace.created_at,
-            'updated_at': city_place.CitiesPlace.updated_at,
-            'city_name': city_place.city_name,
-            'state_name': city_place.state_name,
-            'country_name': city_place.countries_name
-        }
-        cities_places_data.append(city_place_data)
+    try:
+        for city_place in cities_places:
+            city_place_data = {
+                'id': city_place.CitiesPlace.id,
+                'name': city_place.CitiesPlace.name,
+                'state_id': city_place.CitiesPlace.state_id,
+                'state_code': city_place.CitiesPlace.state_code,
+                'country_id': city_place.CitiesPlace.country_id,
+                'country_code': city_place.CitiesPlace.country_code,
+                'cities_id': city_place.CitiesPlace.cities_id,
+                'type': city_place.CitiesPlace.type,
+                'sub_type': city_place.CitiesPlace.sub_type,
+                'rating': city_place.CitiesPlace.rating,
+                'price_level': city_place.CitiesPlace.price_level,
+                'reviews': city_place.CitiesPlace.reviews,
+                'description': city_place.CitiesPlace.description,
+                'address': city_place.CitiesPlace.address,
+                'pictures': city_place.CitiesPlace.pictures,
+                'websiteUri': city_place.CitiesPlace.websiteUri,
+                'phone': city_place.CitiesPlace.phone,
+                'latitude': city_place.CitiesPlace.latitude,
+                'longitude': city_place.CitiesPlace.longitude,
+                'created_at': city_place.CitiesPlace.created_at,
+                'updated_at': city_place.CitiesPlace.updated_at,
+                'city_name': city_place.city_name,
+                'state_name': city_place.state_name,
+                'country_name': city_place.countries_name
+            }
+            cities_places_data.append(city_place_data)
 
-    return jsonify(cities_places_data)
+        return jsonify(cities_places_data)
+    except Exception as e:
+        session.rollback()
+        raise e
 
 def get_all_cities_place():
     try:
@@ -132,6 +138,7 @@ def get_all_cities_place():
         
         return append_cities_place(cities_places)
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while retrieving cities places.', 'error': str(e)}), 500
 
@@ -185,9 +192,10 @@ def filter_cities_place(search: str, value):
         
         return append_cities_place(cities_places)
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while retrieving cities places.', 'error': str(e)}), 500
-
+    
 def get_by_input(input: str):
     try:
         search_query = f"%{input}%"
@@ -213,6 +221,7 @@ def get_by_input(input: str):
 
         return cities_places_data
     except Exception as e:
+        session.rollback()  # Rollback the database in case of an exception
         return jsonify({'message': str(e)}), 500
 
 
@@ -373,114 +382,119 @@ if __name__ == "__main__":
 
 
 def getRandomPlan(data: dict):
-    planData = json.loads(json.dumps(data))
-    day = int(planData['numberOfDays'])
+    try:
+        planData = json.loads(json.dumps(data))
+        day = int(planData['numberOfDays'])
 
-    urls = [
-        "https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary",
-        "https://travel-advisor.p.rapidapi.com/attractions/list-in-boundary"
-    ]
+        urls = [
+            "https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary",
+            "https://travel-advisor.p.rapidapi.com/attractions/list-in-boundary"
+        ]
 
-    querystring = {
-        "bl_latitude": data['destination']['bl_lat'],
-        "tr_latitude": data['destination']['tr_lat'],
-        "bl_longitude": data['destination']['bl_lng'],
-        "tr_longitude": data['destination']['tr_lng'],
-        "limit": "30",
-        "currency": "USD",
-        "lunit": "km",
-        "lang": "en_US"
-    }
+        querystring = {
+            "bl_latitude": data['destination']['bl_lat'],
+            "tr_latitude": data['destination']['tr_lat'],
+            "bl_longitude": data['destination']['bl_lng'],
+            "tr_longitude": data['destination']['tr_lng'],
+            "limit": "30",
+            "currency": "USD",
+            "lunit": "km",
+            "lang": "en_US"
+        }
 
-    headers = {
-        "X-RapidAPI-Key": "337de8d7c5msh99e0dfd0e714de4p182b66jsn0a5d798b1e0a",
-        "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com"
-    }
+        headers = {
+            "X-RapidAPI-Key": "337de8d7c5msh99e0dfd0e714de4p182b66jsn0a5d798b1e0a",
+            "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com"
+        }
 
-    place = []  # save restaurants and attraction response
+        place = []  # save restaurants and attraction response
 
-    for url in urls:
-        response = requests.get(url, headers=headers, params=querystring)
-        place.append(response.json())
+        for url in urls:
+            response = requests.get(url, headers=headers, params=querystring)
+            place.append(response.json())
 
-    random_attractions = random.sample(place[1]["data"], (day + 1) * 3)
-    random_restaurants = random.sample(place[0]["data"], (day + 1) * 3)
+        random_attractions = random.sample(place[1]["data"], (day + 1) * 3)
+        random_restaurants = random.sample(place[0]["data"], (day + 1) * 3)
 
-    response = []
-    temp_list = []
+        response = []
+        temp_list = []
 
-    for index, (attraction, restaurant) in enumerate(zip(random_attractions, random_restaurants), start=1):
-        try:
-            if index == 1:
-                    temp_list.append({"id": index, "sequence": index % 3,
-                                    "name": data['HotelData']['Hotel'],
-                                    "imageSrc": data['HotelData']['ImageSrc'],
-                                    "category": data['HotelData']['category'],
-                                    "latitude": data['HotelData']['coordinate']['latitude'],
-                                    "longitude": data['HotelData']['coordinate']['longitude'],
-                                    "distanceFromDestination": data['HotelData']['distanceFromDestination'],
-                                    "price": data['HotelData']['price']['price'],
-                                    "currency": data['HotelData']['price']['currency'],
-                                    "rating": data['HotelData']['rating'],
-                                    "reviewCount": data['HotelData']['reviewCount']})
-            elif index % 2 == 0:
-                if isinstance(restaurant, list) and len(restaurant) > 0 and 'name' in restaurant and 'address' in restaurant:
-                    temp_list.append(
-                        {"id": index, "sequence": index % 3, **restaurant[0]})
+        for index, (attraction, restaurant) in enumerate(zip(random_attractions, random_restaurants), start=1):
+            try:
+                if index == 1:
+                        temp_list.append({"id": index, "sequence": index % 3,
+                                        "name": data['HotelData']['Hotel'],
+                                        "imageSrc": data['HotelData']['ImageSrc'],
+                                        "category": data['HotelData']['category'],
+                                        "latitude": data['HotelData']['coordinate']['latitude'],
+                                        "longitude": data['HotelData']['coordinate']['longitude'],
+                                        "distanceFromDestination": data['HotelData']['distanceFromDestination'],
+                                        "price": data['HotelData']['price']['price'],
+                                        "currency": data['HotelData']['price']['currency'],
+                                        "rating": data['HotelData']['rating'],
+                                        "reviewCount": data['HotelData']['reviewCount']})
+                elif index % 2 == 0:
+                    if isinstance(restaurant, list) and len(restaurant) > 0 and 'name' in restaurant and 'address' in restaurant:
+                        temp_list.append(
+                            {"id": index, "sequence": index % 3, **restaurant[0]})
+                    else:
+                        temp_list.append(
+                            {"id": index, "sequence": index % 3, **random.sample(place[0]["data"], 1)[0]})
                 else:
-                    temp_list.append(
-                        {"id": index, "sequence": index % 3, **random.sample(place[0]["data"], 1)[0]})
-            else:
-                if isinstance(attraction, list) and len(attraction) > 0 and 'name' in attraction and 'address' in attraction:
-                    temp_list.append(
-                        {"id": index, "sequence": index % 3, **attraction[0]})
-                else:
-                    temp_list.append(
-                        {"id": index, "sequence": index % 3, **random.sample(place[1]["data"], 1)[0]})
+                    if isinstance(attraction, list) and len(attraction) > 0 and 'name' in attraction and 'address' in attraction:
+                        temp_list.append(
+                            {"id": index, "sequence": index % 3, **attraction[0]})
+                    else:
+                        temp_list.append(
+                            {"id": index, "sequence": index % 3, **random.sample(place[1]["data"], 1)[0]})
 
-            if index % 3 == 0:
-                response.append(
-                    {"day": day - (day - index // 3), "place": temp_list})
-                temp_list = []
+                if index % 3 == 0:
+                    response.append(
+                        {"day": day - (day - index // 3), "place": temp_list})
+                    temp_list = []
 
-            if index // 3 == day:
+                if index // 3 == day:
+                    break
+
+            except IndexError:
+                print("Invalid index. Skipping...")
                 break
+        
+        gpt_txt = gpt.gpt_plan_trip(response)
 
-        except IndexError:
-            print("Invalid index. Skipping...")
-            break
-    
-    gpt_txt = gpt.gpt_plan_trip(response)
+        for day_plan in gpt_txt['trip']['itinerary']:
+            for activity in day_plan['activities']:
+                activity_id = activity['id']
+                new_activity_dict = {'activity_info': activity}
+                for plan in response:
+                    if plan['day'] == day_plan['day']:
+                        for place in plan['place']:
+                            if place['id'] == activity_id:
+                                place.update(new_activity_dict)
+                                break
 
-    for day_plan in gpt_txt['trip']['itinerary']:
-        for activity in day_plan['activities']:
-            activity_id = activity['id']
-            new_activity_dict = {'activity_info': activity}
-            for plan in response:
-                if plan['day'] == day_plan['day']:
-                    for place in plan['place']:
-                        if place['id'] == activity_id:
-                            place.update(new_activity_dict)
-                            break
+        newPlan = SavePlan(user_ID=data['userID'])
 
-    newPlan = SavePlan(user_ID=data['userID'])
+        session.add(newPlan)
+        session.commit()
 
-    session.add(newPlan)
-    session.commit()
+        final_response = {
+            'accommodation': gpt_txt['trip']['accommodation'],
+            'arrival_city': gpt_txt['trip']['arrival_city'],
+            'duration': gpt_txt['trip']['duration'],
+            "itinerary": response,
+            "initial_input": planData,
+            "planID": newPlan.id
+        }
 
-    final_response = {
-        'accommodation': gpt_txt['trip']['accommodation'],
-        'arrival_city': gpt_txt['trip']['arrival_city'],
-        'duration': gpt_txt['trip']['duration'],
-        "itinerary": response,
-        "initial_input": planData,
-        "planID": newPlan.id
-    }
+        newPlan.plan = final_response
+        session.commit()
 
-    newPlan.plan = final_response
-    session.commit()
+        return final_response
 
-    return final_response
+    except Exception as e:
+        session.rollback()
+        raise e
 
 
 def savePlan(userID: int, planID: int, title: str, imageURL: str):
@@ -492,6 +506,7 @@ def savePlan(userID: int, planID: int, title: str, imageURL: str):
 
         return jsonify({'message': 'Plan saved successfully.'}), 201
     except Exception as e:
+        session.rollback()
         return jsonify({'message': str(e)}), 500
 
 def getSavedPlanByUserID(userID: int):
@@ -511,6 +526,7 @@ def getSavedPlanByUserID(userID: int):
 
         return jsonify({'plans': plan_list})
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while retrieving plans.', 'error': str(e)}), 500
 
@@ -528,6 +544,7 @@ def getSavedPlanByID(planID: int):
         else:
             return jsonify({'message': 'Plan not found'})
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': str(e)}), 500
 

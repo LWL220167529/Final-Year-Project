@@ -25,6 +25,8 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 # user class
+
+
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -36,6 +38,7 @@ class User(Base):
 
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+
 
 def check_login(id: Optional[int or str], password: str):
     try:
@@ -49,12 +52,14 @@ def check_login(id: Optional[int or str], password: str):
         return jsonify({'message': 'Login successfully', 'userID': user.id, 'login': True})
     except Exception as e:
         print(e)
+        session.rollback()
         return jsonify({'message': 'Error occurred during login.', 'error': str(e), 'login': False})
 
 
 def register(userName: str, password: str, email: str, phoneNumber: str):
     try:
-        existing_user = session.query(User).filter(User.userName == userName).first()
+        existing_user = session.query(User).filter(
+            User.userName == userName).first()
         if existing_user:
             return jsonify({'message': 'User already exists.'}), 409
 
@@ -72,6 +77,7 @@ def register(userName: str, password: str, email: str, phoneNumber: str):
 
         return jsonify({'message': 'Sign Up successfully', 'signUp': True})
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred during sign up.', 'error': str(e)})
 
@@ -79,7 +85,8 @@ def register(userName: str, password: str, email: str, phoneNumber: str):
 def update_user(id: Optional[int or str], userName, email, phoneNumber):
     try:
         # Find user by id or username
-        user = session.query(User).filter(or_(User.id == id, User.userName == id)).first()
+        user = session.query(User).filter(
+            or_(User.id == id, User.userName == id)).first()
 
         if not user:
             return jsonify({'message': 'User not found'}), 404
@@ -94,6 +101,7 @@ def update_user(id: Optional[int or str], userName, email, phoneNumber):
 
         return jsonify({'message': 'User updated successfully', 'updateUser': True}), 200
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while updating user.', 'error': str(e), 'updateUser': False})
 
@@ -113,6 +121,7 @@ def forgot_password(id: Optional[int or str], password: str):
         else:
             return jsonify({'message': 'User not found', 'resetPassword': False})
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while resetting password.', 'error': str(e), 'resetPassword': False})
 
@@ -132,6 +141,7 @@ def get_all_users():
         ]
         return jsonify({'users': user_list}), 200
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while retrieving users.', 'error': str(e)}), 500
 
@@ -153,6 +163,7 @@ def get_user(id: Optional[int or str]):
         else:
             return jsonify({'message': 'User not found'}), 404
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': str(e)}), 500
 
@@ -170,5 +181,6 @@ def delete_user(id: Optional[int or str]):
         else:
             return jsonify({'message': 'User not found'}), 404
     except Exception as e:
+        session.rollback()
         print(e)
         return jsonify({'message': str(e)}), 500
