@@ -21,7 +21,6 @@ engine = create_engine(
 Base = declarative_base()
 
 Session = sessionmaker(bind=engine)
-session = Session()
 
 
 class User(Base):
@@ -77,6 +76,7 @@ class UserCollection(Base):
 
 
 def addNewCollection(user_ID: int, place_ID: int, rating: Optional[float] = None, like: Optional[bool] = None, collection: Optional[bool] = None) -> dict:
+    session = Session()  # Create a new session
     existing_collection = session.query(UserCollection).filter(and_(
         UserCollection.user_ID == user_ID, UserCollection.place_ID == place_ID)).first()
     if existing_collection:
@@ -87,21 +87,22 @@ def addNewCollection(user_ID: int, place_ID: int, rating: Optional[float] = None
         if collection is not None:
             existing_collection.collection = collection
         session.commit()
+        session.close()  # Close the session
         return {'message': 'Collection updated successfully', 'updateCollection': True}
     else:
         new_collection = UserCollection(
             user_ID=user_ID, place_ID=place_ID, rating=rating, like=like, collection=collection)
         session.add(new_collection)
         session.commit()
+        session.close()  # Close the session
         return {'message': 'Collection added successfully', 'updateCollection': True}
 
 
 def getCollectionByID(user_ID: int) -> Union[dict, List[dict]]:
+    session = Session()  # Create a new session
     collection = session.query(UserCollection).get(user_ID)
     if collection:
         return jsonify([i.serialize for i in collection])
     else:
+        session.close()  # Close the session
         return {'message': 'User does not have any collection.'}
-
-
-session.close()

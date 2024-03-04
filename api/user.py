@@ -22,7 +22,6 @@ engine = create_engine(
 Base = declarative_base()
 
 Session = sessionmaker(bind=engine)
-session = Session()
 
 # user class
 
@@ -42,6 +41,7 @@ class User(Base):
 
 def check_login(id: Optional[int or str], password: str):
     try:
+        session = Session()  # Add session creation
         # Find user by id or email
         user = session.query(User).filter(
             or_(User.email == id, User.userName == id)).first()
@@ -54,10 +54,14 @@ def check_login(id: Optional[int or str], password: str):
         print(e)
         session.rollback()
         return jsonify({'message': 'Error occurred during login.', 'error': str(e), 'login': False})
+    finally:
+        session.close()  # Add session close
 
 
 def register(userName: str, password: str, email: str, phoneNumber: str):
     try:
+        session = Session()  # Add session creation
+
         existing_user = session.query(User).filter(
             User.userName == userName).first()
         if existing_user:
@@ -80,10 +84,14 @@ def register(userName: str, password: str, email: str, phoneNumber: str):
         session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred during sign up.', 'error': str(e)})
+    finally:
+        session.close()  # Add session close
 
 
 def update_user(id: Optional[int or str], userName, email, phoneNumber):
     try:
+        session = Session()  # Add session creation
+
         # Find user by id or username
         user = session.query(User).filter(
             or_(User.id == id, User.userName == id)).first()
@@ -104,10 +112,13 @@ def update_user(id: Optional[int or str], userName, email, phoneNumber):
         session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while updating user.', 'error': str(e), 'updateUser': False})
+    finally:
+        session.close()  # Add session close
 
 
 def forgot_password(id: Optional[int or str], password: str):
     try:
+        session = Session()  # Add session creation
         # Find user by id or email
         user = session.query(User).filter(
             or_(User.email == id, User.id == id, User.userName == id)).first()
@@ -124,10 +135,13 @@ def forgot_password(id: Optional[int or str], password: str):
         session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while resetting password.', 'error': str(e), 'resetPassword': False})
+    finally:
+        session.close()  # Add session close
 
 
 def get_all_users():
     try:
+        session = Session()  # Add session creation
         users = session.query(User).all()
         user_list = [
             {
@@ -144,10 +158,13 @@ def get_all_users():
         session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while retrieving users.', 'error': str(e)}), 500
+    finally:
+        session.close()  # Add session close
 
 
 def get_user(id: Optional[int or str]):
     try:
+        session = Session()  # Add session creation
         # Find user by id or email
         user = session.query(User).get(id)
 
@@ -166,10 +183,13 @@ def get_user(id: Optional[int or str]):
         session.rollback()
         print(e)
         return jsonify({'message': str(e)}), 500
+    finally:
+        session.close()  # Add session close
 
 
 def delete_user(id: Optional[int or str]):
     try:
+        session = Session()  # Add session creation
         # Find user by id or email
         user = session.query(User).filter(
             or_(User.email == id, User.id == id, User.userName == id)).first()
@@ -184,3 +204,5 @@ def delete_user(id: Optional[int or str]):
         session.rollback()
         print(e)
         return jsonify({'message': str(e)}), 500
+    finally:
+        session.close()  # Add session close

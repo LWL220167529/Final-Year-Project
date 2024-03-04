@@ -1,8 +1,8 @@
 from flask import jsonify
-from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_, desc, and_
+from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_, desc, and_, desc
 from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 from rapidfuzz import process, fuzz
 from typing import Optional
@@ -28,7 +28,6 @@ engine = create_engine(
 Base = declarative_base()
 
 Session = sessionmaker(bind=engine)
-session = Session()
 
 
 class CitiesPlace(Base):
@@ -61,12 +60,15 @@ class CitiesPlace(Base):
 
 def add_new_cities_place(data: dict):
     try:
+        session = Session()
         # Create a new cities place instance
         new_cities_place = CitiesPlace(**data)
 
         # Add the new cities place to the database
         session.add(new_cities_place)
         session.commit()
+
+        session.close()
 
         return jsonify({'message': 'New cities place created successfully.'}), 201
     except Exception as e:
@@ -76,6 +78,7 @@ def add_new_cities_place(data: dict):
 
 def update_cities_place(place_id: int, data: dict):
     try:
+        session = Session()
         # Retrieve the cities place by ID
         cities_place = session.query(CitiesPlace).get(place_id)
 
@@ -86,14 +89,19 @@ def update_cities_place(place_id: int, data: dict):
         # Commit the changes to the database
         session.commit()
 
+        session.close()
+
         return jsonify({'message': 'Cities place updated successfully'})
     except Exception as e:
         session.rollback()
         return jsonify({'message': str(e)}), 500
 
+
 def append_cities_place(cities_places: dict):
     cities_places_data = []
     try:
+        session = Session()
+
         for city_place in cities_places:
             city_place_data = {
                 'id': city_place.CitiesPlace.id,
@@ -123,27 +131,34 @@ def append_cities_place(cities_places: dict):
             }
             cities_places_data.append(city_place_data)
 
+        session.close()
+
         return jsonify(cities_places_data)
     except Exception as e:
         session.rollback()
         raise e
 
+
 def get_all_cities_place():
     try:
+        session = Session()  # Add this line to create a session
         cities_places = session.query(CitiesPlace, Cities.name.label('city_name'), States.name.label('state_name'), Countries.name.label('countries_name'))\
             .join(Cities, Cities.id == CitiesPlace.cities_id)\
             .join(States, States.id == CitiesPlace.state_id)\
             .join(Countries, Countries.id == CitiesPlace.country_id)\
             .all()
-        
+
+        session.close()  # Add this line to close the session
         return append_cities_place(cities_places)
     except Exception as e:
         session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while retrieving cities places.', 'error': str(e)}), 500
 
+
 def filter_cities_place(search: str, value):
     try:
+        session = Session()  # Add this line to create a session
         filter_options = {
             'id': CitiesPlace.id,
             'name': CitiesPlace.name,
@@ -189,15 +204,18 @@ def filter_cities_place(search: str, value):
         ).join(
             Countries, Countries.id == CitiesPlace.country_id
         ).all()
-        
+
+        session.close()  # Add this line to close the session
         return append_cities_place(cities_places)
     except Exception as e:
         session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while retrieving cities places.', 'error': str(e)}), 500
-    
+
+
 def get_by_input(input: str):
     try:
+        session = Session()  # Create a session
         search_query = f"%{input}%"
         cities_places = session.query(CitiesPlace).filter(
             or_(
@@ -215,10 +233,12 @@ def get_by_input(input: str):
             return jsonify({'message': "Can't find any matching cities places."}), 404
 
         cities_places_data = [
-            {key: getattr(city_place, key) for key in city_place.__table__.columns.keys() if key != '_sa_instance_state'}
+            {key: getattr(city_place, key) for key in city_place.__table__.columns.keys(
+            ) if key != '_sa_instance_state'}
             for city_place in cities_places
         ]
 
+        session.close()  # Close the session
         return cities_places_data
     except Exception as e:
         session.rollback()  # Rollback the database in case of an exception
@@ -293,11 +313,12 @@ class Countries(Base):
     flag = Column(Boolean, nullable=False, default=True)
     wikiDataId = Column(String(255), comment='Rapid API GeoDB Cities')
 
+
 class SavePlan(Base):
     __tablename__ = 'save_plan'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     plan = Column(JSON)
-    user_ID = Column(Integer)
+    user_ID = Column(Integer, ForeignKey('user.id'))
     name = Column(String(255))
     price = Column(String(255))
     rating = Column(Float)
@@ -311,6 +332,22 @@ class SavePlan(Base):
     activity_info = Column(JSON)
     description = Column(String(255))
 
+    user = relationship("User", backref="save_plan")
+
+
+class AIPlanItinerary(Base):
+    __tablename__ = 'AI_plan_itinerary'
+    id = Column(Integer, primary_key=True)
+    place_ID = Column(Integer, ForeignKey('cities_place.id'))
+    activity_info = Column(JSON)
+    description = Column(String(255))
+    plan_ID = Column(Integer, ForeignKey('save_plan.id'))
+    sequence = Column(Integer)
+
+    place = relationship("CitiesPlace", backref="AI_plan_itinerary")
+    plan = relationship("SavePlan", backref="AI_plan_itinerary")
+
+
 class UserSavePlan(Base):
     __tablename__ = 'user_save_plan'
     id = Column(Integer, primary_key=True)
@@ -318,6 +355,7 @@ class UserSavePlan(Base):
     user_ID = Column(Integer)
     imageURL = Column(String(512))
     title = Column(String(255))
+
 
 class User(Base):
     __tablename__ = 'user'
@@ -327,6 +365,7 @@ class User(Base):
     password = Column(String(252), nullable=False)
     phoneNumber = Column(String(20), nullable=False)
     createTime = Column(DateTime, nullable=False, default=datetime.utcnow)
+
 
 if __name__ == "__main__":
 
@@ -367,13 +406,11 @@ if __name__ == "__main__":
 
     q_attractions = df2.copy().loc[df2['rating'] >= m]
 
-
     def weighted_rating(x: pd.Series, m: float = m, C: float = C) -> float:
         v = x['rating']
         R = x['reviews']
         # Calculation based on the IMDB formula
         return (v / (v + m) * R) + (m / (m + v) * C)
-
 
     # Define a new feature 'score' and calculate its value with `weighted_rating()`
     q_attractions['score'] = q_attractions.apply(weighted_rating, axis=1)
@@ -381,10 +418,17 @@ if __name__ == "__main__":
     attractions = q_attractions.sort_values('score', ascending=False)
 
 
-def getRandomPlan(data: dict):
+def getRandomPlan(data: dict, *planID: int):
     try:
+        session = Session()  # Add this line to create a session
         planData = json.loads(json.dumps(data))
         day = int(planData['numberOfDays'])
+        if planID:
+            Plan = session.query(SavePlan).get(planID)
+        else:
+            newPlan = setPlan(data['userID'])
+            Plan = newPlan[0]
+            planID = newPlan[1]
 
         urls = [
             "https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary",
@@ -422,17 +466,17 @@ def getRandomPlan(data: dict):
         for index, (attraction, restaurant) in enumerate(zip(random_attractions, random_restaurants), start=1):
             try:
                 if index == 1:
-                        temp_list.append({"id": index, "sequence": index % 3,
-                                        "name": data['HotelData']['Hotel'],
-                                        "imageSrc": data['HotelData']['ImageSrc'],
-                                        "category": data['HotelData']['category'],
-                                        "latitude": data['HotelData']['coordinate']['latitude'],
-                                        "longitude": data['HotelData']['coordinate']['longitude'],
-                                        "distanceFromDestination": data['HotelData']['distanceFromDestination'],
-                                        "price": data['HotelData']['price']['price'],
-                                        "currency": data['HotelData']['price']['currency'],
-                                        "rating": data['HotelData']['rating'],
-                                        "reviewCount": data['HotelData']['reviewCount']})
+                    temp_list.append({"id": index, "sequence": index % 3,
+                                      "name": data['HotelData']['Hotel'],
+                                      "imageSrc": data['HotelData']['ImageSrc'],
+                                      "category": data['HotelData']['category'],
+                                      "latitude": data['HotelData']['coordinate']['latitude'],
+                                      "longitude": data['HotelData']['coordinate']['longitude'],
+                                      "distanceFromDestination": data['HotelData']['distanceFromDestination'],
+                                      "price": data['HotelData']['price']['price'],
+                                      "currency": data['HotelData']['price']['currency'],
+                                      "rating": data['HotelData']['rating'],
+                                      "reviewCount": data['HotelData']['reviewCount']})
                 elif index % 2 == 0:
                     if isinstance(restaurant, list) and len(restaurant) > 0 and 'name' in restaurant and 'address' in restaurant:
                         temp_list.append(
@@ -459,7 +503,7 @@ def getRandomPlan(data: dict):
             except IndexError:
                 print("Invalid index. Skipping...")
                 break
-        
+
         gpt_txt = gpt.gpt_plan_trip(response)
 
         for day_plan in gpt_txt['trip']['itinerary']:
@@ -473,21 +517,16 @@ def getRandomPlan(data: dict):
                                 place.update(new_activity_dict)
                                 break
 
-        newPlan = SavePlan(user_ID=data['userID'])
-
-        session.add(newPlan)
-        session.commit()
-
         final_response = {
             'accommodation': gpt_txt['trip']['accommodation'],
             'arrival_city': gpt_txt['trip']['arrival_city'],
             'duration': gpt_txt['trip']['duration'],
             "itinerary": response,
             "initial_input": planData,
-            "planID": newPlan.id
+            "planID": planID
         }
 
-        newPlan.plan = final_response
+        Plan.plan = final_response
         session.commit()
 
         return final_response
@@ -495,11 +534,15 @@ def getRandomPlan(data: dict):
     except Exception as e:
         session.rollback()
         raise e
+    finally:
+        session.close()  # Add this line to close the session
 
 
 def savePlan(userID: int, planID: int, title: str, imageURL: str):
     try:
-        newPlan = UserSavePlan(plan_ID=planID, user_ID=userID, title=title, imageURL=imageURL)
+        session = Session()  # Add this line to create a session
+        newPlan = UserSavePlan(
+            plan_ID=planID, user_ID=userID, title=title, imageURL=imageURL)
 
         session.add(newPlan)
         session.commit()
@@ -508,10 +551,29 @@ def savePlan(userID: int, planID: int, title: str, imageURL: str):
     except Exception as e:
         session.rollback()
         return jsonify({'message': str(e)}), 500
+    finally:
+        session.close()  # Add this line to close the session
+
+
+def setPlan(userID: str):
+    try:
+        session = Session()  # Add this line to create a session
+        plan = SavePlan(user_ID=userID)
+        session.add(plan)
+        session.commit()
+        return [plan, plan.id]
+    except Exception as e:
+        session.rollback()
+        return jsonify({'message': str(e)}), 500
+    finally:
+        session.close()  # Add this line to close the session
+
 
 def getSavedPlanByUserID(userID: int):
     try:
-        plans = session.query(UserSavePlan).filter(UserSavePlan.user_ID == userID).all()
+        session = Session()  # Add this line to create a session
+        plans = session.query(UserSavePlan).filter(
+            UserSavePlan.user_ID == userID).all()
 
         plan_list = [
             {
@@ -524,14 +586,17 @@ def getSavedPlanByUserID(userID: int):
             for plan in plans
         ]
 
+        session.close()  # Add this line to close the session
         return jsonify({'plans': plan_list})
     except Exception as e:
         session.rollback()
         print(e)
         return jsonify({'message': 'Error occurred while retrieving plans.', 'error': str(e)}), 500
 
+
 def getSavedPlanByID(planID: int):
     try:
+        session = Session()  # Add this line to create a session
         plan = session.query(SavePlan).get(planID)
 
         if plan:
@@ -547,16 +612,8 @@ def getSavedPlanByID(planID: int):
         session.rollback()
         print(e)
         return jsonify({'message': str(e)}), 500
-
-    # for day in gpt_txt['trip']['itinerary']:
-    #     for activity in day['activities']:
-    #         activity_id = activity.get('id')
-    #         corresponding_place = next((place for plan in response if plan['day'] == day['day'] for place in plan['place'] if place['id'] == activity_id), None)
-    #         if corresponding_place:
-    #             activity.update(corresponding_place)
-    # return gpt_txt
-    # return response
-    # return gpt.gpt_plan_trip(response)
+    finally:
+        session.close()  # Add this line to close the session
 
 
 def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -579,24 +636,28 @@ def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> fl
 
 
 def get_city_matches(city_input: str, city_list: list, limit: int = 5) -> list:
-    results = process.extract(city_input, city_list,
-                              scorer=fuzz.WRatio, limit=limit)
+    session = Session()  # Add session creation
+    results = process.extract(city_input, city_list, scorer=fuzz.WRatio, limit=limit)
     matches = []
     for result in results:
         resultSplit = result[0].split(', ')
-        cityID = session.query(Cities.id). \
-            join(States, Cities.state_id == States.id). \
-            filter(
+        cityID = session.query(Cities.id).join(States, Cities.state_id == States.id).filter(
             and_(Cities.name == resultSplit[0], States.name == resultSplit[1])).first()
         matches.append(
             {"message": result[0], "city": resultSplit[0], "state": resultSplit[1], "key": cityID.id})
+    session.close()  # Add session close
     return matches
 
-
-rows = session.query(Cities.id, Cities.name, States.name, States.id). \
+def getRowsButIDKWhatIsThis():
+    session = Session()
+    rows = session.query(Cities.id, Cities.name, States.name, States.id). \
     join(States, Cities.state_id == States.id). \
     filter(Cities.country_code == 'JP'). \
     order_by(States.id.asc()).all()
+    return rows
+
+
+rows = getRowsButIDKWhatIsThis()
 
 # Store the city names in a list
 city_list = [f'{row[1]}, {row[2]}' for row in rows]
@@ -612,7 +673,3 @@ def estimate_place(city_input: int) -> list:
         # Handle the exception here
         print(f"An error occurred: {e}")
         return []
-
-
-
-session.close()
