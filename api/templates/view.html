@@ -29,14 +29,14 @@
 
           let pageContent = "";
           if (currentPage !== 1) {
-            pageContent += `<a id="buttonPage" class="btn btn-primary">1</a>`;
+            pageContent += `<a id="buttonPage" class="btn btn-primary text-bg-primary">1</a>`;
           }
           for (let page = min; page <= max; page++) {
             if (page !== currentPage && page !== count && page !== 1) {
-              pageContent += `<a id="buttonPage" class="btn btn-primary">${page}</a>`;
+              pageContent += `<a id="buttonPage" class="btn btn-primary text-bg-primary">${page}</a>`;
             }
           }
-          pageContent += `<a id="buttonPage" class="btn btn-primary">${count}</a>`;
+          pageContent += `<a id="buttonPage" class="btn btn-primary text-bg-primary">${count}</a>`;
           $("#buttonPageGroup").html(pageContent);
           moveToAttraction();
         },
@@ -147,10 +147,10 @@
       <div class="container">
         <div id="buttonPageGroup" class="btn-group buttonGroup">
           {% for page in range(min, max) %} {% if page != current_page %}
-          <a id="buttonPage" class="btn btn-primary">{{page}}</a>
+          <a id="buttonPage" class="btn btn-primary text-bg-primary">{{page}}</a>
           {% endif %} {% endfor %}
 
-          <a class="btn btn-primary">{{count}}</a>
+          <a class="btn btn-primary text-bg-primary">{{count}}</a>
         </div>
       </div>
     </div>
