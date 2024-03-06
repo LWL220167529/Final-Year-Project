@@ -38,6 +38,7 @@
           }
           pageContent += `<a id="buttonPage" class="btn btn-primary">${count}</a>`;
           $("#buttonPageGroup").html(pageContent);
+          moveToAttraction();
         },
         error: (error) => {
           // Handle the error here
@@ -46,6 +47,10 @@
       });
     });
   });
+
+  window.onload = function () {
+    moveToAttraction();
+  };
 
   const attractionContent = function (attraction) {
     return  `
@@ -76,13 +81,24 @@
             </div>
           `;
   }
+
+  function moveToAttraction() {
+    // Get the div element
+    let divElement = document.getElementById('attractionText');
+
+    // Get the y-coordinate of the div element
+    let yCoordinate = divElement.getBoundingClientRect().top + window.pageYOffset;
+
+    // Scroll to the y-coordinate of the div element
+    window.scrollTo({ top: yCoordinate, behavior: 'smooth' });
+  }
 </script>
 {% endblock %}
 {% block content %}
 <section id="destinations">
   <div class="container">
     <div class="row">
-      <div class="col-md-12 text-start">
+      <div id="attractionText" class="col-md-12 text-start">
         <h3 class="section-heading">Attractions</h3>
         <p class="section-sub-heading">
           Explore the most popular Attractions around the world.

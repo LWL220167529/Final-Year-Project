@@ -588,7 +588,6 @@ def getRandomPlan(data: dict, *planID: int):
                     for database in databaselist:
                         session.add(database)
                         database.day = day - (day - index // 3)
-                        print(database.sequence, database.day)
                         session.commit()
                     databaselist = []
                     temp_list = []
