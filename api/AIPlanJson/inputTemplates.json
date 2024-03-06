@@ -1,0 +1,34 @@
+{
+  "userID": 5,
+  "destination": {
+    "bl_lat": 34.5776326,
+    "bl_lng": 138.2991098,
+    "tr_lat": 36.4408483,
+    "tr_lng": 141.2405144
+  },
+  "Country": "Tokyo, Japan",
+  "TravelDate": "2024-01-21T16:04:23.710Z",
+  "numberOfDays": "3",
+  "AllTravelDates": [
+    "2024-01-21T16:04:23.710Z",
+    "2024-01-22T16:04:23.710Z",
+    "2024-01-23T16:04:23.710Z"
+  ],
+  "HotelData": {
+    "Hotel": "Hotel Abest Meguro",
+    "rating": 6.8,
+    "reviewCount": 465,
+    "category": "Tokyo",
+    "distanceFromDestination": 9.15,
+    "ImageSrc": "https://images.trvl-media.com/lodging/6000000/5380000/5378800/5378709/919f9533.jpg?impolicy=resizecrop&rw=455&ra=fit",
+    "price": {
+      "currency": "USD",
+      "price": "$134"
+    },
+    "coordinate": {
+      "__typename": "Coordinates",
+      "latitude": 35.63387,
+      "longitude": 139.714658
+    }
+  }
+}

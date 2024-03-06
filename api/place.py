@@ -1,5 +1,5 @@
 from flask import jsonify
-from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_, desc, and_, desc
+from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_, desc, and_, desc, func
 from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
@@ -337,12 +337,13 @@ class SavePlan(Base):
 
 class AIPlanItinerary(Base):
     __tablename__ = 'AI_plan_itinerary'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     place_ID = Column(Integer, ForeignKey('cities_place.id'))
     activity_info = Column(JSON)
     description = Column(String(255))
     plan_ID = Column(Integer, ForeignKey('save_plan.id'))
     sequence = Column(Integer)
+    day = Column(Integer)
 
     place = relationship("CitiesPlace", backref="AI_plan_itinerary")
     plan = relationship("SavePlan", backref="AI_plan_itinerary")
@@ -368,6 +369,7 @@ class User(Base):
 
 
 if __name__ == "__main__":
+    session = Session()  # Add this line to create a session
 
     rows = session.query(CitiesPlace).filter(
         CitiesPlace.state_id == 852).order_by(CitiesPlace.cities_id.asc()).all()
@@ -395,6 +397,8 @@ if __name__ == "__main__":
         'created_at': [row.created_at for row in rows],
         'updated_at': [row.updated_at for row in rows]
     }
+
+    session.close()  # Add this line to close the session
 
     df = pd.DataFrame(data)
 
@@ -424,11 +428,13 @@ def getRandomPlan(data: dict, *planID: int):
         planData = json.loads(json.dumps(data))
         day = int(planData['numberOfDays'])
         if planID:
-            Plan = session.query(SavePlan).get(planID)
+            plan = session.query(SavePlan).filter(
+                and_(SavePlan.id == newPlan, SavePlan.user_ID == data['userID'])).first()
         else:
             newPlan = setPlan(data['userID'])
-            Plan = newPlan[0]
-            planID = newPlan[1]
+            planID = newPlan
+            plan = session.query(SavePlan).filter(
+                and_(SavePlan.id == newPlan, SavePlan.user_ID == data['userID'])).first()
 
         urls = [
             "https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary",
@@ -462,39 +468,129 @@ def getRandomPlan(data: dict, *planID: int):
 
         response = []
         temp_list = []
+        databaselist = []
 
         for index, (attraction, restaurant) in enumerate(zip(random_attractions, random_restaurants), start=1):
             try:
+                sequence = index % 3
                 if index == 1:
-                    temp_list.append({"id": index, "sequence": index % 3,
-                                      "name": data['HotelData']['Hotel'],
-                                      "imageSrc": data['HotelData']['ImageSrc'],
-                                      "category": data['HotelData']['category'],
-                                      "latitude": data['HotelData']['coordinate']['latitude'],
-                                      "longitude": data['HotelData']['coordinate']['longitude'],
-                                      "distanceFromDestination": data['HotelData']['distanceFromDestination'],
-                                      "price": data['HotelData']['price']['price'],
-                                      "currency": data['HotelData']['price']['currency'],
-                                      "rating": data['HotelData']['rating'],
-                                      "reviewCount": data['HotelData']['reviewCount']})
+                    plan.price = data['HotelData']['price']['price']
+                    plan.rating = data['HotelData']['rating']
+                    plan.category = data['HotelData']['category']
+                    plan.currency = data['HotelData']['price']['currency']
+                    plan.imageSrc = data['HotelData']['ImageSrc']
+                    plan.latitude = data['HotelData']['coordinate']['latitude']
+                    plan.longitude = data['HotelData']['coordinate']['longitude']
+                    plan.reviewCount = data['HotelData']['reviewCount']
+                    plan.distanceFromDestination = data['HotelData']['distanceFromDestination']
+                    temp_list.append(
+                        {
+                            "id": index, "sequence": sequence,
+                            "name": data['HotelData']['Hotel'],
+                            "imageSrc": data['HotelData']['ImageSrc'],
+                            "category": data['HotelData']['category'],
+                            "latitude": data['HotelData']['coordinate']['latitude'],
+                            "longitude": data['HotelData']['coordinate']['longitude'],
+                            "distanceFromDestination": data['HotelData']['distanceFromDestination'],
+                            "price": data['HotelData']['price']['price'],
+                            "currency": data['HotelData']['price']['currency'],
+                            "rating": data['HotelData']['rating'],
+                            "reviewCount": data['HotelData']['reviewCount'],
+                            "type": "Hotel",
+                        }
+                    )
+                    session.commit()
                 elif index % 2 == 0:
                     if isinstance(restaurant, list) and len(restaurant) > 0 and 'name' in restaurant and 'address' in restaurant:
+                        session.close()
+                        restaurantDatas = getPlaceByDistance(
+                            restaurant[0])
+                        restaurantDatas = getPlaceByDistance(
+                                random.sample(place[0]["data"], 1)[0])
+                        while restaurantDatas is None or 'id' not in restaurantDatas:
+                            restaurantDatas = getPlaceByDistance(
+                                random.sample(place[0]["data"], 1)[0])
+                        session = Session()
+                        place_ID = restaurantDatas.get('id')
+                        newAIPlanItinerary = AIPlanItinerary(
+                            place_ID=place_ID, sequence=sequence, plan_ID=planID
+                        )
+                        # Add this line to add the new instance to the session
+                        session.add(newAIPlanItinerary)
+                        session.commit()
+                        databaselist.append(newAIPlanItinerary)
                         temp_list.append(
-                            {"id": index, "sequence": index % 3, **restaurant[0]})
+                            {"sequence": sequence, "id": place_ID, **restaurantDatas, "type": "restaurant"})
                     else:
+                        session.close()
+                        restaurantDatas = getPlaceByDistance(
+                                random.sample(place[0]["data"], 1)[0])
+                        while restaurantDatas is None or 'id' not in restaurantDatas:
+                            restaurantDatas = getPlaceByDistance(
+                                random.sample(place[0]["data"], 1)[0])
+                        session = Session()
+                        place_ID = restaurantDatas.get('id')
+                        newAIPlanItinerary = AIPlanItinerary(
+                            place_ID=place_ID, sequence=sequence, plan_ID=planID
+                        )
+                        session.add(newAIPlanItinerary)
+                        session.commit()
+                        databaselist.append(newAIPlanItinerary)
                         temp_list.append(
-                            {"id": index, "sequence": index % 3, **random.sample(place[0]["data"], 1)[0]})
+                            {"sequence": sequence, "id": place_ID, **restaurantDatas,
+                            "type": "restaurant"})
                 else:
                     if isinstance(attraction, list) and len(attraction) > 0 and 'name' in attraction and 'address' in attraction:
+                        session.close()
+                        attractionDatas = getPlaceByDistance(
+                                attraction[0])
+                        while attractionDatas is None or 'id' not in attractionDatas:
+                            attractionDatas = getPlaceByDistance(
+                                attraction[0])
+                        session = Session()
+                        place_ID = attractionDatas.get('id')
+                        newAIPlanItinerary = AIPlanItinerary(
+                            place_ID=place_ID, sequence=sequence, plan_ID=planID
+                        )
+                        # Add this line to add the new instance to the session
+                        session.add(newAIPlanItinerary)
+                        session.commit()
+                        databaselist.append(newAIPlanItinerary)
                         temp_list.append(
-                            {"id": index, "sequence": index % 3, **attraction[0]})
+                            {"sequence": sequence, "id": place_ID, **attractionDatas,
+                            "type": "attraction"})
                     else:
+                        session.close()
+                        attractionDatas = getPlaceByDistance(
+                                random.sample(place[1]["data"], 1)[0])
+                        while attractionDatas is None or 'id' not in attractionDatas:
+                            attractionDatas = getPlaceByDistance(
+                                random.sample(place[1]["data"], 1)[0])
+                        session = Session()
+                        place_ID = attractionDatas.get('id')
+                        newAIPlanItinerary = AIPlanItinerary(
+                            place_ID=place_ID, sequence=sequence, plan_ID=planID
+                        )
+                        # Add this line to add the new instance to the session
+                        session.add(newAIPlanItinerary)
+                        session.commit()
+                        databaselist.append(newAIPlanItinerary)
                         temp_list.append(
-                            {"id": index, "sequence": index % 3, **random.sample(place[1]["data"], 1)[0]})
+                            {"sequence": sequence, "id": place_ID, **attractionDatas,
+                            "type": "attraction"})
 
-                if index % 3 == 0:
+                if not session:
+                    session = Session()
+
+                if sequence == 0:
                     response.append(
                         {"day": day - (day - index // 3), "place": temp_list})
+                    for database in databaselist:
+                        session.add(database)
+                        database.day = day - (day - index // 3)
+                        print(database.sequence, database.day)
+                        session.commit()
+                    databaselist = []
                     temp_list = []
 
                 if index // 3 == day:
@@ -502,7 +598,7 @@ def getRandomPlan(data: dict, *planID: int):
 
             except IndexError:
                 print("Invalid index. Skipping...")
-                break
+                continue
 
         gpt_txt = gpt.gpt_plan_trip(response)
 
@@ -526,26 +622,123 @@ def getRandomPlan(data: dict, *planID: int):
             "planID": planID
         }
 
-        Plan.plan = final_response
+        with open(r'C:\Users\User\Documents\IT114105\IT4116\save\attractions\save.txt', 'w', encoding='utf-8') as f:
+            f.write(str(final_response))
+
+        plan = session.query(SavePlan).filter(
+            and_(SavePlan.id == newPlan, SavePlan.user_ID == data['userID'])).first()
+
+        plan.plan = final_response
         session.commit()
 
         return final_response
 
     except Exception as e:
         session.rollback()
-        raise e
+        raise Exception({'message': str(e)})
     finally:
         session.close()  # Add this line to close the session
+
+
+def getPlaceByDistance(place: list):  # type: ignore
+    session = Session()  # Add this line to create a session
+    try:
+        if place and 'latitude' in place and 'longitude' in place:
+            latitude = place.get('latitude')
+            longitude = place.get('longitude')
+            row = session.query(CitiesPlace).filter(and_(
+                CitiesPlace.latitude == latitude, CitiesPlace.longitude == longitude)).first()
+            if row:
+                response = {
+                    'id': row.id,
+                    'name': row.name,
+                    'state_id': row.state_id,
+                    'state_code': row.state_code,
+                    'country_id': row.country_id,
+                    'country_code': row.country_code,
+                    'cities_id': row.cities_id,
+                    'type': row.type,
+                    'sub_type': row.sub_type,
+                    'rating': row.rating,
+                    'price_level': row.price_level,
+                    'reviews': row.reviews,
+                    'description': row.description,
+                    'address': row.address,
+                    'pictures': row.pictures,
+                    'websiteUri': row.websiteUri,
+                    'phone': row.phone,
+                    'latitude': str(row.latitude).replace("Decimal('", "").replace("')", ""),
+                    'longitude': str(row.longitude).replace("Decimal('", "").replace("')", ""),
+                    'created_at': str(row.created_at),
+                    'updated_at': str(row.updated_at)
+                }
+                return response
+            else:
+                row = session.query(CitiesPlace).order_by(func.abs(
+                    CitiesPlace.latitude - latitude) + func.abs(CitiesPlace.longitude - longitude)).limit(1).first()
+                newPlace = CitiesPlace(name=place.get('name'),
+                                        state_id=row.state_id,
+                                        state_code=row.state_code,
+                                        country_id=row.country_id,
+                                        country_code=row.country_code,
+                                        cities_id=row.cities_id,
+                                        type=place.get('subcategory', [{}])[
+                    0].get('key'),
+                    sub_type=place['subtype'][0].get(
+                    'name') if 'subtype' in place and place['subtype'] else None,
+                    rating=place.get('rating'),
+                    price_level=place.get('priceLevel'),
+                    reviews=place.get('num_reviews'),
+                    description=place.get('description', ''),
+                    address=place.get('address'),
+                    pictures=place.get('photo', {}).get(
+                    'images', {}).get('original', {}).get('url', ''),
+                    websiteUri=place.get('website'),
+                    phone=place.get('phone'),
+                    latitude=latitude,
+                    longitude=longitude)
+                session.add(newPlace)
+                session.commit()
+                response = {
+                    'id': newPlace.id,
+                    'name': newPlace.name,
+                    'state_id': newPlace.state_id,
+                    'state_code': newPlace.state_code,
+                    'country_id': newPlace.country_id,
+                    'country_code': newPlace.country_code,
+                    'cities_id': newPlace.cities_id,
+                    'type': newPlace.type,
+                    'sub_type': newPlace.sub_type,
+                    'rating': newPlace.rating,
+                    'price_level': newPlace.price_level,
+                    'reviews': newPlace.reviews,
+                    'description': newPlace.description,
+                    'address': newPlace.address,
+                    'pictures': newPlace.pictures,
+                    'websiteUri': newPlace.websiteUri,
+                    'phone': newPlace.phone,
+                    'latitude': str(newPlace.latitude).replace("Decimal('", "").replace("')", ""),
+                    'longitude': str(newPlace.longitude).replace("Decimal('", "").replace("')", ""),
+                    'created_at': str(newPlace.created_at),
+                    'updated_at': str(newPlace.updated_at)
+                }
+                return response
+    except Exception as e:
+        session.rollback()
+        raise e
+    finally:
+        session.close()
 
 
 def savePlan(userID: int, planID: int, title: str, imageURL: str):
     try:
         session = Session()  # Add this line to create a session
-        newPlan = UserSavePlan(
-            plan_ID=planID, user_ID=userID, title=title, imageURL=imageURL)
+        if not session.query(UserSavePlan).filter(and_(UserSavePlan.plan_ID == planID, UserSavePlan.user_ID == userID)).first():
+            newPlan = UserSavePlan(
+                plan_ID=planID, user_ID=userID, title=title, imageURL=imageURL)
 
-        session.add(newPlan)
-        session.commit()
+            session.add(newPlan)
+            session.commit()
 
         return jsonify({'message': 'Plan saved successfully.'}), 201
     except Exception as e:
@@ -561,7 +754,7 @@ def setPlan(userID: str):
         plan = SavePlan(user_ID=userID)
         session.add(plan)
         session.commit()
-        return [plan, plan.id]
+        return plan.id
     except Exception as e:
         session.rollback()
         return jsonify({'message': str(e)}), 500
@@ -637,7 +830,8 @@ def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> fl
 
 def get_city_matches(city_input: str, city_list: list, limit: int = 5) -> list:
     session = Session()  # Add session creation
-    results = process.extract(city_input, city_list, scorer=fuzz.WRatio, limit=limit)
+    results = process.extract(city_input, city_list,
+                              scorer=fuzz.WRatio, limit=limit)
     matches = []
     for result in results:
         resultSplit = result[0].split(', ')
@@ -648,12 +842,14 @@ def get_city_matches(city_input: str, city_list: list, limit: int = 5) -> list:
     session.close()  # Add session close
     return matches
 
+
 def getRowsButIDKWhatIsThis():
     session = Session()
     rows = session.query(Cities.id, Cities.name, States.name, States.id). \
-    join(States, Cities.state_id == States.id). \
-    filter(Cities.country_code == 'JP'). \
-    order_by(States.id.asc()).all()
+        join(States, Cities.state_id == States.id). \
+        filter(Cities.country_code == 'JP'). \
+        order_by(States.id.asc()).all()
+    session.close()
     return rows
 
 

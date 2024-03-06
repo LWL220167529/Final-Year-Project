@@ -3,6 +3,8 @@ from flask_limiter.util import get_remote_address
 from flask_cors import CORS, cross_origin
 from flask_limiter import Limiter
 from flask_caching import Cache
+from flask_limiter.util import get_remote_address
+from redis import Redis
 import random
 import user
 import place
@@ -11,6 +13,7 @@ import userSchedule
 import serverAutoStart
 import json
 import threading
+import os
 
 # connect database
 # Remote database configuration
@@ -21,9 +24,14 @@ db_password = 'fypproject'
 db_name = 'FYP'
 
 
+
 app = Flask(__name__, template_folder='templates', static_folder='static')
-limiter = Limiter(get_remote_address,
-                  app=app,)
+
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    storage_uri='redis://localhost:6379'
+)
 CORS(app)
 
 # Configure caching
@@ -216,12 +224,9 @@ def results():
                 plan['userID'] = userID
                 plan['hotel'] = data.get('hotel')
                 
-                redirect_url = url_for('resultsPage')
-                resp = redirect(redirect_url)
-                # Return the template immediately
-                onloadResultsPage()
+                planID = place.setPlan(userID)
                 
-                return render_template('results.html', plan=planID)
+                return render_template('results.html', planID=planID)
     return redirect(url_for('index'))
 
 def onloadResultsPage():
@@ -254,8 +259,6 @@ def login():
         abort(500)
 
 # sign up user
-
-
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "GET":
@@ -399,11 +402,11 @@ def getPlaceByID():
 
 
 @app.route('/AIPlan', methods=["GET", "POST"])
-@cross_origin()
 def AIPlan():
-    data = request.get_json()
-    # with open(r'C:\Users\User\Downloads\TransferData.json', 'r') as f:
-    #     data = json.load(f)
+    # data = request.get_json()
+    file_path = os.path.join(os.path.dirname(__file__), 'AIPlanJson', 'inputTemplates.json')
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
     response = place.getRandomPlan(data)
     return jsonify(response), 200
 
