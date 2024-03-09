@@ -609,6 +609,9 @@ def getRandomPlan(data: dict, *planID: int):
                     if plan['day'] == day_plan['day']:
                         for place in plan['place']:
                             if place['id'] == activity_id:
+                                dbPlace = session.query(AIPlanItinerary).filter(and_(AIPlanItinerary.place_ID == activity_id, AIPlanItinerary.plan_ID == planID)).first()
+                                dbPlace.activity_info = activity
+                                session.commit()
                                 place.update(new_activity_dict)
                                 break
 
@@ -620,9 +623,6 @@ def getRandomPlan(data: dict, *planID: int):
             "initial_input": planData,
             "planID": planID
         }
-
-        with open(r'C:\Users\User\Documents\IT114105\IT4116\save\attractions\save.txt', 'w', encoding='utf-8') as f:
-            f.write(str(final_response))
 
         plan = session.query(SavePlan).filter(
             and_(SavePlan.id == newPlan, SavePlan.user_ID == data['userID'])).first()
@@ -648,6 +648,20 @@ def getPlaceByDistance(place: list):  # type: ignore
             row = session.query(CitiesPlace).filter(and_(
                 CitiesPlace.latitude == latitude, CitiesPlace.longitude == longitude)).first()
             if row:
+                row.name=place.get('name'),
+                row.type=place.get('subcategory', [{}])[
+                row.0].get('key'),
+                row.sub_type=place['subtype'][0].get(
+                'name') if 'subtype' in place and place['subtype'] else None,
+                row.rating=place.get('rating'),
+                row.price_level=place.get('priceLevel'),
+                row.reviews=place.get('num_reviews'),
+                row.description=place.get('description', ''),
+                row.address=place.get('address'),
+                row.pictures=place.get('photo', {}).get(
+                'images', {}).get('original', {}).get('url', ''),
+                row.websiteUri=place.get('website'),
+                row.phone=place.get('phone'),
                 response = {
                     'id': row.id,
                     'name': row.name,
@@ -789,13 +803,63 @@ def getSavedPlanByUserID(userID: int):
 def getSavedPlanByID(planID: int):
     try:
         session = Session()  # Add this line to create a session
-        plan = session.query(SavePlan).get(planID)
+        dbPlan = session.query(SavePlan).filter(SavePlan.id == planID).first()
+        dbPlanPlace = session.query(AIPlanItinerary, CitiesPlace)\
+                            .filter(AIPlanItinerary.plan_ID == planID)\
+                            .join(CitiesPlace, CitiesPlace.id == AIPlanItinerary.place_ID)\
+                            .all()
+        
 
-        if plan:
+        if dbPlan:
+
+            plan = dbPlan.plan
+
+            planPlaces = []
+
+            for day in plan['itinerary']:
+                eachPlace = []
+
+                if day['day'] == 1:
+                    eachPlace.append(day['place'][0])
+
+                for dbEachPlace in dbPlanPlace:
+                    if dbEachPlace.AIPlanItinerary.day == day['day']:
+                        eachPlace.append({
+                            'sequence': dbEachPlace.AIPlanItinerary.sequence,
+                            'place_id': dbEachPlace.AIPlanItinerary.place_ID,
+                            'activity_info': dbEachPlace.AIPlanItinerary.activity_info,
+                            'description': dbEachPlace.AIPlanItinerary.description,
+                            'day': dbEachPlace.AIPlanItinerary.day,
+                            'place_name': dbEachPlace.CitiesPlace.name,
+                            'state_id': dbEachPlace.CitiesPlace.state_id,
+                            'state_code': dbEachPlace.CitiesPlace.state_code,
+                            'country_id': dbEachPlace.CitiesPlace.country_id,
+                            'country_code': dbEachPlace.CitiesPlace.country_code,
+                            'cities_id': dbEachPlace.CitiesPlace.cities_id,
+                            'type': dbEachPlace.CitiesPlace.type,
+                            'sub_type': dbEachPlace.CitiesPlace.sub_type,
+                            'rating': dbEachPlace.CitiesPlace.rating,
+                            'price_level': dbEachPlace.CitiesPlace.price_level,
+                            'reviews': dbEachPlace.CitiesPlace.reviews,
+                            'description': dbEachPlace.CitiesPlace.description,
+                            'address': dbEachPlace.CitiesPlace.address,
+                            'pictures': dbEachPlace.CitiesPlace.pictures,
+                            'websiteUri': dbEachPlace.CitiesPlace.websiteUri,
+                            'phone': dbEachPlace.CitiesPlace.phone,
+                            'latitude': dbEachPlace.CitiesPlace.latitude,
+                            'longitude': dbEachPlace.CitiesPlace.longitude,
+                            'created_at': dbEachPlace.CitiesPlace.created_at,
+                            'updated_at': dbEachPlace.CitiesPlace.updated_at
+                        })
+                
+                planPlaces.append(eachPlace)
+
+            plan['itinerary'] = planPlaces
+            
             plan_data = {
-                'id': plan.id,
-                'plan': plan.plan,
-                'user_ID': plan.user_ID
+                'id': dbPlan.id,
+                'plan': plan,
+                'user_ID': dbPlan.user_ID
             }
             return jsonify({'plan': plan_data})
         else:
