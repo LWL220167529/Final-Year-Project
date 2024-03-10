@@ -650,7 +650,7 @@ def getPlaceByDistance(place: list):  # type: ignore
             if row:
                 row.name=place.get('name'),
                 row.type=place.get('subcategory', [{}])[
-                row.0].get('key'),
+                0].get('key'),
                 row.sub_type=place['subtype'][0].get(
                 'name') if 'subtype' in place and place['subtype'] else None,
                 row.rating=place.get('rating'),
@@ -852,7 +852,7 @@ def getSavedPlanByID(planID: int):
                             'updated_at': dbEachPlace.CitiesPlace.updated_at
                         })
                 
-                planPlaces.append(eachPlace)
+                planPlaces.append({'day': day['day'], 'place': eachPlace})
 
             plan['itinerary'] = planPlaces
             
