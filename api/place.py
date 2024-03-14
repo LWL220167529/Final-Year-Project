@@ -475,6 +475,7 @@ def getRandomPlan(data: dict, *planID: int):
             try:
                 sequence = (index - 1) % 3
                 if (index - 1) == 0:
+                    plan.name = data['HotelData']['Hotel']
                     plan.price = data['HotelData']['price']['price']
                     plan.rating = data['HotelData']['rating']
                     plan.category = data['HotelData']['category']
@@ -830,7 +831,19 @@ def getSavedPlanByID(planID: int):
                 eachPlace = []
 
                 if day['day'] == 1:
-                    eachPlace.append(day['place'][0])
+                    eachPlace.append({"name": "Hotel Abest Meguro",
+                    "type": 'Hotel',
+                    "price": dbPlan.price,
+                    "rating": dbPlan.rating,
+                    "category": dbPlan.category,
+                    "currency": dbPlan.currency,
+                    "imageSrc": dbPlan.imageSrc,
+                    "latitude": dbPlan.latitude,
+                    "sequence": 0,
+                    "longitude": dbPlan.longitude,
+                    "reviewCount": dbPlan.reviewCount,
+                    "activity_info": dbPlan.activity_info,
+                    "distanceFromDestination": dbPlan.distanceFromDestination,})
 
                 for dbEachPlace in dbPlanPlace:
                     if dbEachPlace.AIPlanItinerary.day == day['day']:
