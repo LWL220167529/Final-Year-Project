@@ -469,11 +469,12 @@ def getRandomPlan(data: dict, *planID: int):
         response = []
         temp_list = []
         databaselist = []
+        databaseIDList = []
 
         for index, (attraction, restaurant) in enumerate(zip(random_attractions, random_restaurants), start=1):
             try:
-                sequence = index % 3
-                if index == 1:
+                sequence = (index - 1) % 3
+                if (index - 1) == 0:
                     plan.price = data['HotelData']['price']['price']
                     plan.rating = data['HotelData']['rating']
                     plan.category = data['HotelData']['category']
@@ -485,7 +486,7 @@ def getRandomPlan(data: dict, *planID: int):
                     plan.distanceFromDestination = data['HotelData']['distanceFromDestination']
                     temp_list.append(
                         {
-                            "id": index, "sequence": sequence,
+                            "id": (index - 1), "sequence": sequence,
                             "name": data['HotelData']['Hotel'],
                             "imageSrc": data['HotelData']['ImageSrc'],
                             "category": data['HotelData']['category'],
@@ -500,7 +501,7 @@ def getRandomPlan(data: dict, *planID: int):
                         }
                     )
                     session.commit()
-                elif index % 2 == 0:
+                elif (index - 1) % 2 == 0:
                     if isinstance(restaurant, list) and len(restaurant) > 0 and 'name' in restaurant and 'address' in restaurant:
                         session.close()
                         restaurantDatas = getPlaceByDistance(
@@ -582,17 +583,18 @@ def getRandomPlan(data: dict, *planID: int):
                 if not session:
                     session = Session()
 
-                if sequence == 0:
+                if sequence == 2:
                     response.append(
-                        {"day": day - (day - index // 3), "place": temp_list})
+                        {"day": day - (day - (index - 1) // 3) + 1, "place": temp_list})
                     for database in databaselist:
                         session.add(database)
-                        database.day = day - (day - index // 3)
+                        databaseIDList.append({'id': database.id, 'place_ID': database.place_ID, 'plan_ID': database.plan_ID})
+                        database.day = day - (day - index // 3) + 1
                         session.commit()
                     databaselist = []
                     temp_list = []
 
-                if index // 3 == day:
+                if (index - 1) // 3 == day:
                     break
 
             except IndexError:
@@ -609,8 +611,16 @@ def getRandomPlan(data: dict, *planID: int):
                     if plan['day'] == day_plan['day']:
                         for place in plan['place']:
                             if place['id'] == activity_id:
-                                dbPlace = session.query(AIPlanItinerary).filter(and_(AIPlanItinerary.place_ID == activity_id, AIPlanItinerary.plan_ID == planID)).first()
-                                dbPlace.activity_info = activity
+                                if place['id'] == 1 and place['type'] == 'Hotel':
+                                    dbPlace = session.query(SavePlan).filter(and_(SavePlan.id == planID, SavePlan.user_ID == data['userID'])).first()
+                                    if dbPlace:
+                                        dbPlace.activity_info = activity   
+                                else:
+                                    for id in databaseIDList:
+                                        if id['place_ID'] == place['id']:
+                                            dbPlace = session.query(AIPlanItinerary).filter(AIPlanItinerary.id == id['id']).first()
+                                            if dbPlace:
+                                                dbPlace.activity_info = activity    
                                 session.commit()
                                 place.update(new_activity_dict)
                                 break

@@ -403,10 +403,10 @@ def getPlaceByID():
 
 @app.route('/AIPlan', methods=["GET", "POST"])
 def AIPlan():
-    data = request.get_json()
-    # file_path = os.path.join(os.path.dirname(__file__), 'AIPlanJson', 'inputTemplates.json')
-    # with open(file_path, 'r', encoding='utf-8') as f:
-    #     data = json.load(f)
+    # data = request.get_json()
+    file_path = os.path.join(os.path.dirname(__file__), 'AIPlanJson', 'inputTemplates.json')
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
     response = place.getRandomPlan(data)
     return jsonify(response), 200
 
