@@ -1,5 +1,5 @@
 from flask import jsonify
-from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_, desc, and_, desc, func
+from sqlalchemy import DECIMAL, DOUBLE, JSON, Boolean, Text, create_engine, Column, Integer, String, DateTime, ForeignKey, Float, or_, desc, and_, desc, func, select
 from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
@@ -185,28 +185,31 @@ def filter_cities_place(search: str, value):
 
         filter_column = filter_options.get(search, CitiesPlace.id)
 
-        if search == 'name':
-            filter_condition = filter_column.ilike(f"%{value}%")
+        if filter_column: 
+            if search == 'name':
+                filter_condition = filter_column.ilike(f"%{value}%")
+            else:
+                filter_condition = filter_column > value
+
+            cities_places = session.query(
+                CitiesPlace,
+                Cities.name.label('city_name'),
+                States.name.label('state_name'),
+                Countries.name.label('countries_name')
+            ).join(
+                Cities, Cities.id == CitiesPlace.cities_id
+            ).join(
+                States, States.id == CitiesPlace.state_id
+            ).join(
+                Countries, Countries.id == CitiesPlace.country_id
+            ).filter(
+                filter_condition
+            ).all()
+
+            session.close()  # Add this line to close the session
+            return append_cities_place(cities_places)
         else:
-            filter_condition = filter_column > value
-
-        cities_places = session.query(
-            CitiesPlace,
-            Cities.name.label('city_name'),
-            States.name.label('state_name'),
-            Countries.name.label('countries_name')
-        ).filter(
-            filter_condition
-        ).join(
-            Cities, Cities.id == CitiesPlace.cities_id
-        ).join(
-            States, States.id == CitiesPlace.state_id
-        ).join(
-            Countries, Countries.id == CitiesPlace.country_id
-        ).all()
-
-        session.close()  # Add this line to close the session
-        return append_cities_place(cities_places)
+            return jsonify({'message': 'Invalid search parameter.'}), 400
     except Exception as e:
         session.rollback()
         print(e)
@@ -471,10 +474,10 @@ def getRandomPlan(data: dict, *planID: int):
         databaselist = []
         databaseIDList = []
 
-        for index, (attraction, restaurant) in enumerate(zip(random_attractions, random_restaurants), start=1):
+        for index, (attraction, restaurant) in enumerate(zip(random_attractions, random_restaurants), start=0):
             try:
-                sequence = (index - 1) % 3
-                if (index - 1) == 0:
+                sequence = index % 3
+                if index == 0:
                     plan.name = data['HotelData']['Hotel']
                     plan.price = data['HotelData']['price']['price']
                     plan.rating = data['HotelData']['rating']
@@ -487,7 +490,7 @@ def getRandomPlan(data: dict, *planID: int):
                     plan.distanceFromDestination = data['HotelData']['distanceFromDestination']
                     temp_list.append(
                         {
-                            "id": (index - 1), "sequence": sequence,
+                            "id": index, "sequence": sequence,
                             "name": data['HotelData']['Hotel'],
                             "imageSrc": data['HotelData']['ImageSrc'],
                             "category": data['HotelData']['category'],
@@ -502,7 +505,7 @@ def getRandomPlan(data: dict, *planID: int):
                         }
                     )
                     session.commit()
-                elif (index - 1) % 2 == 0:
+                elif index % 2 == 0:
                     if isinstance(restaurant, list) and len(restaurant) > 0 and 'name' in restaurant and 'address' in restaurant:
                         session.close()
                         restaurantDatas = getPlaceByDistance(
@@ -586,21 +589,23 @@ def getRandomPlan(data: dict, *planID: int):
 
                 if sequence == 2:
                     response.append(
-                        {"day": day - (day - (index - 1) // 3) + 1, "place": temp_list})
+                        {"day": day - (day - index // 3), "place": temp_list})
                     for database in databaselist:
                         session.add(database)
                         databaseIDList.append({'id': database.id, 'place_ID': database.place_ID, 'plan_ID': database.plan_ID})
-                        database.day = day - (day - index // 3) + 1
+                        database.day = day - (day - index // 3)
                         session.commit()
                     databaselist = []
                     temp_list = []
 
-                if (index - 1) // 3 == day:
+                if index // 3 == day:
                     break
 
             except IndexError:
                 print("Invalid index. Skipping...")
                 continue
+            if index == 3 * day:
+                break
 
         gpt_txt = gpt.gpt_plan_trip(response)
 
@@ -612,7 +617,7 @@ def getRandomPlan(data: dict, *planID: int):
                     if plan['day'] == day_plan['day']:
                         for place in plan['place']:
                             if place['id'] == activity_id:
-                                if place['id'] == 1 and place['type'] == 'Hotel':
+                                if place['type'] == 'Hotel':
                                     dbPlace = session.query(SavePlan).filter(and_(SavePlan.id == planID, SavePlan.user_ID == data['userID'])).first()
                                     if dbPlace:
                                         dbPlace.activity_info = activity   
@@ -955,3 +960,4 @@ def estimate_place(city_input: int) -> list:
         # Handle the exception here
         print(f"An error occurred: {e}")
         return []
+    

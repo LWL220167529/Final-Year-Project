@@ -69,10 +69,6 @@ def get_destinations_filter_by_rating():
 
 
 @app.route('/')
-def indexUrl():
-    return redirect(url_for('index'))
-
-
 @app.route('/travel', methods=["GET"])
 def index():
     if 'userID' in request.cookies:

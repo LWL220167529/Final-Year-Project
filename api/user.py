@@ -72,7 +72,7 @@ def register(userName: str, password: str, email: str, phoneNumber: str):
 
         new_user = User(
             userName=userName,
-            email=email,
+            email=email.lower(),
             password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()),
             phoneNumber=phoneNumber
         )
