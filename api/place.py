@@ -589,11 +589,11 @@ def getRandomPlan(data: dict, *planID: int):
 
                 if sequence == 2:
                     response.append(
-                        {"day": day - (day - index // 3), "place": temp_list})
+                        {"day": day - (day - index // 3) + 1, "place": temp_list})
                     for database in databaselist:
                         session.add(database)
                         databaseIDList.append({'id': database.id, 'place_ID': database.place_ID, 'plan_ID': database.plan_ID})
-                        database.day = day - (day - index // 3)
+                        database.day = day - (day - index // 3) + 1
                         session.commit()
                     databaselist = []
                     temp_list = []
