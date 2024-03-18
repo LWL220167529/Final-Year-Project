@@ -510,8 +510,6 @@ def getRandomPlan(data: dict, *planID: int):
                         session.close()
                         restaurantDatas = getPlaceByDistance(
                             restaurant[0])
-                        restaurantDatas = getPlaceByDistance(
-                                random.sample(place[0]["data"], 1)[0])
                         while restaurantDatas is None or 'id' not in restaurantDatas:
                             restaurantDatas = getPlaceByDistance(
                                 random.sample(place[0]["data"], 1)[0])
@@ -665,7 +663,7 @@ def getPlaceByDistance(place: list):  # type: ignore
                 CitiesPlace.latitude == latitude, CitiesPlace.longitude == longitude)).first()
             if row:
                 row.name=place.get('name'),
-                row.type=place.get('subcategory', [{}])[
+                row.type=place.get('category', [{}])[
                 0].get('key'),
                 row.sub_type=place['subtype'][0].get(
                 'name') if 'subtype' in place and place['subtype'] else None,
@@ -711,7 +709,7 @@ def getPlaceByDistance(place: list):  # type: ignore
                                         country_id=row.country_id,
                                         country_code=row.country_code,
                                         cities_id=row.cities_id,
-                                        type=place.get('subcategory', [{}])[
+                                        type=place.get('category', [{}])[
                     0].get('key'),
                     sub_type=place['subtype'][0].get(
                     'name') if 'subtype' in place and place['subtype'] else None,
@@ -854,7 +852,7 @@ def getSavedPlanByID(planID: int):
                     if dbEachPlace.AIPlanItinerary.day == day['day']:
                         eachPlace.append({
                             'sequence': dbEachPlace.AIPlanItinerary.sequence,
-                            'place_id': dbEachPlace.AIPlanItinerary.place_ID,
+                            'id': dbEachPlace.AIPlanItinerary.place_ID,
                             'activity_info': dbEachPlace.AIPlanItinerary.activity_info,
                             'description': dbEachPlace.AIPlanItinerary.description,
                             'day': dbEachPlace.AIPlanItinerary.day,
