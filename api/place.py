@@ -596,7 +596,7 @@ def getRandomPlan(data: dict, *planID: int):
                     databaselist = []
                     temp_list = []
 
-                if index // 3 == day:
+                if (index + 1) // 3 == day:
                     break
 
             except IndexError:
