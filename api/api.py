@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, abort, render_template, redirect, url_for, session, make_response
+from flask import (Flask, request, jsonify, abort, render_template, redirect, url_for, session, make_response)
 from flask_limiter.util import get_remote_address
 from flask_cors import CORS, cross_origin
 from flask_limiter import Limiter
@@ -132,7 +132,6 @@ def indexPage(current_page):
     }
 
     return jsonify(response)
-
 
 @app.route('/travel/sign-in', methods=["GET", "POST"])
 def loginPage():

@@ -648,6 +648,8 @@ def getRandomPlan(data: dict, *planID: int):
 
     except Exception as e:
         session.rollback()
+        with open('error.log', 'a') as f:
+            f.write(str("\n").join(str(e)))
         raise Exception({'message': str(e)})
     finally:
         session.close()  # Add this line to close the session
@@ -662,20 +664,17 @@ def getPlaceByDistance(place: list):  # type: ignore
             row = session.query(CitiesPlace).filter(and_(
                 CitiesPlace.latitude == latitude, CitiesPlace.longitude == longitude)).first()
             if row:
-                row.name=place.get('name'),
-                row.type=place.get('category', [{}])[
-                0].get('key'),
-                row.sub_type=place['subtype'][0].get(
-                'name') if 'subtype' in place and place['subtype'] else None,
-                row.rating=place.get('rating'),
-                row.price_level=place.get('priceLevel'),
-                row.reviews=place.get('num_reviews'),
-                row.description=place.get('description', ''),
-                row.address=place.get('address'),
-                row.pictures=place.get('photo', {}).get(
-                'images', {}).get('original', {}).get('url', ''),
-                row.websiteUri=place.get('website'),
-                row.phone=place.get('phone'),
+                row.name = place.get('name')
+                row.type = place.get('category', [{}]).get('key')
+                row.sub_type = place['subtype'][0].get('name') if 'subtype' in place and place['subtype'] else None
+                row.rating = place.get('rating')
+                row.price_level = place.get('priceLevel')
+                row.reviews = place.get('num_reviews')
+                row.description = place.get('description', '')
+                row.address = place.get('address')
+                row.pictures = place.get('photo', {}).get('images', {}).get('original', {}).get('url', '')
+                row.websiteUri = place.get('website')
+                row.phone = place.get('phone')
                 response = {
                     'id': row.id,
                     'name': row.name,
@@ -709,8 +708,7 @@ def getPlaceByDistance(place: list):  # type: ignore
                                         country_id=row.country_id,
                                         country_code=row.country_code,
                                         cities_id=row.cities_id,
-                                        type=place.get('category', [{}])[
-                    0].get('key'),
+                                        type=place.get('category', [{}]).get('key'),
                     sub_type=place['subtype'][0].get(
                     'name') if 'subtype' in place and place['subtype'] else None,
                     rating=place.get('rating'),
@@ -751,6 +749,8 @@ def getPlaceByDistance(place: list):  # type: ignore
                 }
                 return response
     except Exception as e:
+        with open('error.log', 'a') as f:
+            f.write(str("\n").join(str(e)))
         session.rollback()
         raise e
     finally:
