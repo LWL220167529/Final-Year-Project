@@ -177,14 +177,14 @@ def hotel():
     return render_template('hotel.html')
 
 
-@app.route('/travel/planSave', methods=["GET"])
+@app.route('/travel/planSave', methods=["GET", "POST"])
 def planSave():
     if request.method == "POST":
         if 'userID' in request.cookies:
             userID = request.cookies.get('userID')
             data = request.get_json()
             plan = {
-                "userID": '',
+                "userID": userID,
                 "destination": data.get('destination'),
                 "Country": data.get('Country'),
                 "TravelDate": data.get('travelDate'),
@@ -207,7 +207,7 @@ def planSave():
         return jsonify({'message': 'Invalid request', 'save': False}), 400
 
 
-@app.route('/travel/results', methods=["GET"])
+@app.route('/travel/results', methods=["GET", "POST"])
 def results():
     if 'userID' in request.cookies and 'planID' in request.cookies:
         if request.method == "POST":
