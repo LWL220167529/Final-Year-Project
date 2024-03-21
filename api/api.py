@@ -411,13 +411,17 @@ def saveAIPlan():
     if request.method == "GET":
         userID = request.args.get('userID')
         plan = request.args.get('plan')
+        title = request.args.get('title')
+        imageURL = request.args.get('imageURL')
+        description = request.args.get('description')
     else:
         data = request.get_json()
         userID = data.get('userID')
         plan = data.get('plan')
         title = data.get('title')
         imageURL = data.get('imageURL')
-    response = place.savePlan(userID, plan, title, imageURL)
+        description = data.get('description')
+    response = place.savePlan(userID, plan, title, imageURL, description)
     return response
 
 

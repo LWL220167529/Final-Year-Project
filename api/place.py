@@ -324,16 +324,17 @@ class SavePlan(Base):
     user_ID = Column(Integer, ForeignKey('user.id'))
     name = Column(String(255))
     price = Column(String(255))
-    rating = Column(Float)
+    rating = Column(DOUBLE)
     category = Column(String(255))
     currency = Column(String(255))
     imageSrc = Column(String(255))
-    latitude = Column(Float)
-    longitude = Column(Float)
+    latitude = Column(DOUBLE)
+    longitude = Column(DOUBLE)
     reviewCount = Column(Integer)
     distanceFromDestination = Column(String(255))
     activity_info = Column(JSON)
     description = Column(String(255))
+    title = Column(String(255))
 
     user = relationship("User", backref="save_plan")
 
@@ -359,6 +360,7 @@ class UserSavePlan(Base):
     user_ID = Column(Integer)
     imageURL = Column(String(512))
     title = Column(String(255))
+    description = Column(String(255))
 
 
 class User(Base):
@@ -755,12 +757,12 @@ def getPlaceByDistance(place: list):  # type: ignore
         session.close()
 
 
-def savePlan(userID: int, planID: int, title: str, imageURL: str):
+def savePlan(userID: int, planID: int, title: str, imageURL: str, description: str):
     try:
         session = Session()  # Add this line to create a session
         if not session.query(UserSavePlan).filter(and_(UserSavePlan.plan_ID == planID, UserSavePlan.user_ID == userID)).first():
             newPlan = UserSavePlan(
-                plan_ID=planID, user_ID=userID, title=title, imageURL=imageURL)
+                plan_ID=planID, user_ID=userID, title=title, imageURL=imageURL, description=description)
 
             session.add(newPlan)
             session.commit()
@@ -799,7 +801,8 @@ def getSavedPlanByUserID(userID: int):
                 'plan_ID': plan.plan_ID,
                 'user_ID': plan.user_ID,
                 'imageURL': plan.imageURL,
-                'title': plan.title
+                'title': plan.title,
+                'description': plan.description
             }
             for plan in plans
         ]
