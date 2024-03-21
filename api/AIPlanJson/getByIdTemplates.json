@@ -1,0 +1,369 @@
+{
+    "accommodation": {
+        "check_in_time": "15:00",
+        "check_out_time": "11:00",
+        "name": "Hotel Abest Meguro"
+    },
+    "arrival_city": "Tokyo",
+    "duration": 3,
+    "initial_input": {
+        "AllTravelDates": [
+            "2024-01-21T16:04:23.710Z",
+            "2024-01-22T16:04:23.710Z",
+            "2024-01-23T16:04:23.710Z"
+        ],
+        "Country": "Tokyo, Japan",
+        "HotelData": {
+            "Hotel": "Hotel Abest Meguro",
+            "ImageSrc": "https://images.trvl-media.com/lodging/6000000/5380000/5378800/5378709/919f9533.jpg?impolicy=resizecrop&rw=455&ra=fit",
+            "category": "Tokyo",
+            "coordinate": {
+                "__typename": "Coordinates",
+                "latitude": 35.63387,
+                "longitude": 139.714658
+            },
+            "distanceFromDestination": 9.15,
+            "price": {
+                "currency": "USD",
+                "price": "$134"
+            },
+            "rating": 6.8,
+            "reviewCount": 465
+        },
+        "TravelDate": "2024-01-21T16:04:23.710Z",
+        "activity": [
+            "Beaches"
+        ],
+        "budget": "medium",
+        "destination": {
+            "bl_lat": 34.5776326,
+            "bl_lng": 138.2991098,
+            "tr_lat": 36.4408483,
+            "tr_lng": 141.2405144
+        },
+        "numberOfDays": "3",
+        "userID": 5
+    },
+    "itinerary": [
+        {
+            "day": 1,
+            "place": [
+                {
+                    "activity_info": {
+                        "activities_content_description": "Check in to the hotel and relax after your journey.",
+                        "activities_name": "Check in hotel",
+                        "id": 0,
+                        "place_name": "Hotel Abest Meguro",
+                        "sequence": 0,
+                        "transportation": {
+                            "details": "Take a taxi from Narita Airport to Hotel Abest Meguro. Approximate travel time is 1.5 hours.",
+                            "type": "taxi"
+                        }
+                    },
+                    "category": "Tokyo",
+                    "currency": "USD",
+                    "distanceFromDestination": "9.15",
+                    "imageSrc": "https://images.trvl-media.com/lodging/6000000/5380000/5378800/5378709/919f9533.jpg?impolicy=resizecrop&rw=455&ra=fit",
+                    "latitude": 35.63387,
+                    "longitude": 139.714658,
+                    "name": "Hotel Abest Meguro",
+                    "price": "$134",
+                    "rating": 6.8,
+                    "reviewCount": 465,
+                    "sequence": 0,
+                    "type": "Hotel"
+                },
+                {
+                    "activity_info": {
+                        "activities_content_description": "Enjoy the stunning view of Mount Fuji from Chureito Pagoda.",
+                        "activities_name": "Visit Chureito Pagoda",
+                        "id": 29493,
+                        "place_name": "Chureito Pagoda",
+                        "sequence": 1,
+                        "transportation": {
+                            "details": "Take the JR Chuo Line to Otsuki Station, then transfer to the Fujikyu Railway and alight at Shimoyoshida Station. Chureito Pagoda is a short walk from the station. Approximate travel time is 2.5 hours.",
+                            "type": "train"
+                        }
+                    },
+                    "address": "3360-1 Arakura, Fujiyoshida 403-0011 Yamanashi Prefecture",
+                    "cities_id": 63341,
+                    "country_code": "JP",
+                    "country_id": 109,
+                    "created_at": "Wed, 06 Mar 2024 14:48:23 GMT",
+                    "day": 1,
+                    "description": "",
+                    "id": 29493,
+                    "latitude": "35.50135400",
+                    "longitude": "138.80154000",
+                    "phone": null,
+                    "pictures": "https://media-cdn.tripadvisor.com/media/photo-o/11/9e/2b/0b/chureito-pagoda-and-mt.jpg",
+                    "place_name": "Chureito Pagoda",
+                    "price_level": null,
+                    "rating": 4.5,
+                    "reviews": 263,
+                    "sequence": 1,
+                    "state_code": "19",
+                    "state_id": 852,
+                    "sub_type": "Points of Interest & Landmarks",
+                    "type": "47",
+                    "updated_at": "Wed, 06 Mar 2024 14:48:23 GMT",
+                    "websiteUri": null
+                },
+                {
+                    "activity_info": {
+                        "activities_content_description": "Indulge in a delicious traditional Japanese dining experience at Ukai Toriyama.",
+                        "activities_name": "Dine at Ukai Toriyama",
+                        "id": 29465,
+                        "place_name": "Ukai Toriyama",
+                        "sequence": 2,
+                        "transportation": {
+                            "details": "Take a taxi to Ukai Toriyama in Hachioji. Approximate travel time is 1 hour.",
+                            "type": "taxi"
+                        }
+                    },
+                    "address": "3426 Minamiasakawamachi, Hachioji 193-0846 Tokyo Prefecture",
+                    "cities_id": 64582,
+                    "country_code": "JP",
+                    "country_id": 109,
+                    "created_at": "Wed, 06 Mar 2024 13:54:43 GMT",
+                    "day": 1,
+                    "description": "This farmhouse in the architectural style of gassho-zukuri is in the village of Oku Takao. Indulge in seasonal food while being surrounded by lush nature.",
+                    "id": 29465,
+                    "latitude": "35.61596700",
+                    "longitude": "139.25725000",
+                    "phone": "+81 42-661-0739",
+                    "pictures": "https://media-cdn.tripadvisor.com/media/photo-o/0c/87/ec/b7/grilled-skewers.jpg",
+                    "place_name": "Ukai Toriyama",
+                    "price_level": null,
+                    "rating": 4.5,
+                    "reviews": 260,
+                    "sequence": 2,
+                    "state_code": "19",
+                    "state_id": 852,
+                    "sub_type": null,
+                    "type": "sit_down",
+                    "updated_at": "Wed, 06 Mar 2024 13:54:43 GMT",
+                    "websiteUri": "http://www.ukai.co.jp/toriyama/"
+                }
+            ]
+        },
+        {
+            "day": 2,
+            "place": [
+                {
+                    "activity_info": {
+                        "activities_content_description": "Enjoy the serene surroundings of Izuruhara Benten Pond.",
+                        "activities_name": "Explore Izuruhara Benten Pond",
+                        "id": 26926,
+                        "place_name": "Izuruhara Benten Pond",
+                        "sequence": 0,
+                        "transportation": {
+                            "details": "Take a local bus from Fujikawaguchiko to Izuruhara Benten Pond. Approximate travel time is 30 minutes.",
+                            "type": "bus"
+                        }
+                    },
+                    "address": "1264 Izuruharacho, Sano 327-0102 Tochigi Prefecture",
+                    "cities_id": 64282,
+                    "country_code": "JP",
+                    "country_id": 109,
+                    "created_at": "Mon, 08 Jan 2024 19:58:52 GMT",
+                    "day": 2,
+                    "description": null,
+                    "id": 26926,
+                    "latitude": "36.36676400",
+                    "longitude": "139.53882000",
+                    "phone": null,
+                    "pictures": "https://media-cdn.tripadvisor.com/media/photo-m/1280/14/ca/b1/80/caption.jpg",
+                    "place_name": "Izuruhara Benten Pond",
+                    "price_level": null,
+                    "rating": 4,
+                    "reviews": null,
+                    "sequence": 0,
+                    "state_code": "09",
+                    "state_id": 854,
+                    "sub_type": "Bodies of Water",
+                    "type": "attraction",
+                    "updated_at": "Mon, 08 Jan 2024 19:58:52 GMT",
+                    "websiteUri": null
+                },
+                {
+                    "activity_info": {
+                        "activities_content_description": "Savor a meal at the quirky DINO DINER.",
+                        "activities_name": "Lunch at DINO DINER",
+                        "id": 29499,
+                        "place_name": "DINO DINER",
+                        "sequence": 1,
+                        "transportation": {
+                            "details": "DINO DINER is a short walk from Izuruhara Benten Pond.",
+                            "type": "walking"
+                        }
+                    },
+                    "address": "1167 Kodachi, Fujikawaguchiko-machi, Minamitsuru-gun 401-0302 Yamanashi Prefecture",
+                    "cities_id": 63341,
+                    "country_code": "JP",
+                    "country_id": 109,
+                    "created_at": "Wed, 06 Mar 2024 15:02:29 GMT",
+                    "day": 2,
+                    "description": "I’m sorry, but we don’t accept reservations. 当店ではお電話でのお席のご予約は承っておりません。 ご来店された順番でのお席のご案内となります。 何卒宜しくお願い申し上げます。",
+                    "id": 29499,
+                    "latitude": "35.50834700",
+                    "longitude": "138.75891000",
+                    "phone": "+81 555-73-8242",
+                    "pictures": "https://media-cdn.tripadvisor.com/media/photo-m/1280/1c/e8/80/d9/2-180yen.jpg",
+                    "place_name": "DINO DINER",
+                    "price_level": null,
+                    "rating": 5,
+                    "reviews": 76,
+                    "sequence": 1,
+                    "state_code": "19",
+                    "state_id": 852,
+                    "sub_type": null,
+                    "type": "sit_down",
+                    "updated_at": "Wed, 06 Mar 2024 15:02:29 GMT",
+                    "websiteUri": "http://www.instagram.com/maimai.dinodiner/"
+                },
+                {
+                    "activity_info": {
+                        "activities_content_description": "Discover the marine life at Enoshima Aquarium.",
+                        "activities_name": "Visit Enoshima Aquarium",
+                        "id": 29515,
+                        "place_name": "Enoshima Aquarium",
+                        "sequence": 2,
+                        "transportation": {
+                            "details": "Take the JR Shonan-Shinjuku Line to Ofuna Station, then transfer to the Enoden Line towards Kamakura and alight at Enoshima Station. Enoshima Aquarium is a short walk from the station. Approximate travel time is 2 hours.",
+                            "type": "train"
+                        }
+                    },
+                    "address": "2-19-1 Katasekaigan, Fujisawa 251-0035 Kanagawa Prefecture",
+                    "cities_id": 63352,
+                    "country_code": "JP",
+                    "country_id": 109,
+                    "created_at": "Wed, 06 Mar 2024 15:49:46 GMT",
+                    "day": 2,
+                    "description": "",
+                    "id": 29515,
+                    "latitude": "35.30965800",
+                    "longitude": "139.47974000",
+                    "phone": "+81 466-29-9960",
+                    "pictures": "https://media-cdn.tripadvisor.com/media/photo-o/10/b5/39/e4/caption.jpg",
+                    "place_name": "Enoshima Aquarium",
+                    "price_level": null,
+                    "rating": 4,
+                    "reviews": 654,
+                    "sequence": 2,
+                    "state_code": "14",
+                    "state_id": 842,
+                    "sub_type": "Aquariums",
+                    "type": "48",
+                    "updated_at": "Wed, 06 Mar 2024 15:49:46 GMT",
+                    "websiteUri": "http://www.enosui.com/"
+                }
+            ]
+        },
+        {
+            "day": 3,
+            "place": [
+                {
+                    "activity_info": {
+                        "activities_content_description": "Try the delicious Tetsuyaki cuisine for a taste of local flavors.",
+                        "activities_name": "Experience Tetsuyaki dining",
+                        "id": 29467,
+                        "place_name": "Tetsuyaki",
+                        "sequence": 0,
+                        "transportation": {
+                            "details": "Tetsuyaki is located in Fujikawaguchiko-machi within walking distance from your hotel.",
+                            "type": "walking"
+                        }
+                    },
+                    "address": "3486-1 Funatsu Kayanuma Bldg.1F, Fujikawaguchiko-machi, Minamitsuru-gun 401-0301 Yamanashi Prefecture",
+                    "cities_id": 63341,
+                    "country_code": "JP",
+                    "country_id": 109,
+                    "created_at": "Wed, 06 Mar 2024 14:03:51 GMT",
+                    "day": 3,
+                    "description": "",
+                    "id": 29467,
+                    "latitude": "35.49852800",
+                    "longitude": "138.76617000",
+                    "phone": "+81 70-4075-1683",
+                    "pictures": "https://media-cdn.tripadvisor.com/media/photo-o/09/a0/d1/cf/tetsuyaki.jpg",
+                    "place_name": "Tetsuyaki",
+                    "price_level": null,
+                    "rating": 4.5,
+                    "reviews": 292,
+                    "sequence": 0,
+                    "state_code": "19",
+                    "state_id": 852,
+                    "sub_type": null,
+                    "type": "sit_down",
+                    "updated_at": "Wed, 06 Mar 2024 14:03:51 GMT",
+                    "websiteUri": "http://www.facebook.com/tetsuyaki"
+                },
+                {
+                    "activity_info": {
+                        "activities_content_description": "Enjoy the greenery and tranquility of Asamizo Park.",
+                        "activities_name": "Explore Asamizo Park",
+                        "id": 29478,
+                        "place_name": "Asamizo Park",
+                        "sequence": 1,
+                        "transportation": {
+                            "details": "Take a local bus from Fujikawaguchiko-machi to Asamizo Park in Sagamihara. Approximate travel time is 1.5 hours.",
+                            "type": "bus"
+                        }
+                    },
+                    "address": "2317-1 Asamizodai, Minami-ku, Sagamihara 252-0328 Kanagawa Prefecture",
+                    "cities_id": 64243,
+                    "country_code": "JP",
+                    "country_id": 109,
+                    "created_at": "Wed, 06 Mar 2024 14:37:48 GMT",
+                    "day": 3,
+                    "description": "",
+                    "id": 29478,
+                    "latitude": "35.52891500",
+                    "longitude": "139.39262000",
+                    "phone": "+81 42-777-3451",
+                    "pictures": "https://media-cdn.tripadvisor.com/media/photo-o/11/9e/93/45/caption.jpg",
+                    "place_name": "Asamizo Park",
+                    "price_level": null,
+                    "rating": 4,
+                    "reviews": 88,
+                    "sequence": 1,
+                    "state_code": "14",
+                    "state_id": 842,
+                    "sub_type": "Parks",
+                    "type": "57",
+                    "updated_at": "Wed, 06 Mar 2024 14:37:48 GMT",
+                    "websiteUri": "http://www.city.sagamihara.kanagawa.jp/shisetsu/kouen_kankou/kouen_ryokuchi/1003087.html"
+                },
+                {
+                    "activity_info": {},
+                    "address": "2-1-3 Higashi Shinagawa, Shinagawa 140-0002 Tokyo Prefecture",
+                    "cities_id": 64338,
+                    "country_code": "JP",
+                    "country_id": 109,
+                    "created_at": "Wed, 06 Mar 2024 15:46:21 GMT",
+                    "day": 3,
+                    "description": "A restaurant residing right next to the brewery. A Tennoz area landmark overlooking the canal and the waterfront lounge floating in front.",
+                    "id": 29511,
+                    "latitude": "35.62296300",
+                    "longitude": "139.74734000",
+                    "phone": "+81 3-5479-4555",
+                    "pictures": "https://media-cdn.tripadvisor.com/media/photo-o/0d/07/16/e1/caption.jpg",
+                    "place_name": "T.Y.HARBOR",
+                    "price_level": null,
+                    "rating": 4,
+                    "reviews": 535,
+                    "sequence": 2,
+                    "state_code": "13",
+                    "state_id": 823,
+                    "sub_type": null,
+                    "type": "sit_down",
+                    "updated_at": "Wed, 06 Mar 2024 15:46:21 GMT",
+                    "websiteUri": "http://www.tysons.jp/tyharbor/"
+                }
+            ]
+        }
+    ],
+    "planID": 205,
+    "userID": 5
+}

@@ -596,13 +596,10 @@ def getRandomPlan(data: dict, *planID: int):
                     databaselist = []
                     temp_list = []
 
-                if (index + 1) // 3 == day:
-                    break
-
             except IndexError:
                 print("Invalid index. Skipping...")
                 continue
-            if index == 3 * day:
+            if (index + 1) == (3 * day):
                 break
 
         gpt_txt = gpt.gpt_plan_trip(response)
@@ -635,7 +632,8 @@ def getRandomPlan(data: dict, *planID: int):
             'duration': gpt_txt['trip']['duration'],
             "itinerary": response,
             "initial_input": planData,
-            "planID": planID
+            "planID": planID,
+            'userID': data['userID']
         }
 
         plan = session.query(SavePlan).filter(
@@ -850,10 +848,11 @@ def getSavedPlanByID(planID: int):
 
                 for dbEachPlace in dbPlanPlace:
                     if dbEachPlace.AIPlanItinerary.day == day['day']:
-                        eachPlace.append({
+                        activity_info = dbEachPlace.AIPlanItinerary.activity_info
+                        data = {
                             'sequence': dbEachPlace.AIPlanItinerary.sequence,
                             'id': dbEachPlace.AIPlanItinerary.place_ID,
-                            'activity_info': dbEachPlace.AIPlanItinerary.activity_info,
+                            'activity_info': dbEachPlace.AIPlanItinerary.activity_info if activity_info['id'] == dbEachPlace.AIPlanItinerary.place_ID else {},
                             'description': dbEachPlace.AIPlanItinerary.description,
                             'day': dbEachPlace.AIPlanItinerary.day,
                             'place_name': dbEachPlace.CitiesPlace.name,
@@ -876,18 +875,18 @@ def getSavedPlanByID(planID: int):
                             'longitude': dbEachPlace.CitiesPlace.longitude,
                             'created_at': dbEachPlace.CitiesPlace.created_at,
                             'updated_at': dbEachPlace.CitiesPlace.updated_at
-                        })
+                        }
+                        eachPlace.append(data)
                 
                 planPlaces.append({'day': day['day'], 'place': eachPlace})
 
             plan['itinerary'] = planPlaces
             
             plan_data = {
-                'id': dbPlan.id,
-                'plan': plan,
-                'user_ID': dbPlan.user_ID
+                **plan,
+                'userID': dbPlan.user_ID
             }
-            return jsonify({'plan': plan_data})
+            return jsonify(plan_data)
         else:
             return jsonify({'message': 'Plan not found'})
     except Exception as e:
