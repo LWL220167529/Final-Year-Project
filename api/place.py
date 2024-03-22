@@ -333,7 +333,7 @@ class SavePlan(Base):
     reviewCount = Column(Integer)
     distanceFromDestination = Column(String(255))
     activity_info = Column(JSON)
-    description = Column(String(255))
+    description = Column(Text)
     title = Column(String(255))
 
     user = relationship("User", backref="save_plan")
@@ -344,7 +344,7 @@ class AIPlanItinerary(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     place_ID = Column(Integer, ForeignKey('cities_place.id'))
     activity_info = Column(JSON)
-    description = Column(String(255))
+    description = Column(Text)
     plan_ID = Column(Integer, ForeignKey('save_plan.id'))
     sequence = Column(Integer)
     day = Column(Integer)
@@ -360,7 +360,7 @@ class UserSavePlan(Base):
     user_ID = Column(Integer)
     imageURL = Column(String(512))
     title = Column(String(255))
-    description = Column(String(255))
+    description = Column(Text)
 
 
 class User(Base):
@@ -635,7 +635,8 @@ def getRandomPlan(data: dict, *planID: int):
             "itinerary": response,
             "initial_input": planData,
             "planID": planID,
-            'userID': data['userID']
+            'userID': data['userID'],
+            'recommendation': recommendPlace(data['destination']['latitude'], data['destination']['longitude'], 100, 10)
         }
 
         plan = session.query(SavePlan).filter(
@@ -761,8 +762,11 @@ def savePlan(userID: int, planID: int, title: str, imageURL: str, description: s
     try:
         session = Session()  # Add this line to create a session
         if not session.query(UserSavePlan).filter(and_(UserSavePlan.plan_ID == planID, UserSavePlan.user_ID == userID)).first():
+            plan = session.query(SavePlan).filter(SavePlan.id == planID).first()
             newPlan = UserSavePlan(
                 plan_ID=planID, user_ID=userID, title=title, imageURL=imageURL, description=description)
+            plan.title = title
+            plan.description = description
 
             session.add(newPlan)
             session.commit()
@@ -774,6 +778,59 @@ def savePlan(userID: int, planID: int, title: str, imageURL: str, description: s
     finally:
         session.close()  # Add this line to close the session
 
+def editPlan(planJS: dict):
+    try:
+        session = Session()  # Add this line to create a session
+        planID = planJS['planID']
+        itinerary = planJS['itinerary']
+        for places in itinerary:
+            for place in places['place']:
+                if place['type'] == 'Hotel':
+                    continue
+                # coding for updating the place
+                place_id = place['id']
+                activity_info = place['activity_info'] if 'activity_info' in place else {}
+                # description = place['description']
+                sequence = place['sequence']
+                day = place['day']
+                # Find the AIPlanItinerary object with the given place_id and plan_ID
+                sequenceExists = session.query(AIPlanItinerary).filter(AIPlanItinerary.sequence == sequence, AIPlanItinerary.day == day, AIPlanItinerary.plan_ID == planID).all()
+                for seq in sequenceExists:
+                    seq.sequence = None
+                    seq.day = None
+                ai_plan_itinerary = session.query(AIPlanItinerary).filter(AIPlanItinerary.place_ID == place_id, AIPlanItinerary.plan_ID == planID).first()
+                if ai_plan_itinerary:
+                    # Update the activity_info, description, sequence, and day of the AIPlanItinerary object
+                    ai_plan_itinerary.activity_info = activity_info if not activity_info else ai_plan_itinerary.activity_info
+                    # ai_plan_itinerary.description = description[:255]
+                    ai_plan_itinerary.sequence = sequence
+                    ai_plan_itinerary.day = day
+                else:
+                    # Create a new AIPlanItinerary object with the given place_id, activity_info, description, sequence, day, and plan_ID
+                    ai_plan_itinerary = AIPlanItinerary(place_ID=place_id, sequence=sequence, day=day, plan_ID=planID) #, description=description[:1000]
+                    session.add(ai_plan_itinerary)
+        session.commit()
+        return jsonify({'message': 'Plan edited successfully.'}), 201
+    except Exception as e:
+        session.rollback()
+        return jsonify({'message': str(e)}), 500
+    finally:
+        session.close()
+
+def recommendPlace(lat: float, lon: float, radius: int, limit: int):
+    try:
+        session = Session()  # Add this line to create a session
+        places = session.query(CitiesPlace, Cities.name.label('cities_name'), States.name.label('state_name'), Countries.name.label('countries_name')).filter(
+            and_(
+                func.pow(CitiesPlace.latitude - lat, 2) + func.pow(CitiesPlace.longitude - lon, 2) <= radius
+            )).join(Cities, Cities.id == CitiesPlace.cities_id)\
+            .join(States, States.id == CitiesPlace.state_id)\
+            .join(Countries, Countries.id == CitiesPlace.country_id).limit(limit).all()
+        return append_cities_place(places)
+    except Exception as e:
+        session.rollback()
+        print(e)
+        return jsonify({'message': 'Error occurred while retrieving places.', 'error': str(e)}), 500
 
 def setPlan(userID: str):
     try:

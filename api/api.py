@@ -424,6 +424,18 @@ def saveAIPlan():
     response = place.savePlan(userID, plan, title, imageURL, description)
     return response
 
+@app.route('/editPlan', methods=["GET", "POST"])
+def editPlan():
+    if request.method == "GET":
+        plan = request.args.get('plan')
+    else:
+        data = request.get_json()
+        plan = data.get('plan')
+    # file_path = os.path.join(os.path.dirname(__file__), 'AIPlanJson', 'data_8.json')
+    # with open(file_path, 'r', encoding='utf-8') as f:
+    #     plan = json.load(f)
+    response = place.editPlan(plan)
+    return response
 
 @app.route('/getAIPlanByUser', methods=["GET", "POST"])
 def getAIPlanByUser():
