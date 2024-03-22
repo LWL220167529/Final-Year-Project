@@ -810,10 +810,10 @@ def editPlan(planJS: dict):
                     ai_plan_itinerary = AIPlanItinerary(place_ID=place_id, sequence=sequence, day=day, plan_ID=planID) #, description=description[:1000]
                     session.add(ai_plan_itinerary)
         session.commit()
-        return jsonify({'message': 'Plan edited successfully.'}), 201
+        return jsonify({'message': 'Plan edited successfully.', 'edit': True}), 201
     except Exception as e:
         session.rollback()
-        return jsonify({'message': str(e)}), 500
+        return jsonify({'message': str(e), 'edit': False}), 500
     finally:
         session.close()
 
