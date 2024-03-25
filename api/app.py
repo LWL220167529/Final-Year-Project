@@ -3,10 +3,15 @@ from controller import collection, cookies, index, login, plan, schedule, user, 
 
 def create_app():
     app = Flask(__name__)
-
-    blueprints = [collection, cookies, index, login, plan, schedule, user, view, __init__]
-
-    for blueprint in blueprints:
-        app.register_blueprint(blueprint.bp)
+    
+    app.register_blueprint(collection.bp)
+    app.register_blueprint(cookies.bp)
+    app.register_blueprint(index.bp)
+    app.register_blueprint(login.bp)
+    app.register_blueprint(plan.bp)
+    app.register_blueprint(schedule.bp)
+    app.register_blueprint(user.bp)
+    app.register_blueprint(view.bp)
+    app.register_blueprint(__init__.bp)
 
     return app
