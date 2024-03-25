@@ -82,7 +82,7 @@
           <div id="liveAlertPlaceholder"></div>
           <div class="no-account mt-20">
             Already have an account?
-            <a href="{{ url_for('loginPage') }}">Sign In here</a>
+            <a href="{{ url_for('login.index') }}">Sign In here</a>
           </div>
         </div>
         <!-- sign in up box end -->
@@ -120,7 +120,7 @@
             form.reset();
             form.hidden = true;
             setTimeout(() => {
-              window.location.href = "{{ url_for('loginPage') }}";
+              window.location.href = "{{ url_for('login.index') }}";
             }, 5000);
           } else {
             appendAlert(response.message, 'primary')

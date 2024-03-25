@@ -7,7 +7,7 @@ from datetime import datetime
 from rapidfuzz import process, fuzz
 from typing import Optional
 import pandas as pd
-import gpt
+from .gpt import gpt_plan_trip
 import json
 import math
 import requests
@@ -430,7 +430,7 @@ if __name__ == "__main__":
 def getRandomPlan(data: dict, *planID: int):
     try:
         session = Session()  # Add this line to create a session
-        planData = json.loads(json.dumps(data))
+        planData = data
         day = int(planData['numberOfDays'])
         if planID:
             plan = session.query(SavePlan).filter(
@@ -604,7 +604,7 @@ def getRandomPlan(data: dict, *planID: int):
             if (index + 1) == (3 * day):
                 break
 
-        gpt_txt = gpt.gpt_plan_trip(response)
+        gpt_txt = gpt_plan_trip(response)
 
         for day_plan in gpt_txt['trip']['itinerary']:
             for activity in day_plan['activities']:
