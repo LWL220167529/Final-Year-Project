@@ -5,7 +5,7 @@ from .cookies import exists_cookie, get_cookie
 from .db import place
 import os
 
-bp = Blueprint(f"{os.path.basename(__file__)[:-3]}", __name__,
+bp = Blueprint("plan", __name__,
                template_folder='templates', static_folder='static')
 
 

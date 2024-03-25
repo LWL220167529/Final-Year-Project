@@ -1,4 +1,3 @@
-import os
 import importlib
 from flask import Flask
 # from controller import __init__, index, cookies, plan

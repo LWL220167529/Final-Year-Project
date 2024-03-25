@@ -4,9 +4,8 @@ from flask import (
 from .cookies import exists_cookie, get_cookie
 from .__init__ import get_destinations_filter_by_rating
 import random
-import os
 
-bp = Blueprint(f"{os.path.basename(__file__)[:-3]}", __name__,
+bp = Blueprint("index", __name__,
                template_folder='templates', static_folder='static')
 
 
