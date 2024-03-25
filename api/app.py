@@ -1,24 +1,12 @@
-import importlib
 from flask import Flask
-# from controller import __init__, index, cookies, plan
-
-views = [
-    'collection.py', 
-    'cookies.py', 
-    'index.py', 
-    'login.py', 
-    'plan.py', 
-    'schedule.py', 
-    'user.py', 
-    'view.py', 
-    '__init__.py'
-]
+from controller import collection, cookies, index, login, plan, schedule, user, view, __init__
 
 def create_app():
     app = Flask(__name__)
 
+    views = [collection, cookies, index, login, plan, schedule, user, view, __init__]
+
     for view in views:
-        module = importlib.import_module(f"controller.{view[:-3]}")
-        app.register_blueprint(module.bp)
+        app.register_blueprint(view.bp)
 
     return app
