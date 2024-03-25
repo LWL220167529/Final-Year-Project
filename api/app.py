@@ -4,9 +4,9 @@ from controller import collection, cookies, index, login, plan, schedule, user, 
 def create_app():
     app = Flask(__name__)
 
-    views = [collection, cookies, index, login, plan, schedule, user, view, __init__]
+    blueprints = [collection, cookies, index, login, plan, schedule, user, view, __init__]
 
-    for view in views:
-        app.register_blueprint(view.bp)
+    for blueprint in blueprints:
+        app.register_blueprint(blueprint.bp)
 
     return app
