@@ -1,6 +1,6 @@
+from flask import Flask
 import os
 import importlib
-from flask import Flask
 # from controller import __init__, index, cookies, plan
 
 def create_app():
