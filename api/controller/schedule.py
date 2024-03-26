@@ -2,8 +2,9 @@ from flask import (
     Blueprint, request, jsonify
 )
 from .db import schedule
+import os
 
-bp = Blueprint("schedule", __name__,
+bp = Blueprint(f"{os.path.basename(__file__)[:-3]}", __name__,
                template_folder='templates', static_folder='static')
 
 

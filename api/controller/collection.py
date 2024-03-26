@@ -2,8 +2,9 @@ from flask import (
     Blueprint, request
 )
 from .db import collect
+import os
 
-bp = Blueprint("collection", __name__,
+bp = Blueprint(f"{os.path.basename(__file__)[:-3]}", __name__,
                template_folder='templates', static_folder='static')
 
 

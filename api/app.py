@@ -1,17 +1,14 @@
+import os
+import importlib
 from flask import Flask
-from controller import collection, cookies, index, login, plan, schedule, user, view, __init__
+# from controller import __init__, index, cookies, plan
 
 def create_app():
     app = Flask(__name__)
-    
-    app.register_blueprint(collection.bp)
-    app.register_blueprint(cookies.bp)
-    app.register_blueprint(index.bp)
-    app.register_blueprint(login.bp)
-    app.register_blueprint(plan.bp)
-    app.register_blueprint(schedule.bp)
-    app.register_blueprint(user.bp)
-    app.register_blueprint(view.bp)
-    app.register_blueprint(__init__.bp)
+
+    views = [f for f in os.listdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'controller')) if f.endswith(".py")]
+    for view in views:
+        module = importlib.import_module(f"controller.{view[:-3]}")
+        app.register_blueprint(module.bp)
 
     return app

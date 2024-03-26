@@ -4,8 +4,9 @@ from flask import (
 from .cookies import exists_cookie
 from .__init__ import get_destinations_filter_by_rating, get_destinations
 from .db import user
+import os
 
-bp = Blueprint("login", __name__,
+bp = Blueprint(f"{os.path.basename(__file__)[:-3]}", __name__,
                template_folder='templates', static_folder='static')
 
 @bp.route('/travel/sign-in', methods=["GET", "POST"])
