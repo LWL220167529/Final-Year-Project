@@ -1,8 +1,6 @@
 from flask import (
     Blueprint, request, render_template, redirect, url_for, make_response, jsonify, abort
 )
-from .cookies import exists_cookie
-from .__init__ import get_destinations_filter_by_rating, get_destinations
 from .db import user
 import os
 
